@@ -1,0 +1,5 @@
+src/.env
+.myenv
+src/extracted_content
+
+src/scraper/__pycache__
