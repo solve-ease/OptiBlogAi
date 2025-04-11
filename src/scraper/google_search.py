@@ -10,6 +10,11 @@ import requests
 import logging
 from typing import List, Dict, Optional, Any
 from urllib.parse import quote_plus
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 
 # Configure logging
 logging.basicConfig(

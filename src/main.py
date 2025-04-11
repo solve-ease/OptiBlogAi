@@ -1,8 +1,22 @@
 
-from scraper import GoogleSearchClient, WebpageCrawler, ContentExtractor
+import sys
+sys.path.append("src/scraper") 
+
+from scraper.google_search import GoogleSearchClient
+from scraper.webpage_crawler import WebpageCrawler
+from scraper.content_extractor import ContentExtractor
+
+
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+GOOGLE_CSE_ID = os.getenv("GOOGLE_CSE_ID")
 
 # Set up Google Search client
-search_client = GoogleSearchClient(api_key="your_api_key", search_engine_id="your_cse_id")
+search_client = GoogleSearchClient(api_key=GOOGLE_API_KEY, search_engine_id=GOOGLE_CSE_ID)
 
 # Search for keywords
 urls = search_client.get_top_urls("AI content generation", num_results=5)
