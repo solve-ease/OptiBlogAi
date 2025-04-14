@@ -18,17 +18,27 @@ GOOGLE_CSE_ID = os.getenv("GOOGLE_CSE_ID")
 # Set up Google Search client
 search_client = GoogleSearchClient(api_key=GOOGLE_API_KEY, search_engine_id=GOOGLE_CSE_ID)
 
+search_keyword = input("Enter a keyword to search: ")
+num_results = int(input("Enter the number of results to fetch: "))
+
 # Search for keywords
-urls = search_client.get_top_urls("AI content generation", num_results=5)
+urls = search_client.get_top_urls(search_keyword, num_results=num_results)
 
 # Set up webpage crawler
-crawler = WebpageCrawler(respect_robots=True)
+crawler = WebpageCrawler(respect_robots=False)
+
+# get date in python
+from datetime import datetime
+current_date = datetime.now().strftime("%Y-%m-%d")
+
+new_dir = f"{search_keyword}_{current_date}"
+os.mkdir(new_dir)
 
 # Crawl the URLs
 crawl_results = crawler.batch_crawl(urls, delay=2.0)
 
 # Set up content extractor
-extractor = ContentExtractor(output_dir="extracted_content")
+extractor = ContentExtractor(output_dir=f"extracted_content/{new_dir}")
 
 # Extract and analyze content
 analyzed_content = []

@@ -10,10 +10,6 @@ import requests
 import logging
 from typing import List, Dict, Optional, Any
 from urllib.parse import quote_plus
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-load_dotenv()
 
 
 # Configure logging
@@ -37,8 +33,8 @@ class GoogleSearchClient:
             api_key: Google API key. If None, tries to get from environment variable.
             search_engine_id: Custom Search Engine ID. If None, tries to get from environment variable.
         """
-        self.api_key = api_key or os.environ.get("GOOGLE_API_KEY")
-        self.search_engine_id = search_engine_id or os.environ.get("GOOGLE_CSE_ID")
+        self.api_key = api_key 
+        self.search_engine_id = search_engine_id 
         
         if not self.api_key:
             logger.warning("No Google API key provided. Set GOOGLE_API_KEY environment variable.")
