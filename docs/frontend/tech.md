@@ -120,15 +120,7 @@ optiblogai-website/
 │       ├── component.ts
 │       └── index.ts
 ├── public/
-│   ├── logos/
-│   │   ├── optiblogai-logo.svg
-│   │   └── tech-stack-icons/
-│   ├── images/
-│   │   ├── hero-background.svg
-│   │   └── team-photos/
-│   ├── docs/
-│   │   └── assets/
-│   └── favicon.ico
+│   ├
 ├── docs/
 │   ├── api/
 │   │   └── endpoints.md
@@ -136,14 +128,7 @@ optiblogai-website/
 │   │   └── component-guide.md
 │   └── deployment/
 │       └── setup.md
-├── tests/
-│   ├── components/
-│   ├── pages/
-│   └── api/
-├── .github/
-│   └── workflows/
-│       ├── ci.yml
-│       └── deployment.yml
+
 ├── package.json
 ├── next.config.js
 ├── tailwind.config.js
@@ -246,7 +231,6 @@ optiblogai-website/
   - CLS < 0.05
 
 ## Accessibility Requirements
-- WCAG 2.1 AA compliance
 - Dark mode/light mode toggle
 - Keyboard navigation indicators
 - Reduced motion preferences
@@ -260,7 +244,7 @@ optiblogai-website/
   - GitHub referral tracking
 
 - **Monitoring**:
-  - Real-time error logging (Sentry)
+
   - Performance metrics dashboard
   - Broken link detection
   - Uptime monitoring
@@ -278,13 +262,7 @@ optiblogai-website/
 - Locale-aware content formatting
 - RTL language support (Arabic/Hebrew)
 
-## Deployment Strategy
-- **CI/CD Pipeline**:
-  1. Pre-commit hooks (linting, type-checking)
-  2. Vercel preview deployments per PR
-  3. Lighthouse performance auditing
-  4. Visual regression testing
-  5. Automated accessibility scans
+
 
 - **Environment**:
   - Vercel for frontend
