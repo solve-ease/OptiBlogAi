@@ -83,7 +83,7 @@ const HeroSection: React.FC = () => {
                 </div>
                 <div className="flex-1 text-center">
                   <div className="bg-white rounded-md px-3 py-1 text-sm text-gray-600 max-w-xs mx-auto">
-                    https://optiblogai.com/demo
+                    https://optiblogai.vercel.app/demo
                   </div>
                 </div>
               </div>

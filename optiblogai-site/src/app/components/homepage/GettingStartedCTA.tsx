@@ -59,7 +59,7 @@ const GettingStartedCTA: React.FC = () => {
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Get Started in{' '}
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent">
               3 Simple Steps
             </span>
           </h2>
@@ -79,7 +79,7 @@ const GettingStartedCTA: React.FC = () => {
             >
               <CardContent className="p-8">
                 {/* Step Number */}
-                <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold text-sm">
+                <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] rounded-full flex items-center justify-center text-white font-bold text-sm">
                   {index + 1}
                 </div>
 
@@ -134,7 +134,7 @@ const GettingStartedCTA: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl p-8 text-center">
+            <div className="bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] rounded-xl p-8 text-center">
               <div className="text-4xl font-bold text-primary mb-2">100%</div>
               <div className="text-lg font-semibold text-gray-900 mb-2">Free & Open Source</div>
               <p className="text-gray-600 mb-6">
@@ -155,7 +155,7 @@ const GettingStartedCTA: React.FC = () => {
 
         {/* Final CTA */}
         <div className="text-center">
-          <div className="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 lg:p-12 text-white">
+          <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] rounded-2xl p-8 lg:p-12 text-white">
             <h3 className="text-3xl font-bold mb-4">
               Ready to Optimize Your Content?
             </h3>

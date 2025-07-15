@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 /* Custom CSS Variables for Design System */
 :root {
   --color-primary: #4f46e5;
@@ -17,6 +18,108 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 }
+
+/* === Background Colors === */
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.bg-neutral-800 {
+  background-color: var(--color-neutral-800);
+}
+
+.bg-neutral-50 {
+  background-color: var(--color-neutral-50);
+}
+
+/* === Text Colors === */
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-secondary {
+  color: var(--color-secondary);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.text-neutral-800 {
+  color: var(--color-neutral-800);
+}
+
+.text-neutral-50 {
+  color: var(--color-neutral-50);
+}
+
+/* === Border Colors === */
+.border-primary {
+  border-color: var(--color-primary);
+}
+
+.border-secondary {
+  border-color: var(--color-secondary);
+}
+
+.border-accent {
+  border-color: var(--color-accent);
+}
+
+.border-neutral-800 {
+  border-color: var(--color-neutral-800);
+}
+
+.border-neutral-50 {
+  border-color: var(--color-neutral-50);
+}
+
+/* === Gradient Text Class === */
+.gradient-text {
+  display: inline-block;
+  background-image: linear-gradient(
+    to bottom right,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* === Gradient Backgrounds === */
+.bg-gradient-primary {
+  background-image: linear-gradient(
+    to bottom right,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+}
+
+.bg-gradient-horizontal {
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+}
+
+.bg-gradient-radial {
+  background-image: radial-gradient(
+    circle,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+}
+
 
 /* Smooth scrolling */
 html {

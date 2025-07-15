@@ -63,7 +63,7 @@ const ValuePropositionGrid: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Why Choose <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">OptiBlogAi</span>?
+            Why Choose <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent">OptiBlogAi</span>?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Discover the powerful features that make OptiBlogAi the perfect choice for modern content creators
@@ -106,7 +106,7 @@ const ValuePropositionGrid: React.FC = () => {
 
         {/* Bottom CTA */}
         <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 text-white">
+          <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] rounded-2xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-4">
               Ready to Transform Your Content Strategy?
             </h3>

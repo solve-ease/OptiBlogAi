@@ -86,7 +86,7 @@ const LiveStatsPanel: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Real-Time <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Impact</span>
+            Real-Time <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent">Impact</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             See how OptiBlogAi is transforming content creation across the globe
@@ -130,7 +130,7 @@ const LiveStatsPanel: React.FC = () => {
                 {/* Progress bar */}
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
-                    className="bg-gradient-to-r from-primary to-secondary h-2 rounded-full transition-all duration-1000"
+                    className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] h-2 rounded-full transition-all duration-1000"
                     style={{ width: `${Math.min(stat.change * 2, 100)}%` }}
                   ></div>
                 </div>

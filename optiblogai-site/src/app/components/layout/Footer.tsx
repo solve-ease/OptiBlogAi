@@ -15,17 +15,17 @@ const Footer: React.FC = () => {
     },
     {
       name: 'Twitter',
-      href: 'https://twitter.com/optiblogai',
+      href: 'https://x.com/solve__ease',
       icon: <Twitter className="w-5 h-5" />,
     },
     {
       name: 'LinkedIn',
-      href: 'https://linkedin.com/company/optiblogai',
+      href: 'https://linkedin.com/company/solve-ease',
       icon: <Linkedin className="w-5 h-5" />,
     },
     {
       name: 'Email',
-      href: 'mailto:hello@optiblogai.com',
+      href: 'mailto:adarsh@solveease.tech',
       icon: <Mail className="w-5 h-5" />,
     },
   ];
@@ -78,7 +78,7 @@ const Footer: React.FC = () => {
             {/* Brand Section */}
             <div className="col-span-1 md:col-span-2 lg:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold text-sm">O</span>
                 </div>
                 <span className="text-xl font-bold text-gray-900">
@@ -133,7 +133,7 @@ const Footer: React.FC = () => {
             <div className="flex items-center space-x-1 text-sm text-gray-600 mb-4 md:mb-0">
               <span>© {currentYear} {SITE_CONFIG.name}. Made with</span>
               <Heart className="w-4 h-4 text-red-500 fill-current" />
-              <span>by the open-source community.</span>
+              <span>by the <a className='font-bold hover:text-[var(--color-primary)] hover:underline' href="https://solveease.tech">solve-ease</a>.</span>
             </div>
             <div className="flex items-center space-x-6 text-sm text-gray-600">
               <a href="/privacy" className="hover:text-primary transition-colors duration-200">

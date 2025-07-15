@@ -1,10 +1,10 @@
 export const SITE_CONFIG = {
   name: 'OptiBlogAi',
   description: 'Open-source AI-powered blog optimization platform',
-  url: 'https://optiblogai.com',
+  url: 'https://optiblogai.vercel.app',
   ogImage: '/og-image.jpg',
   links: {
-    github: 'https://github.com/optiblogai/optiblogai',
+    github: 'https://github.com/solve-ease/OptiBlogAi',
     docs: '/docs',
     demo: '/demo',
     community: '/community',

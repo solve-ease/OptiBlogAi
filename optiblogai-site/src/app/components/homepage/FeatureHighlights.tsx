@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent } from '@/app/components/ui/card';
-import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
-import { cn } from '@/app/lib/utils';
+import React, { useState, useEffect } from "react";
+import { Card, CardContent } from "@/app/components/ui/card";
+import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
+import { cn } from "@/app/lib/utils";
 
 interface Feature {
   id: string;
@@ -20,60 +20,60 @@ const FeatureHighlights: React.FC = () => {
 
   const features: Feature[] = [
     {
-      id: 'ai-generation',
-      title: 'AI-Powered Content Generation',
+      id: "ai-generation",
+      title: "AI-Powered Content Generation",
       description:
-        'Generate high-quality, SEO-optimized blog posts in seconds using advanced AI algorithms',
-      image: '/api/placeholder/600/400',
+        "Generate high-quality, SEO-optimized blog posts in seconds using advanced AI algorithms",
+      image: "/api/placeholder/600/400",
       points: [
-        'Multiple writing styles and tones',
-        'Custom templates and formats',
-        'Real-time content suggestions',
-        'Plagiarism detection',
+        "Multiple writing styles and tones",
+        "Custom templates and formats",
+        "Real-time content suggestions",
+        "Plagiarism detection",
       ],
-      color: 'bg-gradient-to-br from-primary to-blue-600',
+      color: "bg-gradient-to-br from-[var(--color-primary)] to-blue-600",
     },
     {
-      id: 'seo-optimization',
-      title: 'Advanced SEO Optimization',
+      id: "seo-optimization",
+      title: "Advanced SEO Optimization",
       description:
-        'Optimize your content for search engines with built-in SEO analysis and recommendations',
-      image: '/api/placeholder/600/400',
+        "Optimize your content for search engines with built-in SEO analysis and recommendations",
+      image: "/api/placeholder/600/400",
       points: [
-        'Keyword density analysis',
-        'Meta tag optimization',
-        'Readability scoring',
-        'SERP preview',
+        "Keyword density analysis",
+        "Meta tag optimization",
+        "Readability scoring",
+        "SERP preview",
       ],
-      color: 'bg-gradient-to-br from-secondary to-green-600',
+      color: "bg-gradient-to-br from-[var(--color-secondary)] to-green-600",
     },
     {
-      id: 'analytics',
-      title: 'Performance Analytics',
+      id: "analytics",
+      title: "Performance Analytics",
       description:
-        'Track your content performance and optimize your strategy with detailed analytics',
-      image: '/api/placeholder/600/400',
+        "Track your content performance and optimize your strategy with detailed analytics",
+      image: "/api/placeholder/600/400",
       points: [
-        'Real-time performance metrics',
-        'A/B testing capabilities',
-        'Content scoring system',
-        'Growth insights',
+        "Real-time performance metrics",
+        "A/B testing capabilities",
+        "Content scoring system",
+        "Growth insights",
       ],
-      color: 'bg-gradient-to-br from-accent to-orange-600',
+      color: "bg-gradient-to-br from-[var(--color-accent)] to-orange-600",
     },
     {
-      id: 'collaboration',
-      title: 'Team Collaboration',
+      id: "collaboration",
+      title: "Team Collaboration",
       description:
-        'Work together with your team to create and optimize content efficiently',
-      image: '/api/placeholder/600/400',
+        "Work together with your team to create and optimize content efficiently",
+      image: "/api/placeholder/600/400",
       points: [
-        'Real-time collaboration',
-        'Version control system',
-        'Comment and review system',
-        'Role-based permissions',
+        "Real-time collaboration",
+        "Version control system",
+        "Comment and review system",
+        "Role-based permissions",
       ],
-      color: 'bg-gradient-to-br from-purple-600 to-pink-600',
+      color: "bg-gradient-to-br from-purple-600 to-pink-600",
     },
   ];
 
@@ -103,8 +103,17 @@ const FeatureHighlights: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Powerful{' '}
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Powerful{" "}
+            <span
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, var(--color-primary), var(--color-secondary))",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                display: "inline-block",
+              }}
+            >
               Features
             </span>
           </h2>
@@ -120,7 +129,7 @@ const FeatureHighlights: React.FC = () => {
             <div className="mb-8">
               <div
                 className={cn(
-                  'inline-block px-4 py-2 rounded-full text-white text-sm font-medium mb-4',
+                  "inline-block px-4 py-2 rounded-full text-white text-sm font-medium mb-4",
                   features[activeFeature].color
                 )}
               >
