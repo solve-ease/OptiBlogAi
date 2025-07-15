@@ -4,6 +4,7 @@ import './globals.css';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import { SITE_CONFIG } from './lib/constants';
+import Script from 'next/script';
 
 // Font configurations
 const inter = Inter({
@@ -59,12 +60,12 @@ export const metadata: Metadata = {
   // Author and creator info
   authors: [
     {
-      name: 'OptiBlogAi Team',
-      url: 'https://github.com/optiblogai',
+      name: 'Adarsh Maurya',
+      url: 'https://github.com/4darsh-Dev',
     },
   ],
-  creator: 'OptiBlogAi Team',
-  publisher: 'OptiBlogAi',
+  creator: 'Adarsh Maurya',
+  publisher: 'Adarsh Maurya',
 
   // Robots and indexing
   robots: {
@@ -96,7 +97,7 @@ export const metadata: Metadata = {
         type: 'image/png',
       },
       {
-        url: `${SITE_CONFIG.url}/og-image-square.png`,
+        url: `${SITE_CONFIG.url}/og-image.png`,
         width: 1200,
         height: 1200,
         alt: 'OptiBlogAi Logo',
@@ -108,11 +109,11 @@ export const metadata: Metadata = {
   // Twitter Card metadata
   twitter: {
     card: 'summary_large_image',
-    site: '@optiblogai',
-    creator: '@optiblogai',
+    site: '@solve__ease',
+    creator: '@solve__ease',
     title: 'OptiBlogAi - AI-Powered Blog Optimization Platform',
     description: 'Open-source AI platform for creating, optimizing, and scaling your content strategy. Generate SEO-optimized blog posts in seconds.',
-    images: [`${SITE_CONFIG.url}/twitter-image.png`],
+    images: [`${SITE_CONFIG.url}/og-image.png`],
   },
 
   // Additional metadata
@@ -245,8 +246,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
                   },
                   sameAs: [
                     SITE_CONFIG.links.github,
-                    'https://twitter.com/optiblogai',
-                    'https://linkedin.com/company/optiblogai',
+                    'https://x.com/solve__ease',
+                    'https://linkedin.com/company/solve-ease',
                   ],
                 },
                 {
@@ -289,6 +290,23 @@ export default function RootLayout({ children }: RootLayoutProps) {
         className="font-sans antialiased bg-white text-gray-900 min-h-screen flex flex-col"
         suppressHydrationWarning
       >
+        {/* Global site tag (gtag.js) - Google Analytics */}
+        {/* gtag.js - Google Analytics */}
+        <Script
+          strategy='afterInteractive'
+          src='https://www.googletagmanager.com/gtag/js?id=G-V4L0VFK5BF'
+        />
+        <Script id='gtag-init' strategy='afterInteractive'>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-V4L0VFK5BF', { page_path: window.location.pathname });
+          `}
+        </Script>
+        
+
+
         {/* Skip to main content for accessibility */}
         <a 
           href="#main-content" 
@@ -308,29 +326,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {/* Footer */}
         <Footer />
 
-        {/* Analytics and tracking scripts */}
-        {process.env.NODE_ENV === 'production' && (
-          <>
-            {/* Google Analytics */}
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
-                    page_title: document.title,
-                    page_location: window.location.href,
-                  });
-                `,
-              }}
-            />
-          </>
-        )}
       </body>
     </html>
   );
