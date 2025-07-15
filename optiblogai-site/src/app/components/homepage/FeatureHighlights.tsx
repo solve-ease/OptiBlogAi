@@ -190,6 +190,7 @@ const FeatureHighlights: React.FC = () => {
                   alt={features[activeFeature].title}
                   className="w-full h-auto object-cover"
                 />
+              
               </CardContent>
             </Card>
           </div>
