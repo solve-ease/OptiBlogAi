@@ -32,7 +32,7 @@ const HeroSection: React.FC = () => {
               AI-Powered
             </span>
             <br />
-            <span className="text-gray-900">Blog Optimization</span>
+            <span className="text-gray-900">Blog Optimization with AI</span>
           </h1>
 
           {/* Subtitle */}

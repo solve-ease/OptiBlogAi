@@ -90,14 +90,14 @@ export const metadata: Metadata = {
     description: 'Open-source AI platform for creating, optimizing, and scaling your content strategy. Generate SEO-optimized blog posts in seconds.',
     images: [
       {
-        url: `${SITE_CONFIG.url}/og-image.png`,
+        url: `${SITE_CONFIG.url}/logo.png`,
         width: 1200,
         height: 630,
         alt: 'OptiBlogAi - AI-Powered Blog Optimization Platform',
         type: 'image/png',
       },
       {
-        url: `${SITE_CONFIG.url}/og-image.png`,
+        url: `${SITE_CONFIG.url}/logo.png`,
         width: 1200,
         height: 1200,
         alt: 'OptiBlogAi Logo',
@@ -235,8 +235,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     '@type': 'ImageObject',
                     inLanguage: 'en-US',
                     '@id': `${SITE_CONFIG.url}/#/schema/logo/image/`,
-                    url: `${SITE_CONFIG.url}/logo-512x512.png`,
-                    contentUrl: `${SITE_CONFIG.url}/logo-512x512.png`,
+                    url: `${SITE_CONFIG.url}/logo.png`,
+                    contentUrl: `${SITE_CONFIG.url}/logo.png`,
                     width: 512,
                     height: 512,
                     caption: 'OptiBlogAi',

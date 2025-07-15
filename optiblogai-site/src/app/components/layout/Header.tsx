@@ -5,6 +5,7 @@ import { Menu, X, Github, ExternalLink } from 'lucide-react';
 import Button from '../ui/button';
 import { NAVIGATION_ITEMS, SITE_CONFIG } from '@/app/lib/constants';
 import { cn } from '@/app/lib/utils';
+import Image from 'next/image';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,10 +18,8 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <a href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">O</span>
-              </div>
+            <a href="/" className="flex items-center ">
+              <Image alt='logo'width={40} height={40} src="/logo.png"></Image>
               <span className="text-xl font-bold text-gray-900">
                 {SITE_CONFIG.name}
               </span>

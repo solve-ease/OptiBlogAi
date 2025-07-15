@@ -1,70 +1,80 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Github, Twitter, Linkedin, Mail, Heart } from 'lucide-react';
-import { SITE_CONFIG, NAVIGATION_ITEMS } from '@/app/lib/constants';
+import React from "react";
+import { Github, Twitter, Linkedin, Mail, Heart } from "lucide-react";
+import { SITE_CONFIG, NAVIGATION_ITEMS } from "@/app/lib/constants";
+import Image from "next/image";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
     {
-      name: 'GitHub',
+      name: "GitHub",
       href: SITE_CONFIG.links.github,
       icon: <Github className="w-5 h-5" />,
     },
     {
-      name: 'Twitter',
-      href: 'https://x.com/solve__ease',
+      name: "Twitter",
+      href: "https://x.com/solve__ease",
       icon: <Twitter className="w-5 h-5" />,
     },
     {
-      name: 'LinkedIn',
-      href: 'https://linkedin.com/company/solve-ease',
+      name: "LinkedIn",
+      href: "https://linkedin.com/company/solve-ease",
       icon: <Linkedin className="w-5 h-5" />,
     },
     {
-      name: 'Email',
-      href: 'mailto:adarsh@solveease.tech',
+      name: "Email",
+      href: "mailto:adarsh@solveease.tech",
       icon: <Mail className="w-5 h-5" />,
     },
   ];
 
   const footerSections = [
     {
-      title: 'Product',
+      title: "Product",
       links: [
-        { name: 'Features', href: '/#features' },
-        { name: 'Documentation', href: '/docs' },
-        { name: 'Demo', href: '/demo' },
-        { name: 'Pricing', href: '/pricing' },
+        { name: "Features", href: "/#features" },
+        { name: "Documentation", href: "/docs" },
+        { name: "Demo", href: "/demo" },
+        { name: "Pricing", href: "/pricing" },
       ],
     },
     {
-      title: 'Community',
+      title: "Community",
       links: [
-        { name: 'GitHub', href: SITE_CONFIG.links.github },
-        { name: 'Discussions', href: `${SITE_CONFIG.links.github}/discussions` },
-        { name: 'Contributing', href: `${SITE_CONFIG.links.github}/blob/main/CONTRIBUTING.md` },
-        { name: 'Code of Conduct', href: `${SITE_CONFIG.links.github}/blob/main/CODE_OF_CONDUCT.md` },
+        { name: "GitHub", href: SITE_CONFIG.links.github },
+        {
+          name: "Discussions",
+          href: `${SITE_CONFIG.links.github}/discussions`,
+        },
+        {
+          name: "Contributing",
+          href: `${SITE_CONFIG.links.github}/blob/main/CONTRIBUTING.md`,
+        },
+        {
+          name: "Code of Conduct",
+          href: `${SITE_CONFIG.links.github}/blob/main/CODE_OF_CONDUCT.md`,
+        },
       ],
     },
     {
-      title: 'Resources',
+      title: "Resources",
       links: [
-        { name: 'Blog', href: '/blog' },
-        { name: 'Changelog', href: '/changelog' },
-        { name: 'Roadmap', href: '/roadmap' },
-        { name: 'API Reference', href: '/api' },
+        { name: "Blog", href: "/blog" },
+        { name: "Changelog", href: "/changelog" },
+        { name: "Roadmap", href: "/roadmap" },
+        { name: "API Reference", href: "/api" },
       ],
     },
     {
-      title: 'Support',
+      title: "Support",
       links: [
-        { name: 'Help Center', href: '/help' },
-        { name: 'Contact', href: '/contact' },
-        { name: 'Status', href: '/status' },
-        { name: 'Security', href: '/security' },
+        { name: "Help Center", href: "/help" },
+        { name: "Contact", href: "/contact" },
+        { name: "Status", href: "/status" },
+        { name: "Security", href: "/security" },
       ],
     },
   ];
@@ -78,15 +88,21 @@ const Footer: React.FC = () => {
             {/* Brand Section */}
             <div className="col-span-1 md:col-span-2 lg:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">O</span>
-                </div>
-                <span className="text-xl font-bold text-gray-900">
-                  {SITE_CONFIG.name}
-                </span>
+                <a href="/" className="flex items-center ">
+                  <Image
+                    alt="logo"
+                    width={40}
+                    height={40}
+                    src="/logo.png"
+                  ></Image>
+                  <span className="text-xl font-bold text-gray-900">
+                    {SITE_CONFIG.name}
+                  </span>
+                </a>
               </div>
               <p className="text-gray-600 mb-6 max-w-md">
-                Open-source AI-powered blog optimization platform that helps you create better content faster.
+                Open-source AI-powered blog optimization platform that helps you
+                create better content faster.
               </p>
               <div className="flex space-x-4">
                 {socialLinks.map((link) => (
@@ -131,18 +147,38 @@ const Footer: React.FC = () => {
         <div className="py-6 border-t border-gray-200">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center space-x-1 text-sm text-gray-600 mb-4 md:mb-0">
-              <span>© {currentYear} {SITE_CONFIG.name}. Made with</span>
+              <span>
+                © {currentYear} {SITE_CONFIG.name}. Made with
+              </span>
               <Heart className="w-4 h-4 text-red-500 fill-current" />
-              <span>by the <a className='font-bold hover:text-[var(--color-primary)] hover:underline' href="https://solveease.tech">solve-ease</a>.</span>
+              <span>
+                by the{" "}
+                <a
+                  className="font-bold hover:text-[var(--color-primary)] hover:underline"
+                  href="https://solveease.tech"
+                >
+                  solve-ease
+                </a>
+                .
+              </span>
             </div>
             <div className="flex items-center space-x-6 text-sm text-gray-600">
-              <a href="/privacy" className="hover:text-primary transition-colors duration-200">
+              <a
+                href="/privacy"
+                className="hover:text-primary transition-colors duration-200"
+              >
                 Privacy Policy
               </a>
-              <a href="/terms" className="hover:text-primary transition-colors duration-200">
+              <a
+                href="/terms"
+                className="hover:text-primary transition-colors duration-200"
+              >
                 Terms of Service
               </a>
-              <a href="/license" className="hover:text-primary transition-colors duration-200">
+              <a
+                href="/license"
+                className="hover:text-primary transition-colors duration-200"
+              >
                 MIT License
               </a>
             </div>

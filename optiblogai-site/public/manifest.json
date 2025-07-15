@@ -1,0 +1,118 @@
+{
+  "name": "OptiBlogAi - AI-Powered Blog Optimization Platform",
+  "short_name": "OptiBlogAi",
+  "description": "Open-source AI platform for creating, optimizing, and scaling your content strategy. Generate SEO-optimized blog posts in seconds with advanced AI algorithms.",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#4f46e5",
+  "background_color": "#ffffff",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["productivity", "business", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+    
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "OptiBlogAi Desktop View"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "414x896",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "OptiBlogAi Mobile View"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Create New Blog Post",
+      "short_name": "New Post",
+      "description": "Create a new AI-optimized blog post",
+      "url": "/create",
+      "icons": [
+        {
+          "src": "/favicon-32x32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your blog analytics and performance",
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "/favicon-32x32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "SEO Optimizer",
+      "short_name": "SEO Tools",
+      "description": "Optimize your content for search engines",
+      "url": "/seo-tools",
+      "icons": [
+        {
+          "src": "/favicon-32x32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://github.com/4darsh-Dev/OptiBlogAi"
+    }
+  ],
+  "prefer_related_applications": false,
+  "id": "optiblogai-pwa",
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+optiblogai",
+      "url": "/?action=%s"
+    }
+  ]
+}
