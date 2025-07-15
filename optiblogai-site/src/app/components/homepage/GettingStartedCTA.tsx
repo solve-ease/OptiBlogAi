@@ -134,17 +134,17 @@ const GettingStartedCTA: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] rounded-xl p-8 text-center">
-              <div className="text-4xl font-bold text-primary mb-2">100%</div>
-              <div className="text-lg font-semibold text-gray-900 mb-2">Free & Open Source</div>
-              <p className="text-gray-600 mb-6">
+            <div className="bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] rounded-xl text-white p-8 text-center">
+              <div className="text-4xl text-white font-bold  mb-2">100%</div>
+              <div className="text-lg font-semibold text-white mb-2">Free & Open Source</div>
+              <p className="text-gray-white mb-6">
                 No hidden costs, no vendor lock-in. Use OptiBlogAi however you want, whenever you want.
               </p>
               <a
                 href={SITE_CONFIG.links.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center text-primary hover:text-primary/80 font-medium"
+                className="inline-flex items-center text-white font-medium"
               >
                 Star us on GitHub
                 <ArrowRight className="w-4 h-4 ml-2" />

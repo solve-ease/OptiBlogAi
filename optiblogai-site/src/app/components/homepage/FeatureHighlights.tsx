@@ -5,6 +5,11 @@ import { Card, CardContent } from "@/app/components/ui/card";
 import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
 import { cn } from "@/app/lib/utils";
 
+import LiveEditorPreview from "@/app/components/FeaturePreviews/LiveEditorPreview";
+import PerformanceAnalyticsPreview from "@/app/components/FeaturePreviews/PerformanceAnalyticsPreview";
+import TeamCollaborationPreview from "@/app/components/FeaturePreviews/TeamCollaborationPreview";
+import SEOOptimizationPreview from "@/app/components/FeaturePreviews/SEOOptimizationPreview";
+
 interface Feature {
   id: string;
   title: string;
@@ -12,6 +17,7 @@ interface Feature {
   image: string;
   points: string[];
   color: string;
+  Component : React.FC;
 }
 
 const FeatureHighlights: React.FC = () => {
@@ -32,6 +38,7 @@ const FeatureHighlights: React.FC = () => {
         "Plagiarism detection",
       ],
       color: "bg-gradient-to-br from-[var(--color-primary)] to-blue-600",
+      Component: LiveEditorPreview,
     },
     {
       id: "seo-optimization",
@@ -46,6 +53,7 @@ const FeatureHighlights: React.FC = () => {
         "SERP preview",
       ],
       color: "bg-gradient-to-br from-[var(--color-secondary)] to-green-600",
+      Component: SEOOptimizationPreview,
     },
     {
       id: "analytics",
@@ -60,6 +68,7 @@ const FeatureHighlights: React.FC = () => {
         "Growth insights",
       ],
       color: "bg-gradient-to-br from-[var(--color-accent)] to-orange-600",
+      Component: PerformanceAnalyticsPreview,
     },
     {
       id: "collaboration",
@@ -74,6 +83,7 @@ const FeatureHighlights: React.FC = () => {
         "Role-based permissions",
       ],
       color: "bg-gradient-to-br from-purple-600 to-pink-600",
+      Component: TeamCollaborationPreview,
     },
   ];
 
@@ -94,7 +104,7 @@ const FeatureHighlights: React.FC = () => {
     if (!isPlaying) return;
     const interval = setInterval(() => {
       nextFeature();
-    }, 5000);
+    }, 10000);
     return () => clearInterval(interval);
   }, [isPlaying]);
 
@@ -180,21 +190,22 @@ const FeatureHighlights: React.FC = () => {
               </button>
             </div>
           </div>
-
+          
           {/* Feature Image */}
           <div className="order-1 lg:order-2">
-            <Card className="shadow-xl overflow-hidden">
-              <CardContent className="p-0">
-                <img
-                  src={features[activeFeature].image}
-                  alt={features[activeFeature].title}
-                  className="w-full h-auto object-cover"
-                />
-              
-              </CardContent>
-            </Card>
+            {(() => {
+              const DynamicPreview = features[activeFeature].Component;
+              return (
+                <Card className="shadow-xl overflow-hidden">
+                  <CardContent className="p-0">
+                    <DynamicPreview />
+                  </CardContent>
+                </Card>
+              );
+            })()}
           </div>
-        </div>
+          </div>
+
       </div>
     </section>
   );
