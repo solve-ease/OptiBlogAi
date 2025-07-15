@@ -17,7 +17,6 @@ OptiBlogAi is an open-source AI system that generates high-quality, SEO-optimize
 - **Quality Assurance Loop**: Multi-phase assessment system with iterative improvements
 - **SEO Optimization**: Built-in SEO scoring for on-page optimization
 - **Extensible Architecture**: Modular design supporting multiple LLM providers
-- **Production-Ready**: Containerized deployment with CI/CD pipelines
 
 ## Project Architecture
 
@@ -41,9 +40,7 @@ OptiBlogAi is an open-source AI system that generates high-quality, SEO-optimize
 - **CI/CD**: GitHub Actions
 
 ### Quality Assurance
-- **Testing**: Pytest, Hypothesis
-- **Linting**: Black, Pylint, MyPy
-- **Monitoring**: Prometheus (planned)
+- **Testing**: Pytest
 
 ## Workflow Process
 
@@ -75,7 +72,7 @@ graph TD
 ### Installation
 ```bash
 # Clone repository
-git clone https://github.com/4darsh-Dev/OptiBlogAi.git
+git clone https://github.com/solve-ease/OptiBlogAi.git
 cd OptiBlogAi
 
 # Create virtual environment
@@ -116,7 +113,7 @@ docker run -p 8000:8000 OptiBlogAi
 
 ### Phase 2: Advanced Features
 - Multi-LLM comparison system
-- Automatic image/video suggestion
+- Automatic image suggestion
 - Plagiarism detection
 - Social media snippet generation
 
@@ -156,7 +153,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Project Maintainer: 4darsh-Dev  
 GitHub: [https://github.com/4darsh-Dev](https://github.com/4darsh-Dev)  
-Issue Tracker: [https://github.com/4darsh-Dev/OptiBlogAi/issues](https://github.com/4darsh-Dev/OptiBlogAi/issues)
+Issue Tracker: [https://github.com/solve-ease/OptiBlogAi/issues](https://github.com/solve-ease/OptiBlogAi/issues)
 
 ---
 
