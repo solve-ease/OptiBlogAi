@@ -3,3 +3,7 @@ src/.env
 src/extracted_content
 
 src/scraper/__pycache__
+
+.env
+src/.env
+myenv
