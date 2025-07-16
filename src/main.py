@@ -1,6 +1,6 @@
-
 import sys
-sys.path.append("src/scraper") 
+
+sys.path.append("src/scraper")
 
 from scraper.google_search import GoogleSearchClient
 from scraper.webpage_crawler import WebpageCrawler
@@ -16,7 +16,9 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 GOOGLE_CSE_ID = os.getenv("GOOGLE_CSE_ID")
 
 # Set up Google Search client
-search_client = GoogleSearchClient(api_key=GOOGLE_API_KEY, search_engine_id=GOOGLE_CSE_ID)
+search_client = GoogleSearchClient(
+    api_key=GOOGLE_API_KEY, search_engine_id=GOOGLE_CSE_ID
+)
 
 search_keyword = input("Enter a keyword to search: ")
 num_results = int(input("Enter the number of results to fetch: "))
@@ -29,6 +31,7 @@ crawler = WebpageCrawler(respect_robots=False)
 
 # get date in python
 from datetime import datetime
+
 current_date = datetime.now().strftime("%Y-%m-%d")
 
 new_dir = f"{search_keyword}_{current_date}"

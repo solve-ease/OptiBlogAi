@@ -9,4 +9,4 @@ from .google_search import GoogleSearchClient
 from .webpage_crawler import WebpageCrawler
 from .content_extractor import ContentExtractor
 
-__all__ = ['GoogleSearchClient', 'WebpageCrawler', 'ContentExtractor']
+__all__ = ["GoogleSearchClient", "WebpageCrawler", "ContentExtractor"]
