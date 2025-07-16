@@ -1,13 +1,13 @@
-'use client';
-import React from 'react';
-import Badge from '../ui/bdge';
-import { Shield, Star, Download, Users, Code, Zap } from 'lucide-react';
+"use client";
+import React from "react";
+import Badge from "../ui/bdge";
+import { Shield, Star, Download, Users, Code, Zap } from "lucide-react";
 
 interface BadgeData {
   icon: React.ReactNode;
   label: string;
   value: string;
-  variant: 'primary' | 'secondary' | 'accent' | 'success';
+  variant: "primary" | "secondary" | "accent" | "success";
   href?: string;
 }
 
@@ -15,40 +15,40 @@ const BadgeWall: React.FC = () => {
   const badges: BadgeData[] = [
     {
       icon: <Star className="w-3 h-3" />,
-      label: 'GitHub Stars',
-      value: '2.4K',
-      variant: 'primary',
-      href: 'https://github.com/optiblogai/optiblogai',
+      label: "GitHub Stars",
+      value: "2.4K",
+      variant: "primary",
+      href: "https://github.com/optiblogai/optiblogai",
     },
     {
       icon: <Download className="w-3 h-3" />,
-      label: 'Downloads',
-      value: '12.8K',
-      variant: 'secondary',
+      label: "Downloads",
+      value: "12.8K",
+      variant: "secondary",
     },
     {
       icon: <Users className="w-3 h-3" />,
-      label: 'Contributors',
-      value: '47',
-      variant: 'accent',
+      label: "Contributors",
+      value: "47",
+      variant: "accent",
     },
     {
       icon: <Code className="w-3 h-3" />,
-      label: 'MIT License',
-      value: 'Open Source',
-      variant: 'success',
+      label: "MIT License",
+      value: "Open Source",
+      variant: "success",
     },
     {
       icon: <Zap className="w-3 h-3" />,
-      label: 'Build Status',
-      value: 'Passing',
-      variant: 'success',
+      label: "Build Status",
+      value: "Passing",
+      variant: "success",
     },
     {
       icon: <Shield className="w-3 h-3" />,
-      label: 'Security',
-      value: 'A+',
-      variant: 'primary',
+      label: "Security",
+      value: "A+",
+      variant: "primary",
     },
   ];
 

@@ -1,8 +1,15 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent } from '@/app/components/ui/card';
-import { TrendingUp, Users, FileText, GitBranch, Star, Download } from 'lucide-react';
-import { formatNumber } from '@/app/lib/utils';
+"use client";
+import React, { useState, useEffect } from "react";
+import { Card, CardContent } from "@/app/components/ui/card";
+import {
+  TrendingUp,
+  Users,
+  FileText,
+  GitBranch,
+  Star,
+  Download,
+} from "lucide-react";
+import { formatNumber } from "@/app/lib/utils";
 
 interface Stat {
   icon: React.ReactNode;
@@ -18,63 +25,63 @@ const LiveStatsPanel: React.FC = () => {
   const [stats, setStats] = useState<Stat[]>([
     {
       icon: <Star className="w-6 h-6" />,
-      label: 'GitHub Stars',
+      label: "GitHub Stars",
       value: 2847,
       change: 12.5,
-      color: 'text-primary bg-primary/10',
-      suffix: '',
+      color: "text-primary bg-primary/10",
+      suffix: "",
     },
     {
       icon: <Download className="w-6 h-6" />,
-      label: 'Monthly Downloads',
+      label: "Monthly Downloads",
       value: 18542,
       change: 23.8,
-      color: 'text-secondary bg-secondary/10',
-      suffix: '',
+      color: "text-secondary bg-secondary/10",
+      suffix: "",
     },
     {
       icon: <Users className="w-6 h-6" />,
-      label: 'Active Users',
+      label: "Active Users",
       value: 5623,
       change: 8.3,
-      color: 'text-accent bg-accent/10',
-      suffix: '',
+      color: "text-accent bg-accent/10",
+      suffix: "",
     },
     {
       icon: <FileText className="w-6 h-6" />,
-      label: 'Content Generated',
+      label: "Content Generated",
       value: 125847,
       change: 45.2,
-      color: 'text-green-600 bg-green-100',
-      suffix: ' articles',
+      color: "text-green-600 bg-green-100",
+      suffix: " articles",
     },
     {
       icon: <GitBranch className="w-6 h-6" />,
-      label: 'Contributors',
+      label: "Contributors",
       value: 89,
       change: 18.7,
-      color: 'text-purple-600 bg-purple-100',
-      suffix: '',
+      color: "text-purple-600 bg-purple-100",
+      suffix: "",
     },
     {
       icon: <TrendingUp className="w-6 h-6" />,
-      label: 'Performance Boost',
+      label: "Performance Boost",
       value: 340,
       change: 15.4,
-      color: 'text-pink-600 bg-pink-100',
-      prefix: '+',
-      suffix: '%',
+      color: "text-pink-600 bg-pink-100",
+      prefix: "+",
+      suffix: "%",
     },
   ]);
 
   // Simulate real-time updates
   useEffect(() => {
     const interval = setInterval(() => {
-      setStats(prevStats => 
-        prevStats.map(stat => ({
+      setStats((prevStats) =>
+        prevStats.map((stat) => ({
           ...stat,
           value: stat.value + Math.floor(Math.random() * 5) - 2,
-        }))
+        })),
       );
     }, 5000);
 
@@ -86,7 +93,10 @@ const LiveStatsPanel: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Real-Time <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent">Impact</span>
+            Real-Time{" "}
+            <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent">
+              Impact
+            </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             See how OptiBlogAi is transforming content creation across the globe
@@ -109,7 +119,9 @@ const LiveStatsPanel: React.FC = () => {
             >
               <CardContent className="p-8">
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${stat.color} group-hover:scale-110 transition-transform duration-300`}>
+                  <div
+                    className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${stat.color} group-hover:scale-110 transition-transform duration-300`}
+                  >
                     {stat.icon}
                   </div>
                   <div className="flex items-center space-x-1 text-sm text-green-600">
@@ -120,16 +132,16 @@ const LiveStatsPanel: React.FC = () => {
 
                 <div className="mb-2">
                   <div className="text-3xl font-bold text-gray-900 mb-1">
-                    {stat.prefix}{formatNumber(stat.value)}{stat.suffix}
+                    {stat.prefix}
+                    {formatNumber(stat.value)}
+                    {stat.suffix}
                   </div>
-                  <p className="text-gray-600 text-sm">
-                    {stat.label}
-                  </p>
+                  <p className="text-gray-600 text-sm">{stat.label}</p>
                 </div>
 
                 {/* Progress bar */}
                 <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
+                  <div
                     className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] h-2 rounded-full transition-all duration-1000"
                     style={{ width: `${Math.min(stat.change * 2, 100)}%` }}
                   ></div>
@@ -147,7 +159,9 @@ const LiveStatsPanel: React.FC = () => {
               <p className="text-gray-600">Uptime Guarantee</p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-              <div className="text-2xl font-bold text-secondary mb-2">&lt;2s</div>
+              <div className="text-2xl font-bold text-secondary mb-2">
+                &lt;2s
+              </div>
               <p className="text-gray-600">Average Response Time</p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
@@ -161,4 +175,4 @@ const LiveStatsPanel: React.FC = () => {
   );
 };
 
-export default LiveStatsPanel
+export default LiveStatsPanel;

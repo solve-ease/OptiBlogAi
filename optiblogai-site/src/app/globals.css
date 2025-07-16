@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 /* Custom CSS Variables for Design System */
 :root {
   --color-primary: #4f46e5;
@@ -8,10 +7,10 @@
   --color-accent: #f59e0b;
   --color-neutral-800: #1e293b;
   --color-neutral-50: #f1f5f9;
-  
-  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-jetbrains: 'JetBrains Mono', 'Fira Code', monospace;
-  
+
+  --font-inter: "Inter", system-ui, -apple-system, sans-serif;
+  --font-jetbrains: "JetBrains Mono", "Fira Code", monospace;
+
   --animation-duration: 0.3s;
   --border-radius: 0.5rem;
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -120,7 +119,6 @@
   );
 }
 
-
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
@@ -163,7 +161,8 @@ html {
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -194,7 +193,7 @@ html {
 
 /* Grid pattern for hero background */
 .bg-grid-pattern {
-  background-image: 
+  background-image:
     linear-gradient(to right, #e5e7eb 1px, transparent 1px),
     linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
   background-size: 20px 20px;
@@ -220,16 +219,16 @@ html {
     box-shadow: none !important;
     text-shadow: none !important;
   }
-  
+
   a,
   a:visited {
     text-decoration: underline;
   }
-  
+
   a[href]:after {
     content: " (" attr(href) ")";
   }
-  
+
   .no-print {
     display: none !important;
   }

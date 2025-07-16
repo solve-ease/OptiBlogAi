@@ -17,7 +17,7 @@ interface Feature {
   image: string;
   points: string[];
   color: string;
-  Component : React.FC;
+  Component: React.FC;
 }
 
 const FeatureHighlights: React.FC = () => {
@@ -140,7 +140,7 @@ const FeatureHighlights: React.FC = () => {
               <div
                 className={cn(
                   "inline-block px-4 py-2 rounded-full text-white text-sm font-medium mb-4",
-                  features[activeFeature].color
+                  features[activeFeature].color,
                 )}
               >
                 Feature {activeFeature + 1} of {features.length}
@@ -190,7 +190,7 @@ const FeatureHighlights: React.FC = () => {
               </button>
             </div>
           </div>
-          
+
           {/* Feature Image */}
           <div className="order-1 lg:order-2">
             {(() => {
@@ -204,8 +204,7 @@ const FeatureHighlights: React.FC = () => {
               );
             })()}
           </div>
-          </div>
-
+        </div>
       </div>
     </section>
   );

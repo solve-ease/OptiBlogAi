@@ -2,7 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, TrendingUp, Target, CheckCircle, AlertCircle, Eye } from "lucide-react";
+import {
+  Search,
+  TrendingUp,
+  Target,
+  CheckCircle,
+  AlertCircle,
+  Eye,
+} from "lucide-react";
 
 const SEOOptimizationPreview: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -25,9 +32,24 @@ const SEOOptimizationPreview: React.FC = () => {
   ];
 
   const metaTags = [
-    { tag: "Title", value: "AI-Powered Content Generation Tool", status: "optimal", length: 34 },
-    { tag: "Description", value: "Create SEO-optimized content with AI assistance", status: "good", length: 47 },
-    { tag: "Keywords", value: "ai, content, seo, writing", status: "optimal", length: 25 },
+    {
+      tag: "Title",
+      value: "AI-Powered Content Generation Tool",
+      status: "optimal",
+      length: 34,
+    },
+    {
+      tag: "Description",
+      value: "Create SEO-optimized content with AI assistance",
+      status: "good",
+      length: 47,
+    },
+    {
+      tag: "Keywords",
+      value: "ai, content, seo, writing",
+      status: "optimal",
+      length: 25,
+    },
   ];
 
   useEffect(() => {
@@ -42,15 +64,21 @@ const SEOOptimizationPreview: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "optimal": return "text-green-600 bg-green-50 border-green-200";
-      case "good": return "text-emerald-600 bg-emerald-50 border-emerald-200";
-      case "high": return "text-orange-600 bg-orange-50 border-orange-200";
-      default: return "text-gray-600 bg-gray-50 border-gray-200";
+      case "optimal":
+        return "text-green-600 bg-green-50 border-green-200";
+      case "good":
+        return "text-emerald-600 bg-emerald-50 border-emerald-200";
+      case "high":
+        return "text-orange-600 bg-orange-50 border-orange-200";
+      default:
+        return "text-gray-600 bg-gray-50 border-gray-200";
     }
   };
 
   const getStatusIcon = (status: string) => {
-    return status === "optimal" || status === "good" ? CheckCircle : AlertCircle;
+    return status === "optimal" || status === "good"
+      ? CheckCircle
+      : AlertCircle;
   };
 
   return (
@@ -120,11 +148,13 @@ const SEOOptimizationPreview: React.FC = () => {
               {seoScore}%
             </motion.div>
           </div>
-          
+
           <div className="space-y-2">
             <div className="flex justify-between text-xs">
               <span className="text-gray-600">Keyword Density</span>
-              <span className="text-emerald-600 font-medium">{keywordDensity}%</span>
+              <span className="text-emerald-600 font-medium">
+                {keywordDensity}%
+              </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <motion.div
@@ -134,10 +164,12 @@ const SEOOptimizationPreview: React.FC = () => {
                 transition={{ delay: 1.2, duration: 1 }}
               />
             </div>
-            
+
             <div className="flex justify-between text-xs">
               <span className="text-gray-600">Readability</span>
-              <span className="text-emerald-600 font-medium">{readabilityScore}%</span>
+              <span className="text-emerald-600 font-medium">
+                {readabilityScore}%
+              </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <motion.div
@@ -191,11 +223,17 @@ const SEOOptimizationPreview: React.FC = () => {
                     >
                       <div className="flex items-center space-x-2">
                         <StatusIcon className="w-4 h-4 text-emerald-500" />
-                        <span className="text-sm font-medium text-gray-800">{keyword.word}</span>
+                        <span className="text-sm font-medium text-gray-800">
+                          {keyword.word}
+                        </span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className="text-xs text-gray-600">{keyword.density}%</span>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(keyword.status)}`}>
+                        <span className="text-xs text-gray-600">
+                          {keyword.density}%
+                        </span>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(keyword.status)}`}
+                        >
                           {keyword.status}
                         </span>
                       </div>
@@ -222,10 +260,16 @@ const SEOOptimizationPreview: React.FC = () => {
                     transition={{ delay: index * 0.1 }}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-semibold text-gray-700">{meta.tag}</span>
-                      <span className="text-xs text-gray-500">{meta.length} chars</span>
+                      <span className="text-xs font-semibold text-gray-700">
+                        {meta.tag}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {meta.length} chars
+                      </span>
                     </div>
-                    <div className="text-sm text-gray-800 truncate">{meta.value}</div>
+                    <div className="text-sm text-gray-800 truncate">
+                      {meta.value}
+                    </div>
                   </motion.div>
                 ))}
               </motion.div>
@@ -241,12 +285,18 @@ const SEOOptimizationPreview: React.FC = () => {
               >
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-100">
-                    <div className="text-lg font-bold text-emerald-600">8.2</div>
-                    <div className="text-xs text-emerald-700">Reading Level</div>
+                    <div className="text-lg font-bold text-emerald-600">
+                      8.2
+                    </div>
+                    <div className="text-xs text-emerald-700">
+                      Reading Level
+                    </div>
                   </div>
                   <div className="p-3 rounded-lg bg-green-50 border border-green-100">
                     <div className="text-lg font-bold text-green-600">156</div>
-                    <div className="text-xs text-green-700">Avg Words/Sentence</div>
+                    <div className="text-xs text-green-700">
+                      Avg Words/Sentence
+                    </div>
                   </div>
                 </div>
                 <div className="p-3 rounded-lg bg-gray-50 border border-gray-100">
@@ -276,7 +326,9 @@ const SEOOptimizationPreview: React.FC = () => {
                     https://yoursite.com/ai-content-generator
                   </div>
                   <div className="text-gray-600 text-xs mt-1">
-                    Create SEO-optimized content with AI assistance. Generate high-quality blog posts, articles, and marketing copy in seconds...
+                    Create SEO-optimized content with AI assistance. Generate
+                    high-quality blog posts, articles, and marketing copy in
+                    seconds...
                   </div>
                 </div>
               </motion.div>

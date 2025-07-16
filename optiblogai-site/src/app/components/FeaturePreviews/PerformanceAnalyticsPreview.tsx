@@ -10,10 +10,38 @@ const PerformanceAnalyticsPreview: React.FC = () => {
   const [isAnimating, setIsAnimating] = useState(false);
 
   const metrics = [
-    { id: "views", label: "Page Views", value: "24.3K", change: "+12.5%", icon: Eye, color: "text-amber-600" },
-    { id: "engagement", label: "Engagement", value: "68%", change: "+8.2%", icon: Users, color: "text-orange-600" },
-    { id: "time", label: "Avg. Time", value: "3:42", change: "+15.3%", icon: Clock, color: "text-amber-700" },
-    { id: "conversion", label: "Conversion", value: "4.8%", change: "+22.1%", icon: Target, color: "text-orange-700" },
+    {
+      id: "views",
+      label: "Page Views",
+      value: "24.3K",
+      change: "+12.5%",
+      icon: Eye,
+      color: "text-amber-600",
+    },
+    {
+      id: "engagement",
+      label: "Engagement",
+      value: "68%",
+      change: "+8.2%",
+      icon: Users,
+      color: "text-orange-600",
+    },
+    {
+      id: "time",
+      label: "Avg. Time",
+      value: "3:42",
+      change: "+15.3%",
+      icon: Clock,
+      color: "text-amber-700",
+    },
+    {
+      id: "conversion",
+      label: "Conversion",
+      value: "4.8%",
+      change: "+22.1%",
+      icon: Target,
+      color: "text-orange-700",
+    },
   ];
 
   const testResults = [
@@ -108,12 +136,18 @@ const PerformanceAnalyticsPreview: React.FC = () => {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-xs text-gray-600 mb-1">{metric.label}</div>
-                  <div className="text-lg font-bold text-gray-800">{metric.value}</div>
+                  <div className="text-xs text-gray-600 mb-1">
+                    {metric.label}
+                  </div>
+                  <div className="text-lg font-bold text-gray-800">
+                    {metric.value}
+                  </div>
                 </div>
                 <div className="text-right">
                   <metric.icon className={`w-5 h-5 ${metric.color} mb-1`} />
-                  <div className="text-xs text-green-600 font-medium">{metric.change}</div>
+                  <div className="text-xs text-green-600 font-medium">
+                    {metric.change}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -123,13 +157,15 @@ const PerformanceAnalyticsPreview: React.FC = () => {
         {/* Chart Visualization */}
         <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-sm border border-gray-100 mb-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-gray-800">Performance Trend</h3>
+            <h3 className="text-sm font-semibold text-gray-800">
+              Performance Trend
+            </h3>
             <div className="flex items-center space-x-1">
               <TrendingUp className="w-4 h-4 text-green-500" />
               <span className="text-xs text-green-600 font-medium">+18.7%</span>
             </div>
           </div>
-          
+
           <div className="flex items-end space-x-2 h-16">
             {chartData.map((value, index) => (
               <motion.div
@@ -141,7 +177,7 @@ const PerformanceAnalyticsPreview: React.FC = () => {
               />
             ))}
           </div>
-          
+
           <div className="flex justify-between text-xs text-gray-500 mt-2">
             <span>Mon</span>
             <span>Tue</span>
@@ -155,7 +191,9 @@ const PerformanceAnalyticsPreview: React.FC = () => {
 
         {/* A/B Testing Results */}
         <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-sm border border-gray-100">
-          <h3 className="text-sm font-semibold text-gray-800 mb-3">A/B Test Results</h3>
+          <h3 className="text-sm font-semibold text-gray-800 mb-3">
+            A/B Test Results
+          </h3>
           <div className="space-y-2">
             {testResults.map((test, index) => (
               <motion.div
@@ -178,7 +216,9 @@ const PerformanceAnalyticsPreview: React.FC = () => {
                       transition={{ delay: 1.7 + index * 0.1, duration: 0.5 }}
                     />
                   </div>
-                  <span className="text-xs font-medium text-gray-800">{test.performance}%</span>
+                  <span className="text-xs font-medium text-gray-800">
+                    {test.performance}%
+                  </span>
                 </div>
               </motion.div>
             ))}

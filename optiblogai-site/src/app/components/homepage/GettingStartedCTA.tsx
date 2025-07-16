@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Card, CardContent } from '@/app/components/ui/card';
-import { ArrowRight, Download, Code, Rocket, CheckCircle } from 'lucide-react';
-import Button from '../ui/button';
-import { SITE_CONFIG } from '@/app/lib/constants';
+import React from "react";
+import { Card, CardContent } from "@/app/components/ui/card";
+import { ArrowRight, Download, Code, Rocket, CheckCircle } from "lucide-react";
+import Button from "../ui/button";
+import { SITE_CONFIG } from "@/app/lib/constants";
 
 interface Step {
   icon: React.ReactNode;
@@ -19,37 +19,40 @@ const GettingStartedCTA: React.FC = () => {
   const steps: Step[] = [
     {
       icon: <Download className="w-8 h-8" />,
-      title: 'Install OptiBlogAi',
-      description: 'Get started with our easy installation process using npm or yarn',
-      code: 'npm install optiblogai-cli',
-      action: 'View Installation Guide',
-      actionHref: '/docs/installation',
+      title: "Install OptiBlogAi",
+      description:
+        "Get started with our easy installation process using npm or yarn",
+      code: "npm install optiblogai-cli",
+      action: "View Installation Guide",
+      actionHref: "/docs/installation",
     },
     {
       icon: <Code className="w-8 h-8" />,
-      title: 'Configure Your Setup',
-      description: 'Set up your configuration file and API keys in just a few minutes',
-      code: 'optiblogai init --config',
-      action: 'Configuration Docs',
-      actionHref: '/docs/configuration',
+      title: "Configure Your Setup",
+      description:
+        "Set up your configuration file and API keys in just a few minutes",
+      code: "optiblogai init --config",
+      action: "Configuration Docs",
+      actionHref: "/docs/configuration",
     },
     {
       icon: <Rocket className="w-8 h-8" />,
-      title: 'Generate Your First Blog',
-      description: 'Create your first optimized blog post with our powerful AI engine',
+      title: "Generate Your First Blog",
+      description:
+        "Create your first optimized blog post with our powerful AI engine",
       code: 'optiblogai generate "Your Blog Topic"',
-      action: 'Try Live Demo',
-      actionHref: '/demo',
+      action: "Try Live Demo",
+      actionHref: "/demo",
     },
   ];
 
   const benefits = [
-    'Free and open source forever',
-    'No credit card required',
-    'Active community support',
-    'Regular updates and improvements',
-    'Enterprise-ready features',
-    'Comprehensive documentation',
+    "Free and open source forever",
+    "No credit card required",
+    "Active community support",
+    "Regular updates and improvements",
+    "Enterprise-ready features",
+    "Comprehensive documentation",
   ];
 
   return (
@@ -58,13 +61,14 @@ const GettingStartedCTA: React.FC = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Get Started in{' '}
+            Get Started in{" "}
             <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent">
               3 Simple Steps
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Join thousands of developers and content creators who are already using OptiBlogAi to optimize their content strategy
+            Join thousands of developers and content creators who are already
+            using OptiBlogAi to optimize their content strategy
           </p>
         </div>
 
@@ -92,9 +96,7 @@ const GettingStartedCTA: React.FC = () => {
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">
                   {step.title}
                 </h3>
-                <p className="text-gray-600 mb-6">
-                  {step.description}
-                </p>
+                <p className="text-gray-600 mb-6">{step.description}</p>
 
                 {/* Code Block */}
                 {step.code && (
@@ -136,9 +138,12 @@ const GettingStartedCTA: React.FC = () => {
 
             <div className="bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] rounded-xl text-white p-8 text-center">
               <div className="text-4xl text-white font-bold  mb-2">100%</div>
-              <div className="text-lg font-semibold text-white mb-2">Free & Open Source</div>
+              <div className="text-lg font-semibold text-white mb-2">
+                Free & Open Source
+              </div>
               <p className="text-gray-white mb-6">
-                No hidden costs, no vendor lock-in. Use OptiBlogAi however you want, whenever you want.
+                No hidden costs, no vendor lock-in. Use OptiBlogAi however you
+                want, whenever you want.
               </p>
               <a
                 href={SITE_CONFIG.links.github}
@@ -160,21 +165,21 @@ const GettingStartedCTA: React.FC = () => {
               Ready to Optimize Your Content?
             </h3>
             <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-              Join our growing community and start creating better content today. 
-              It takes less than 5 minutes to get up and running.
+              Join our growing community and start creating better content
+              today. It takes less than 5 minutes to get up and running.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button 
-                variant="secondary" 
-                size="lg" 
+              <Button
+                variant="secondary"
+                size="lg"
                 className="bg-white text-primary hover:bg-gray-100"
               >
                 <Download className="w-5 h-5 mr-2" />
                 Get Started Now
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
+              <Button
+                variant="outline"
+                size="lg"
                 className="border-white text-white hover:bg-white/10"
               >
                 View Documentation

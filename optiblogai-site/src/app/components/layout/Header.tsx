@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Menu, X, Github, ExternalLink } from 'lucide-react';
-import Button from '../ui/button';
-import { NAVIGATION_ITEMS, SITE_CONFIG } from '@/app/lib/constants';
-import { cn } from '@/app/lib/utils';
-import Image from 'next/image';
+import React, { useState } from "react";
+import { Menu, X, Github, ExternalLink } from "lucide-react";
+import Button from "../ui/button";
+import { NAVIGATION_ITEMS, SITE_CONFIG } from "@/app/lib/constants";
+import { cn } from "@/app/lib/utils";
+import Image from "next/image";
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,7 +19,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <div className="flex items-center">
             <a href="/" className="flex items-center ">
-              <Image alt='logo'width={40} height={40} src="/logo.png"></Image>
+              <Image alt="logo" width={40} height={40} src="/logo.png"></Image>
               <span className="text-xl font-bold text-gray-900">
                 {SITE_CONFIG.name}
               </span>
@@ -64,7 +64,11 @@ const Header: React.FC = () => {
               onClick={toggleMenu}
               className="p-2 rounded-md text-gray-700 hover:text-primary transition-colors duration-200"
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -73,8 +77,10 @@ const Header: React.FC = () => {
       {/* Mobile Navigation */}
       <div
         className={cn(
-          'md:hidden bg-white border-t border-gray-200 transition-all duration-300',
-          isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+          "md:hidden bg-white border-t border-gray-200 transition-all duration-300",
+          isMenuOpen
+            ? "max-h-96 opacity-100"
+            : "max-h-0 opacity-0 overflow-hidden",
         )}
       >
         <div className="px-4 py-4 space-y-4">

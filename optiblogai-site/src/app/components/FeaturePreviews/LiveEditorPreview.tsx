@@ -157,7 +157,11 @@ const LiveEditorPreview: React.FC = () => {
                   className="flex items-center space-x-2 px-3 py-1.5 bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200/50 shadow-sm"
                   initial={{ opacity: 0, scale: 0.8, y: 10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ delay: feature.delay, type: "spring", stiffness: 300 }}
+                  transition={{
+                    delay: feature.delay,
+                    type: "spring",
+                    stiffness: 300,
+                  }}
                   whileHover={{ scale: 1.05, y: -2 }}
                 >
                   <feature.icon className="w-3 h-3" />
@@ -174,7 +178,11 @@ const LiveEditorPreview: React.FC = () => {
         <motion.div
           className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
           initial={{ width: "0%" }}
-          animate={{ width: isComplete ? "100%" : `${(displayText.length / fullText.length) * 100}%` }}
+          animate={{
+            width: isComplete
+              ? "100%"
+              : `${(displayText.length / fullText.length) * 100}%`,
+          }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         />
       </div>
