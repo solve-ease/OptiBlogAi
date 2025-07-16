@@ -1,5 +1,5 @@
 babel==2.17.0
-beautifulsoup4==4.13.3
+beautifulsoup4==4.13.4
 certifi==2025.1.31
 charset-normalizer==3.4.1
 courlan==1.3.2
