@@ -14,7 +14,7 @@ pytz==2025.2
 regex==2024.11.6
 requests==2.32.3
 six==1.17.0
-soupsieve==2.6
+soupsieve==2.7
 tld==0.13
 trafilatura==2.0.0
 typing_extensions==4.13.2
