@@ -2,8 +2,32 @@ src/.env
 .myenv
 src/extracted_content
 
+# Python cache
 src/scraper/__pycache__
+tests/**/__pycache__
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Coverage reports
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
 
 .env
-src/.env
 myenv
+
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+.next/
+out/
+dist/
+build/
