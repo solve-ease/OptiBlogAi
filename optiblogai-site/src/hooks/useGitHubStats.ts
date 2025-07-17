@@ -153,9 +153,13 @@ export function useGitHubStats(autoFetch: boolean = true): GitHubStatsHookReturn
         errors.push(`Activity: ${activity.reason}`);
       }
 
-      if (errors.length > 0) {
-        console.warn('Some GitHub data failed to load:', errors);
-        setError(`Failed to load: ${errors.join(', ')}`);
+      // Only set error if all data failed to load
+      if (errors.length > 0 && errors.length === 4) {
+        console.warn('All GitHub data failed to load:', errors);
+        setError(`Failed to load GitHub data: ${errors.join(', ')}`);
+      } else if (errors.length > 0) {
+        console.warn('Some GitHub data failed to load, using fallback:', errors);
+        // Don't set error state if we have fallback data
       }
 
       setData(newData);

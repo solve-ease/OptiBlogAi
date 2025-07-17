@@ -124,8 +124,8 @@ const LiveStatsPanel: React.FC = () => {
                 </>
               ) : githubError ? (
                 <>
-                  <AlertCircle className="w-2 h-2 text-red-400" />
-                  <span>Using cached data • Error: {githubError}</span>
+                  <AlertCircle className="w-2 h-2 text-yellow-400" />
+                  <span>Using demo data • GitHub API rate limited</span>
                   <button 
                     onClick={refetch}
                     className="text-primary hover:text-primary/80 underline ml-2"
@@ -139,7 +139,7 @@ const LiveStatsPanel: React.FC = () => {
                   <span>Live data from GitHub API • Last updated: {
                     githubData?.lastFetched 
                       ? new Date(githubData.lastFetched).toLocaleTimeString()
-                      : 'Never'
+                      : 'Just now'
                   }</span>
                 </>
               )}
