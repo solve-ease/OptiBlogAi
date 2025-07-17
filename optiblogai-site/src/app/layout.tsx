@@ -1,23 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import { SITE_CONFIG } from "./lib/constants";
 import Script from "next/script";
 
-// Font configurations
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-jetbrains-mono",
-});
+// Using system fonts as fallback to avoid network issues
+const fontVariables = "--font-inter: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; --font-jetbrains-mono: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;";
 
 // Viewport configuration
 export const viewport: Viewport = {
@@ -189,22 +178,20 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
       <head>
         {/* Preconnect to external domains for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
         <link rel="preconnect" href="https://api.github.com" />
 
         {/* DNS prefetch for better performance */}
         <link rel="dns-prefetch" href="//github.com" />
         <link rel="dns-prefetch" href="//raw.githubusercontent.com" />
+
+        {/* Font styles */}
+        <style dangerouslySetInnerHTML={{
+          __html: `:root { ${fontVariables} } body { font-family: var(--font-inter); } code, pre { font-family: var(--font-jetbrains-mono); }`
+        }} />
 
         {/* Structured Data for SEO */}
         <script
