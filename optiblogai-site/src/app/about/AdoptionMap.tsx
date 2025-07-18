@@ -5,15 +5,15 @@ import { Globe, MapPin } from 'lucide-react';
 
 const adoptionData = [
   { region: 'Delhi, India', type: 'College' },
-  { region: 'Bangalore, India', type: 'Startup' },
-  { region: 'San Francisco, USA', type: 'Open Source Devs' },
-  { region: 'Hyderabad, India', type: 'Coding Club' },
-  { region: 'Chennai, India', type: 'Tech Community' },
+  // { region: 'Bangalore, India', type: 'Startup' },
+  // { region: 'San Francisco, USA', type: 'Open Source Devs' },
+  // { region: 'Hyderabad, India', type: 'Coding Club' },
+  // { region: 'Chennai, India', type: 'Tech Community' },
 ];
 
 export default function AdoptionMap() {
   return (
-    <section className="py-20 bg-gray-50 px-4 sm:px-6 lg:px-8">
+    <section className="py-20 bg-white px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-5xl font-bold text-gray-900 mb-4">Growing with Communities</h2>
         <p className="text-gray-600 text-lg mb-12">
