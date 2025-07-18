@@ -11,6 +11,8 @@ import type {
   ContributorStats,
   IssueStats,
   ActivityStats,
+  Discussion,
+  CommunityEvent,
   GitHubStatsHookReturn,
   ApiResponse 
 } from '@/types/github';
@@ -283,5 +285,89 @@ export function useContributors() {
     loading,
     error,
     refetch: fetchContributors,
+  };
+}
+
+/**
+ * Hook for fetching GitHub discussions
+ */
+export function useDiscussions() {
+  const [discussions, setDiscussions] = useState<Discussion[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchDiscussions = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/github/discussions');
+      const result: ApiResponse<Discussion[]> = await response.json();
+      
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to fetch discussions');
+      }
+      
+      setDiscussions(result.data || []);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+      setError(errorMessage);
+      console.error('Failed to fetch discussions:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchDiscussions();
+  }, [fetchDiscussions]);
+
+  return {
+    discussions,
+    loading,
+    error,
+    refetch: fetchDiscussions,
+  };
+}
+
+/**
+ * Hook for fetching community events
+ */
+export function useEvents() {
+  const [events, setEvents] = useState<CommunityEvent[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchEvents = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/github/events');
+      const result: ApiResponse<CommunityEvent[]> = await response.json();
+      
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to fetch events');
+      }
+      
+      setEvents(result.data || []);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+      setError(errorMessage);
+      console.error('Failed to fetch events:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents]);
+
+  return {
+    events,
+    loading,
+    error,
+    refetch: fetchEvents,
   };
 }
