@@ -3,115 +3,10 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock, MapPin, Users, ExternalLink, ChevronLeft, ChevronRight, Trophy, Code, Coffee, Zap } from "lucide-react";
+import { useEvents } from "@/hooks/useGitHubStats";
+import { CommunityEvent } from "@/types/github";
 
-interface Event {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  type: "hackathon" | "workshop" | "meetup" | "webinar" | "conference";
-  location: "virtual" | "hybrid" | string;
-  attendees: number;
-  maxAttendees?: number;
-  organizer: string;
-  registrationUrl?: string;
-  tags: string[];
-  featured: boolean;
-}
-
-const EVENTS: Event[] = [
-  {
-    id: "ai-hackathon-2024",
-    title: "AI Content Optimization Hackathon",
-    description: "48-hour hackathon focused on building innovative features for OptiBlogAi. Win amazing prizes and get your contributions merged!",
-    date: "2024-08-15",
-    time: "09:00",
-    type: "hackathon",
-    location: "virtual",
-    attendees: 234,
-    maxAttendees: 500,
-    organizer: "OptiBlogAi Team",
-    registrationUrl: "https://hackathon.optiblogai.com",
-    tags: ["AI", "Hackathon", "Prizes", "48h"],
-    featured: true
-  },
-  {
-    id: "contributing-workshop",
-    title: "Open Source Contributing Workshop",
-    description: "Learn how to contribute to OptiBlogAi and other open source projects. Perfect for beginners!",
-    date: "2024-07-28",
-    time: "14:00",
-    type: "workshop",
-    location: "virtual",
-    attendees: 89,
-    maxAttendees: 100,
-    organizer: "Adarsh Maurya",
-    registrationUrl: "https://workshop.optiblogai.com",
-    tags: ["Workshop", "Beginners", "Git", "GitHub"],
-    featured: true
-  },
-  {
-    id: "seo-optimization-webinar",
-    title: "Advanced SEO Optimization Techniques",
-    description: "Deep dive into SEO optimization strategies using AI and machine learning techniques.",
-    date: "2024-08-05",
-    time: "16:00",
-    type: "webinar",
-    location: "virtual",
-    attendees: 156,
-    maxAttendees: 200,
-    organizer: "SEO Expert Panel",
-    registrationUrl: "https://webinar.optiblogai.com",
-    tags: ["SEO", "AI", "Marketing", "Content"],
-    featured: false
-  },
-  {
-    id: "community-meetup",
-    title: "Monthly Community Meetup",
-    description: "Connect with other contributors, share ideas, and discuss the future of OptiBlogAi.",
-    date: "2024-08-10",
-    time: "18:00",
-    type: "meetup",
-    location: "virtual",
-    attendees: 67,
-    organizer: "Community Team",
-    registrationUrl: "https://meetup.optiblogai.com",
-    tags: ["Community", "Networking", "Discussion"],
-    featured: false
-  },
-  {
-    id: "ai-conference-talk",
-    title: "OptiBlogAi at AI & Content Summit",
-    description: "Our core team will be presenting OptiBlogAi's architecture and future roadmap at the summit.",
-    date: "2024-09-20",
-    time: "10:30",
-    type: "conference",
-    location: "San Francisco, CA",
-    attendees: 0,
-    organizer: "AI & Content Summit",
-    registrationUrl: "https://aicontentsummit.com",
-    tags: ["Conference", "Speaking", "AI", "Architecture"],
-    featured: true
-  },
-  {
-    id: "code-review-session",
-    title: "Collaborative Code Review Session",
-    description: "Review open PRs together, learn best practices, and improve code quality as a community.",
-    date: "2024-07-30",
-    time: "15:00",
-    type: "workshop",
-    location: "virtual",
-    attendees: 23,
-    maxAttendees: 30,
-    organizer: "Core Contributors",
-    registrationUrl: "https://codereview.optiblogai.com",
-    tags: ["Code Review", "Best Practices", "Learning"],
-    featured: false
-  }
-];
-
-const EventCard: React.FC<{ event: Event; index: number }> = ({ event, index }) => {
+const EventCard: React.FC<{ event: CommunityEvent; index: number }> = ({ event, index }) => {
   const getEventIcon = () => {
     switch (event.type) {
       case "hackathon":
@@ -273,10 +168,11 @@ const EventCard: React.FC<{ event: Event; index: number }> = ({ event, index }) 
 };
 
 const EventCalendar: React.FC = () => {
+  const { events, loading, error } = useEvents();
   const [filter, setFilter] = useState<string>("all");
   const [timeFilter, setTimeFilter] = useState<string>("upcoming");
 
-  const filteredEvents = EVENTS.filter((event) => {
+  const filteredEvents = events.filter((event) => {
     const typeMatch = filter === "all" || event.type === filter;
     const isUpcoming = new Date(event.date) > new Date();
     const isPast = new Date(event.date) < new Date();
@@ -296,8 +192,8 @@ const EventCalendar: React.FC = () => {
     return new Date(a.date).getTime() - new Date(b.date).getTime();
   });
 
-  const upcomingEvents = EVENTS.filter(event => new Date(event.date) > new Date()).length;
-  const pastEvents = EVENTS.filter(event => new Date(event.date) < new Date()).length;
+  const upcomingEvents = events.filter(event => new Date(event.date) > new Date()).length;
+  const pastEvents = events.filter(event => new Date(event.date) < new Date()).length;
 
   const FilterButton: React.FC<{
     active: boolean;
@@ -315,6 +211,37 @@ const EventCalendar: React.FC = () => {
       {children}
     </button>
   );
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="bg-white rounded-2xl p-6 border border-gray-100">
+            <div className="animate-pulse">
+              <div className="flex items-center justify-between mb-4">
+                <div className="h-8 bg-gray-300 rounded-full w-32"></div>
+                <div className="h-6 bg-gray-300 rounded-full w-20"></div>
+              </div>
+              <div className="space-y-3">
+                <div className="h-6 bg-gray-300 rounded w-3/4"></div>
+                <div className="h-4 bg-gray-300 rounded w-full"></div>
+                <div className="h-4 bg-gray-300 rounded w-5/6"></div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-600 mb-4">Failed to load events</p>
+        <p className="text-gray-500">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -451,7 +378,9 @@ const EventCalendar: React.FC = () => {
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <a
-            href="mailto:community@optiblogai.com"
+            href="https://github.com/solve-ease/OptiBlogAi/issues/new?assignees=&labels=event&template=event_proposal.md&title=Event%3A+%5BEvent+Name%5D"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-primary/90 transition-all duration-300 transform hover:scale-105"
           >
             <Calendar className="w-5 h-5" />

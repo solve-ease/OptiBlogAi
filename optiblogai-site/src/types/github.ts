@@ -264,3 +264,49 @@ export interface RepositorySearchResult {
   language: string | null;
   updated_at: string;
 }
+
+// GitHub Discussion information
+export interface Discussion {
+  id: string;
+  title: string;
+  body: string;
+  author: {
+    login: string;
+    avatar_url: string;
+    html_url: string;
+  };
+  category: {
+    name: string;
+    emoji: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+  comments: number;
+  reactions: {
+    total: number;
+    heart: number;
+    thumbsUp: number;
+    rocket: number;
+  };
+  url: string;
+  tags: string[];
+  answered: boolean;
+  featured: boolean;
+}
+
+// Community Event information
+export interface CommunityEvent {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  type: "hackathon" | "workshop" | "meetup" | "webinar" | "conference";
+  location: "virtual" | "hybrid" | string;
+  attendees: number;
+  maxAttendees?: number;
+  organizer: string;
+  registrationUrl?: string;
+  tags: string[];
+  featured: boolean;
+}

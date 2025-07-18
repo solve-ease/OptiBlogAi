@@ -1,175 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { MessageSquare, Heart, Reply, ExternalLink, User, Clock, Tag, Sparkles } from "lucide-react";
-
-interface Discussion {
-  id: string;
-  title: string;
-  body: string;
-  author: {
-    login: string;
-    avatar_url: string;
-    html_url: string;
-  };
-  category: {
-    name: string;
-    emoji: string;
-  };
-  createdAt: string;
-  updatedAt: string;
-  comments: number;
-  reactions: {
-    total: number;
-    heart: number;
-    thumbsUp: number;
-    rocket: number;
-  };
-  url: string;
-  tags: string[];
-  answered: boolean;
-  featured: boolean;
-}
-
-// Mock data for GitHub discussions (in a real app, this would come from GitHub API)
-const MOCK_DISCUSSIONS: Discussion[] = [
-  {
-    id: "1",
-    title: "How to optimize content for voice search using OptiBlogAi?",
-    body: "I'm working on optimizing my blog content for voice search. What are the best practices when using OptiBlogAi for this specific use case? Are there any specific prompts or settings that work better?",
-    author: {
-      login: "sarah-dev",
-      avatar_url: "https://images.unsplash.com/photo-1494790108755-2616b612c75a?w=150&h=150&fit=crop&crop=face",
-      html_url: "https://github.com/sarah-dev"
-    },
-    category: {
-      name: "Q&A",
-      emoji: "❓"
-    },
-    createdAt: "2024-07-15T10:30:00Z",
-    updatedAt: "2024-07-15T14:22:00Z",
-    comments: 8,
-    reactions: {
-      total: 12,
-      heart: 4,
-      thumbsUp: 6,
-      rocket: 2
-    },
-    url: "https://github.com/solve-ease/OptiBlogAi/discussions/123",
-    tags: ["voice-search", "seo", "optimization"],
-    answered: true,
-    featured: true
-  },
-  {
-    id: "2",
-    title: "Feature Request: Multi-language content generation",
-    body: "It would be amazing if OptiBlogAi could generate content in multiple languages. This would really help with international SEO strategies. Has anyone thought about implementing this?",
-    author: {
-      login: "alex-marketer",
-      avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      html_url: "https://github.com/alex-marketer"
-    },
-    category: {
-      name: "Ideas",
-      emoji: "💡"
-    },
-    createdAt: "2024-07-14T16:45:00Z",
-    updatedAt: "2024-07-15T09:15:00Z",
-    comments: 15,
-    reactions: {
-      total: 28,
-      heart: 8,
-      thumbsUp: 15,
-      rocket: 5
-    },
-    url: "https://github.com/solve-ease/OptiBlogAi/discussions/122",
-    tags: ["feature-request", "i18n", "multilingual"],
-    answered: false,
-    featured: true
-  },
-  {
-    id: "3",
-    title: "Sharing my OptiBlogAi workflow for e-commerce blogs",
-    body: "After using OptiBlogAi for 3 months on my e-commerce blog, I've developed a workflow that increased my organic traffic by 150%. Here's what I learned and my step-by-step process...",
-    author: {
-      login: "ecommerce-guru",
-      avatar_url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-      html_url: "https://github.com/ecommerce-guru"
-    },
-    category: {
-      name: "Show and tell",
-      emoji: "🎉"
-    },
-    createdAt: "2024-07-13T12:00:00Z",
-    updatedAt: "2024-07-14T18:30:00Z",
-    comments: 22,
-    reactions: {
-      total: 45,
-      heart: 18,
-      thumbsUp: 20,
-      rocket: 7
-    },
-    url: "https://github.com/solve-ease/OptiBlogAi/discussions/121",
-    tags: ["workflow", "ecommerce", "case-study", "seo"],
-    answered: false,
-    featured: true
-  },
-  {
-    id: "4",
-    title: "Help needed with API integration",
-    body: "I'm trying to integrate OptiBlogAi's API into my content management system. The documentation is great, but I'm having issues with authentication. Has anyone successfully done this?",
-    author: {
-      login: "dev-mike",
-      avatar_url: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face",
-      html_url: "https://github.com/dev-mike"
-    },
-    category: {
-      name: "Q&A",
-      emoji: "❓"
-    },
-    createdAt: "2024-07-12T09:15:00Z",
-    updatedAt: "2024-07-13T11:45:00Z",
-    comments: 6,
-    reactions: {
-      total: 8,
-      heart: 2,
-      thumbsUp: 5,
-      rocket: 1
-    },
-    url: "https://github.com/solve-ease/OptiBlogAi/discussions/120",
-    tags: ["api", "integration", "authentication"],
-    answered: true,
-    featured: false
-  },
-  {
-    id: "5",
-    title: "Monthly Community Challenge: Best Blog Post of July",
-    body: "Welcome to our monthly community challenge! Share your best blog post created with OptiBlogAi this month. Winner gets featured on our homepage and receives exclusive swag! 🏆",
-    author: {
-      login: "community-team",
-      avatar_url: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-      html_url: "https://github.com/community-team"
-    },
-    category: {
-      name: "General",
-      emoji: "💬"
-    },
-    createdAt: "2024-07-01T00:00:00Z",
-    updatedAt: "2024-07-15T16:00:00Z",
-    comments: 34,
-    reactions: {
-      total: 67,
-      heart: 25,
-      thumbsUp: 30,
-      rocket: 12
-    },
-    url: "https://github.com/solve-ease/OptiBlogAi/discussions/119",
-    tags: ["challenge", "community", "contest"],
-    answered: false,
-    featured: false
-  }
-];
+import { useDiscussions } from "@/hooks/useGitHubStats";
+import { Discussion } from "@/types/github";
 
 const DiscussionCard: React.FC<{ discussion: Discussion; index: number }> = ({ 
   discussion, 
@@ -268,7 +103,7 @@ const DiscussionCard: React.FC<{ discussion: Discussion; index: number }> = ({
       </p>
 
       {/* Tags */}
-      {discussion.tags.length > 0 && (
+      {discussion.tags && discussion.tags.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-4">
           {discussion.tags.map((tag) => (
             <span
@@ -327,22 +162,8 @@ const CategoryButton: React.FC<{
 );
 
 const DiscussionFeed: React.FC = () => {
-  const [discussions, setDiscussions] = useState<Discussion[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { discussions, loading, error } = useDiscussions();
   const [filter, setFilter] = useState<string>("all");
-
-  useEffect(() => {
-    // Simulate API call
-    const loadDiscussions = async () => {
-      setLoading(true);
-      // In a real app, this would be an actual API call to GitHub Discussions
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setDiscussions(MOCK_DISCUSSIONS);
-      setLoading(false);
-    };
-
-    loadDiscussions();
-  }, []);
 
   const filteredDiscussions = discussions.filter(discussion => {
     if (filter === "all") return true;
@@ -380,6 +201,15 @@ const DiscussionFeed: React.FC = () => {
             </div>
           </div>
         ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-600 mb-4">Failed to load discussions</p>
+        <p className="text-gray-500">{error}</p>
       </div>
     );
   }
