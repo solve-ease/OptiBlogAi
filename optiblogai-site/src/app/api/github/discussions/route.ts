@@ -1,41 +1,19 @@
 /**
  * GitHub Repository Discussions API Route
  * GET /api/github/discussions
+ * 
+ * Note: GitHub Discussions API requires GraphQL and authentication.
+ * As a fallback, this implementation uses GitHub Issues with "discussion" label
+ * to simulate discussions functionality for public repositories.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { Discussion } from '@/types/github';
 
 // GitHub GraphQL endpoint for discussions
 const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql';
 const REPO_OWNER = 'solve-ease';
 const REPO_NAME = 'OptiBlogAi';
-
-interface Discussion {
-  id: string;
-  title: string;
-  body: string;
-  author: {
-    login: string;
-    avatar_url: string;
-    html_url: string;
-  };
-  category: {
-    name: string;
-    emoji: string;
-  };
-  createdAt: string;
-  updatedAt: string;
-  comments: number;
-  reactions: {
-    total: number;
-    heart: number;
-    thumbsUp: number;
-    rocket: number;
-  };
-  url: string;
-  answered: boolean;
-  featured: boolean;
-}
 
 // GraphQL query to fetch discussions
 const DISCUSSIONS_QUERY = `
@@ -103,6 +81,7 @@ const FALLBACK_DISCUSSIONS: Discussion[] = [
       rocket: 2
     },
     url: "https://github.com/solve-ease/OptiBlogAi/discussions",
+    tags: ["voice-search", "seo", "optimization"],
     answered: true,
     featured: true
   },
@@ -129,6 +108,7 @@ const FALLBACK_DISCUSSIONS: Discussion[] = [
       rocket: 5
     },
     url: "https://github.com/solve-ease/OptiBlogAi/discussions",
+    tags: ["feature-request", "multilingual", "i18n"],
     answered: false,
     featured: true
   },
@@ -155,6 +135,7 @@ const FALLBACK_DISCUSSIONS: Discussion[] = [
       rocket: 7
     },
     url: "https://github.com/solve-ease/OptiBlogAi/discussions",
+    tags: ["success-story", "workflow", "e-commerce", "seo"],
     answered: false,
     featured: true
   }
@@ -162,9 +143,14 @@ const FALLBACK_DISCUSSIONS: Discussion[] = [
 
 async function fetchDiscussionsFromGitHub(): Promise<Discussion[]> {
   try {
-    // Note: GitHub Discussions API requires authentication for GraphQL
-    // For public access, we'll try the REST API approach first
-    const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/discussions`, {
+    // Note: GitHub Discussions API requires GraphQL API or specific endpoints
+    // The REST API endpoint for discussions doesn't exist for public repos
+    // We'll attempt to use GitHub Issues as a proxy for discussions
+    // or use the GraphQL API if available (requires authentication)
+    
+    // First, try the GraphQL approach (if we had authentication)
+    // For now, we'll use a fallback approach with issues that are tagged as discussions
+    const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues?labels=discussion&state=all&sort=updated&per_page=10`, {
       headers: {
         'Accept': 'application/vnd.github.v3+json',
         'User-Agent': 'OptiBlogAi-Website/1.0.0',
@@ -175,39 +161,76 @@ async function fetchDiscussionsFromGitHub(): Promise<Discussion[]> {
       throw new Error(`GitHub API responded with status ${response.status}`);
     }
 
-    const discussions = await response.json();
+    const issues = await response.json();
     
-    // Transform GitHub discussions to our format
-    return discussions.map((discussion: any) => ({
-      id: discussion.id.toString(),
-      title: discussion.title,
-      body: discussion.body || '',
+    // Transform GitHub issues to discussions format
+    return issues.map((issue: any) => ({
+      id: issue.id.toString(),
+      title: issue.title,
+      body: issue.body || '',
       author: {
-        login: discussion.user?.login || 'unknown',
-        avatar_url: discussion.user?.avatar_url || '',
-        html_url: discussion.user?.html_url || '',
+        login: issue.user?.login || 'unknown',
+        avatar_url: issue.user?.avatar_url || '',
+        html_url: issue.user?.html_url || '',
       },
       category: {
-        name: discussion.category?.name || 'General',
-        emoji: discussion.category?.emoji || '💬',
+        name: determineCategory(issue.labels),
+        emoji: getCategoryEmoji(issue.labels),
       },
-      createdAt: discussion.created_at,
-      updatedAt: discussion.updated_at,
-      comments: discussion.comments || 0,
+      createdAt: issue.created_at,
+      updatedAt: issue.updated_at,
+      comments: issue.comments || 0,
       reactions: {
-        total: discussion.reactions?.total_count || 0,
-        heart: discussion.reactions?.heart || 0,
-        thumbsUp: discussion.reactions?.['+1'] || 0,
-        rocket: discussion.reactions?.rocket || 0,
+        total: issue.reactions?.total_count || 0,
+        heart: issue.reactions?.heart || 0,
+        thumbsUp: issue.reactions?.['+1'] || 0,
+        rocket: issue.reactions?.rocket || 0,
       },
-      url: discussion.html_url,
-      answered: !!discussion.answer_chosen_at,
-      featured: discussion.pinned || false,
+      url: issue.html_url,
+      tags: extractTags(issue.labels),
+      answered: issue.state === 'closed',
+      featured: issue.labels?.some((label: any) => label.name === 'featured') || false,
     }));
   } catch (error) {
     console.error('Failed to fetch discussions from GitHub:', error);
     throw error;
   }
+}
+
+// Helper function to determine category from labels
+function determineCategory(labels: any[]): string {
+  if (!labels) return 'General';
+  
+  for (const label of labels) {
+    const name = label.name?.toLowerCase();
+    if (name === 'question' || name === 'q&a') return 'Q&A';
+    if (name === 'enhancement' || name === 'feature' || name === 'idea') return 'Ideas';
+    if (name === 'showcase' || name === 'show-and-tell') return 'Show and tell';
+  }
+  return 'General';
+}
+
+// Helper function to get category emoji
+function getCategoryEmoji(labels: any[]): string {
+  if (!labels) return '💬';
+  
+  for (const label of labels) {
+    const name = label.name?.toLowerCase();
+    if (name === 'question' || name === 'q&a') return '❓';
+    if (name === 'enhancement' || name === 'feature' || name === 'idea') return '💡';
+    if (name === 'showcase' || name === 'show-and-tell') return '🎉';
+  }
+  return '💬';
+}
+
+// Helper function to extract tags from labels
+function extractTags(labels: any[]): string[] {
+  if (!labels) return [];
+  
+  return labels
+    .filter((label: any) => !['discussion', 'question', 'enhancement', 'feature', 'showcase', 'featured'].includes(label.name?.toLowerCase()))
+    .map((label: any) => label.name)
+    .slice(0, 5); // Limit to 5 tags
 }
 
 export async function GET(request: NextRequest) {
