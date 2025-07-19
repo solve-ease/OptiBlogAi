@@ -3,7 +3,15 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useContributors } from "@/hooks/useGitHubStats";
-import { Star, GitCommit, Award, ExternalLink, MapPin, Building2, Github } from "lucide-react";
+import {
+  Star,
+  GitCommit,
+  Award,
+  ExternalLink,
+  MapPin,
+  Building2,
+  Github,
+} from "lucide-react";
 import { ContributorStats } from "@/types/github";
 
 interface ContributorCardProps {
@@ -12,10 +20,10 @@ interface ContributorCardProps {
   isTopContributor: boolean;
 }
 
-const ContributorCard: React.FC<ContributorCardProps> = ({ 
-  contributor, 
-  rank, 
-  isTopContributor 
+const ContributorCard: React.FC<ContributorCardProps> = ({
+  contributor,
+  rank,
+  isTopContributor,
 }) => {
   const cardVariants = {
     hidden: { opacity: 0, y: 50, scale: 0.9 },
@@ -26,17 +34,17 @@ const ContributorCard: React.FC<ContributorCardProps> = ({
       transition: {
         duration: 0.5,
         delay: rank * 0.1,
-        ease: "easeOut" as const
-      }
+        ease: "easeOut" as const,
+      },
     },
     hover: {
       y: -8,
       scale: 1.02,
       transition: {
         duration: 0.2,
-        ease: "easeInOut" as const
-      }
-    }
+        ease: "easeInOut" as const,
+      },
+    },
   };
 
   const getBadgeColor = (rank: number) => {
@@ -52,10 +60,14 @@ const ContributorCard: React.FC<ContributorCardProps> = ({
   };
 
   const getContributionLevel = (contributions: number) => {
-    if (contributions >= 100) return { level: "Champion", color: "text-yellow-600" };
-    if (contributions >= 50) return { level: "Expert", color: "text-purple-600" };
-    if (contributions >= 20) return { level: "Advanced", color: "text-blue-600" };
-    if (contributions >= 10) return { level: "Intermediate", color: "text-green-600" };
+    if (contributions >= 100)
+      return { level: "Champion", color: "text-yellow-600" };
+    if (contributions >= 50)
+      return { level: "Expert", color: "text-purple-600" };
+    if (contributions >= 20)
+      return { level: "Advanced", color: "text-blue-600" };
+    if (contributions >= 10)
+      return { level: "Intermediate", color: "text-green-600" };
     return { level: "Beginner", color: "text-gray-600" };
   };
 
@@ -73,7 +85,9 @@ const ContributorCard: React.FC<ContributorCardProps> = ({
     >
       {/* Rank Badge */}
       <div className="absolute -top-3 -left-3">
-        <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${getBadgeColor(rank)} flex items-center justify-center text-white font-bold shadow-lg`}>
+        <div
+          className={`w-12 h-12 rounded-full bg-gradient-to-r ${getBadgeColor(rank)} flex items-center justify-center text-white font-bold shadow-lg`}
+        >
           {rank <= 3 ? getRankIcon(rank) : rank}
         </div>
       </div>
@@ -81,7 +95,7 @@ const ContributorCard: React.FC<ContributorCardProps> = ({
       {/* Top Contributor Badge */}
       {isTopContributor && (
         <div className="absolute -top-2 -right-2">
-          <div className="bg-gradient-to-r from-primary to-secondary text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+          <div className="bg-gradient-to-r from-[color] to-secondary text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
             <Star className="w-3 h-3 fill-current" />
             Top Contributor
           </div>
@@ -107,7 +121,9 @@ const ContributorCard: React.FC<ContributorCardProps> = ({
             {contributor.name || contributor.login}
           </h3>
           <p className="text-gray-500 text-sm">@{contributor.login}</p>
-          <span className={`inline-block text-xs font-semibold px-2 py-1 rounded-full bg-gray-100 mt-2 ${color}`}>
+          <span
+            className={`inline-block text-xs font-semibold px-2 py-1 rounded-full bg-gray-100 mt-2 ${color}`}
+          >
             {level}
           </span>
         </div>
@@ -126,14 +142,18 @@ const ContributorCard: React.FC<ContributorCardProps> = ({
               <GitCommit className="w-4 h-4 text-primary mr-1" />
               <span className="text-xs text-gray-500">Contributions</span>
             </div>
-            <p className="text-lg font-bold text-primary">{contributor.contributions}</p>
+            <p className="text-lg font-bold text-primary">
+              {contributor.contributions}
+            </p>
           </div>
           <div className="bg-secondary/5 rounded-lg p-3 text-center">
             <div className="flex items-center justify-center mb-1">
               <Star className="w-4 h-4 text-secondary mr-1" />
               <span className="text-xs text-gray-500">Commits</span>
             </div>
-            <p className="text-lg font-bold text-secondary">{contributor.commits}</p>
+            <p className="text-lg font-bold text-secondary">
+              {contributor.commits}
+            </p>
           </div>
         </div>
 
@@ -210,9 +230,9 @@ const ContributorLeaderboard: React.FC = () => {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
+        delayChildren: 0.2,
+      },
+    },
   };
 
   return (
@@ -224,17 +244,17 @@ const ContributorLeaderboard: React.FC = () => {
         transition={{ duration: 0.6 }}
         className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
       >
-        <div className="bg-gradient-to-r from-primary to-primary/80 text-white rounded-2xl p-6 text-center">
+        <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary)/80] text-white rounded-2xl p-6 text-center">
           <h3 className="text-3xl font-bold mb-2">{contributors.length}</h3>
           <p className="text-primary-100">Total Contributors</p>
         </div>
-        <div className="bg-gradient-to-r from-secondary to-secondary/80 text-white rounded-2xl p-6 text-center">
+        <div className="bg-gradient-to-r from-[var(--color-secondary)] to-[var(--color-secondary)/80] text-white rounded-2xl p-6 text-center">
           <h3 className="text-3xl font-bold mb-2">
             {contributors.reduce((sum, c) => sum + c.contributions, 0)}
           </h3>
           <p className="text-secondary-100">Total Contributions</p>
         </div>
-        <div className="bg-gradient-to-r from-accent to-accent/80 text-white rounded-2xl p-6 text-center">
+        <div className="bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent)/80] text-white rounded-2xl p-6 text-center">
           <h3 className="text-3xl font-bold mb-2">
             {contributors.reduce((sum, c) => sum + c.commits, 0)}
           </h3>

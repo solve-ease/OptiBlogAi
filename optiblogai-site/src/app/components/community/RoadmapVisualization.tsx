@@ -2,7 +2,17 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle, Circle, Clock, Calendar, Users, Target, Zap, Code, Sparkles } from "lucide-react";
+import {
+  CheckCircle,
+  Circle,
+  Clock,
+  Calendar,
+  Users,
+  Target,
+  Zap,
+  Code,
+  Sparkles,
+} from "lucide-react";
 
 interface RoadmapItem {
   id: string;
@@ -22,7 +32,8 @@ const ROADMAP_DATA: RoadmapItem[] = [
   {
     id: "ai-core",
     title: "Core AI Engine",
-    description: "Advanced natural language processing and content generation algorithms",
+    description:
+      "Advanced natural language processing and content generation algorithms",
     status: "completed",
     category: "features",
     startDate: "2024-01-15",
@@ -30,7 +41,7 @@ const ROADMAP_DATA: RoadmapItem[] = [
     progress: 100,
     contributors: 5,
     priority: "high",
-    tags: ["AI", "NLP", "Core"]
+    tags: ["AI", "NLP", "Core"],
   },
   {
     id: "seo-optimization",
@@ -43,7 +54,7 @@ const ROADMAP_DATA: RoadmapItem[] = [
     progress: 100,
     contributors: 3,
     priority: "high",
-    tags: ["SEO", "Analytics", "Tools"]
+    tags: ["SEO", "Analytics", "Tools"],
   },
   {
     id: "web-interface",
@@ -56,7 +67,7 @@ const ROADMAP_DATA: RoadmapItem[] = [
     progress: 75,
     contributors: 4,
     priority: "high",
-    tags: ["Frontend", "UI/UX", "React"]
+    tags: ["Frontend", "UI/UX", "React"],
   },
   {
     id: "api-v2",
@@ -69,7 +80,7 @@ const ROADMAP_DATA: RoadmapItem[] = [
     progress: 60,
     contributors: 3,
     priority: "high",
-    tags: ["API", "Backend", "Performance"]
+    tags: ["API", "Backend", "Performance"],
   },
   {
     id: "plugins",
@@ -82,7 +93,7 @@ const ROADMAP_DATA: RoadmapItem[] = [
     progress: 0,
     contributors: 0,
     priority: "medium",
-    tags: ["Plugins", "Extensions", "Architecture"]
+    tags: ["Plugins", "Extensions", "Architecture"],
   },
   {
     id: "mobile-app",
@@ -95,7 +106,7 @@ const ROADMAP_DATA: RoadmapItem[] = [
     progress: 0,
     contributors: 0,
     priority: "medium",
-    tags: ["Mobile", "iOS", "Android"]
+    tags: ["Mobile", "iOS", "Android"],
   },
   {
     id: "community-platform",
@@ -108,7 +119,7 @@ const ROADMAP_DATA: RoadmapItem[] = [
     progress: 40,
     contributors: 6,
     priority: "medium",
-    tags: ["Community", "Collaboration", "Social"]
+    tags: ["Community", "Collaboration", "Social"],
   },
   {
     id: "documentation",
@@ -121,11 +132,14 @@ const ROADMAP_DATA: RoadmapItem[] = [
     progress: 70,
     contributors: 2,
     priority: "high",
-    tags: ["Docs", "Tutorials", "API"]
-  }
+    tags: ["Docs", "Tutorials", "API"],
+  },
 ];
 
-const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({ item, index }) => {
+const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({
+  item,
+  index,
+}) => {
   const getStatusIcon = () => {
     switch (item.status) {
       case "completed":
@@ -190,7 +204,9 @@ const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({ item, ind
             </span>
           </div>
         </div>
-        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getPriorityColor()}`}>
+        <span
+          className={`px-2 py-1 rounded-full text-xs font-semibold ${getPriorityColor()}`}
+        >
           {item.priority}
         </span>
       </div>
@@ -204,11 +220,13 @@ const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({ item, ind
         <div className="mb-4">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium text-gray-700">Progress</span>
-            <span className="text-sm font-bold text-gray-900">{item.progress}%</span>
+            <span className="text-sm font-bold text-gray-900">
+              {item.progress}%
+            </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <motion.div
-              className="bg-gradient-to-r from-primary to-secondary h-2 rounded-full"
+              className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] h-2 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${item.progress}%` }}
               transition={{ duration: 1, delay: index * 0.1 }}
@@ -231,7 +249,8 @@ const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({ item, ind
       <div className="flex items-center gap-2 mb-4">
         <Users className="w-4 h-4 text-gray-500" />
         <span className="text-sm text-gray-600">
-          {item.contributors} {item.contributors === 1 ? "contributor" : "contributors"}
+          {item.contributors}{" "}
+          {item.contributors === 1 ? "contributor" : "contributors"}
         </span>
       </div>
 
@@ -278,10 +297,15 @@ const RoadmapVisualization: React.FC = () => {
   });
 
   const stats = {
-    completed: ROADMAP_DATA.filter(item => item.status === "completed").length,
-    inProgress: ROADMAP_DATA.filter(item => item.status === "in-progress").length,
-    planned: ROADMAP_DATA.filter(item => item.status === "planned").length,
-    totalContributors: ROADMAP_DATA.reduce((sum, item) => sum + item.contributors, 0)
+    completed: ROADMAP_DATA.filter((item) => item.status === "completed")
+      .length,
+    inProgress: ROADMAP_DATA.filter((item) => item.status === "in-progress")
+      .length,
+    planned: ROADMAP_DATA.filter((item) => item.status === "planned").length,
+    totalContributors: ROADMAP_DATA.reduce(
+      (sum, item) => sum + item.contributors,
+      0,
+    ),
   };
 
   return (
@@ -295,12 +319,16 @@ const RoadmapVisualization: React.FC = () => {
       >
         <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
           <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-2 fill-current" />
-          <h3 className="text-2xl font-bold text-green-700">{stats.completed}</h3>
+          <h3 className="text-2xl font-bold text-green-700">
+            {stats.completed}
+          </h3>
           <p className="text-green-600 text-sm">Completed</p>
         </div>
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
           <Clock className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-          <h3 className="text-2xl font-bold text-blue-700">{stats.inProgress}</h3>
+          <h3 className="text-2xl font-bold text-blue-700">
+            {stats.inProgress}
+          </h3>
           <p className="text-blue-600 text-sm">In Progress</p>
         </div>
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center">
@@ -310,7 +338,9 @@ const RoadmapVisualization: React.FC = () => {
         </div>
         <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 text-center">
           <Users className="w-8 h-8 text-primary mx-auto mb-2" />
-          <h3 className="text-2xl font-bold text-primary">{stats.totalContributors}</h3>
+          <h3 className="text-2xl font-bold text-primary">
+            {stats.totalContributors}
+          </h3>
           <p className="text-primary text-sm">Contributors</p>
         </div>
       </motion.div>
@@ -323,7 +353,9 @@ const RoadmapVisualization: React.FC = () => {
         className="space-y-4"
       >
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Filter by Category</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            Filter by Category
+          </h3>
           <div className="flex flex-wrap gap-2">
             <FilterButton
               active={filter === "all"}
@@ -363,7 +395,9 @@ const RoadmapVisualization: React.FC = () => {
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Filter by Status</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            Filter by Status
+          </h3>
           <div className="flex flex-wrap gap-2">
             <FilterButton
               active={statusFilter === "all"}
@@ -397,10 +431,7 @@ const RoadmapVisualization: React.FC = () => {
       </motion.div>
 
       {/* Roadmap Items */}
-      <motion.div
-        layout
-        className="grid grid-cols-1 md:grid-cols-2 gap-6"
-      >
+      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {filteredItems.map((item, index) => (
           <RoadmapCard key={item.id} item={item} index={index} />
         ))}
@@ -412,7 +443,9 @@ const RoadmapVisualization: React.FC = () => {
           animate={{ opacity: 1 }}
           className="text-center py-12"
         >
-          <p className="text-gray-500 text-lg">No items match the current filters</p>
+          <p className="text-gray-500 text-lg">
+            No items match the current filters
+          </p>
         </motion.div>
       )}
 
@@ -427,7 +460,8 @@ const RoadmapVisualization: React.FC = () => {
           Want to contribute to our roadmap?
         </h3>
         <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-          Join our community and help shape the future of OptiBlogAi. Every contribution matters!
+          Join our community and help shape the future of OptiBlogAi. Every
+          contribution matters!
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <a

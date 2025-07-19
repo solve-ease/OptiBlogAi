@@ -13,7 +13,7 @@ const CommunityPage: React.FC = () => {
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, ease: "easeOut" }
+    transition: { duration: 0.6, ease: "easeOut" },
   };
 
   const staggerContainer = {
@@ -21,8 +21,8 @@ const CommunityPage: React.FC = () => {
       transition: {
         staggerChildren: 0.1,
         delayChildren: 0.3,
-      }
-    }
+      },
+    },
   };
 
   return (
@@ -30,7 +30,7 @@ const CommunityPage: React.FC = () => {
       {/* Hero Section */}
       <section className="relative py-20 px-4 overflow-hidden">
         {/* Background Elements */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary)]/5 via-[var(--color-secondary)]/5 to-[var(--color-accent)]/5"></div>
         <motion.div
           className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
           animate={{
@@ -41,7 +41,7 @@ const CommunityPage: React.FC = () => {
           transition={{
             duration: 20,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
         <motion.div
@@ -54,7 +54,7 @@ const CommunityPage: React.FC = () => {
           transition={{
             duration: 25,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
 
@@ -67,15 +67,18 @@ const CommunityPage: React.FC = () => {
           >
             <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-sm border border-primary/20 rounded-full px-6 py-3 mb-6">
               <Users className="w-5 h-5 text-primary" />
-              <span className="text-primary font-medium">Open Source Community</span>
+              <span className="text-primary font-medium">
+                Open Source Community
+              </span>
             </div>
-            
-            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent mb-6">
+
+            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-secondary)] to-[var(--color-accent)] bg-clip-text text-transparent mb-6">
               Join Our Community
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Connect with developers, contribute to the future of AI-powered content optimization, and be part of the open-source revolution.
+              Connect with developers, contribute to the future of AI-powered
+              content optimization, and be part of the open-source revolution.
             </p>
           </motion.div>
 
@@ -189,7 +192,7 @@ const CommunityPage: React.FC = () => {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="relative py-20 px-4 bg-gradient-to-r from-primary via-secondary to-accent"
+        className="relative py-20 px-4 bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-secondary)] to-[var(--color-accent)]"
       >
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="relative max-w-4xl mx-auto text-center text-white">
@@ -197,7 +200,8 @@ const CommunityPage: React.FC = () => {
             Ready to Contribute?
           </h2>
           <p className="text-xl md:text-2xl mb-8 opacity-90">
-            Help us build the future of AI-powered content optimization. Every contribution matters!
+            Help us build the future of AI-powered content optimization. Every
+            contribution matters!
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a

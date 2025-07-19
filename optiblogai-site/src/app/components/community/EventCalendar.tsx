@@ -2,11 +2,26 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Calendar, Clock, MapPin, Users, ExternalLink, ChevronLeft, ChevronRight, Trophy, Code, Coffee, Zap } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  MapPin,
+  Users,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+  Trophy,
+  Code,
+  Coffee,
+  Zap,
+} from "lucide-react";
 import { useEvents } from "@/hooks/useGitHubStats";
 import { CommunityEvent } from "@/types/github";
 
-const EventCard: React.FC<{ event: CommunityEvent; index: number }> = ({ event, index }) => {
+const EventCard: React.FC<{ event: CommunityEvent; index: number }> = ({
+  event,
+  index,
+}) => {
   const getEventIcon = () => {
     switch (event.type) {
       case "hackathon":
@@ -38,11 +53,11 @@ const EventCard: React.FC<{ event: CommunityEvent; index: number }> = ({ event, 
   };
 
   const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
+    return new Date(date).toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
     });
   };
 
@@ -61,7 +76,7 @@ const EventCard: React.FC<{ event: CommunityEvent; index: number }> = ({ event, 
       {/* Featured Badge */}
       {event.featured && (
         <div className="absolute -top-3 -right-3">
-          <div className="bg-gradient-to-r from-primary to-secondary text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+          <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
             <Trophy className="w-3 h-3" />
             Featured
           </div>
@@ -70,7 +85,9 @@ const EventCard: React.FC<{ event: CommunityEvent; index: number }> = ({ event, 
 
       {/* Event Type Badge */}
       <div className="flex items-center justify-between mb-4">
-        <div className={`inline-flex items-center gap-2 bg-gradient-to-r ${getEventColor()} text-white px-3 py-1 rounded-full text-sm font-medium`}>
+        <div
+          className={`inline-flex items-center gap-2 bg-gradient-to-r ${getEventColor()} text-white px-3 py-1 rounded-full text-sm font-medium`}
+        >
           {getEventIcon()}
           <span className="capitalize">{event.type}</span>
         </div>
@@ -87,9 +104,7 @@ const EventCard: React.FC<{ event: CommunityEvent; index: number }> = ({ event, 
       </h3>
 
       {/* Event Description */}
-      <p className="text-gray-600 mb-4 line-clamp-3">
-        {event.description}
-      </p>
+      <p className="text-gray-600 mb-4 line-clamp-3">{event.description}</p>
 
       {/* Event Details */}
       <div className="space-y-3 mb-6">
@@ -108,15 +123,17 @@ const EventCard: React.FC<{ event: CommunityEvent; index: number }> = ({ event, 
         <div className="flex items-center gap-2 text-sm text-gray-600">
           <Users className="w-4 h-4 text-primary" />
           <span>
-            {event.attendees} 
+            {event.attendees}
             {event.maxAttendees && ` / ${event.maxAttendees}`} attendees
           </span>
           {event.maxAttendees && (
             <div className="flex-1 max-w-24">
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
+                <div
                   className="bg-primary h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${(event.attendees / event.maxAttendees) * 100}%` }}
+                  style={{
+                    width: `${(event.attendees / event.maxAttendees) * 100}%`,
+                  }}
                 />
               </div>
             </div>
@@ -172,28 +189,34 @@ const EventCalendar: React.FC = () => {
   const [filter, setFilter] = useState<string>("all");
   const [timeFilter, setTimeFilter] = useState<string>("upcoming");
 
-  const filteredEvents = events.filter((event) => {
-    const typeMatch = filter === "all" || event.type === filter;
-    const isUpcoming = new Date(event.date) > new Date();
-    const isPast = new Date(event.date) < new Date();
-    
-    let timeMatch = true;
-    if (timeFilter === "upcoming") {
-      timeMatch = isUpcoming;
-    } else if (timeFilter === "past") {
-      timeMatch = isPast;
-    }
-    
-    return typeMatch && timeMatch;
-  }).sort((a, b) => {
-    if (timeFilter === "past") {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    }
-    return new Date(a.date).getTime() - new Date(b.date).getTime();
-  });
+  const filteredEvents = events
+    .filter((event) => {
+      const typeMatch = filter === "all" || event.type === filter;
+      const isUpcoming = new Date(event.date) > new Date();
+      const isPast = new Date(event.date) < new Date();
 
-  const upcomingEvents = events.filter(event => new Date(event.date) > new Date()).length;
-  const pastEvents = events.filter(event => new Date(event.date) < new Date()).length;
+      let timeMatch = true;
+      if (timeFilter === "upcoming") {
+        timeMatch = isUpcoming;
+      } else if (timeFilter === "past") {
+        timeMatch = isPast;
+      }
+
+      return typeMatch && timeMatch;
+    })
+    .sort((a, b) => {
+      if (timeFilter === "past") {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    });
+
+  const upcomingEvents = events.filter(
+    (event) => new Date(event.date) > new Date(),
+  ).length;
+  const pastEvents = events.filter(
+    (event) => new Date(event.date) < new Date(),
+  ).length;
 
   const FilterButton: React.FC<{
     active: boolean;
@@ -216,7 +239,10 @@ const EventCalendar: React.FC = () => {
     return (
       <div className="space-y-6">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="bg-white rounded-2xl p-6 border border-gray-100">
+          <div
+            key={i}
+            className="bg-white rounded-2xl p-6 border border-gray-100"
+          >
             <div className="animate-pulse">
               <div className="flex items-center justify-between mb-4">
                 <div className="h-8 bg-gray-300 rounded-full w-32"></div>
@@ -270,7 +296,9 @@ const EventCalendar: React.FC = () => {
         className="space-y-4"
       >
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Event Type</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            Event Type
+          </h3>
           <div className="flex flex-wrap gap-2">
             <FilterButton
               active={filter === "all"}
@@ -342,10 +370,7 @@ const EventCalendar: React.FC = () => {
       </motion.div>
 
       {/* Events Grid */}
-      <motion.div
-        layout
-        className="grid grid-cols-1 gap-6"
-      >
+      <motion.div layout className="grid grid-cols-1 gap-6">
         {filteredEvents.map((event, index) => (
           <EventCard key={event.id} event={event} index={index} />
         ))}
@@ -358,7 +383,9 @@ const EventCalendar: React.FC = () => {
           className="text-center py-12"
         >
           <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg">No events match the current filters</p>
+          <p className="text-gray-500 text-lg">
+            No events match the current filters
+          </p>
         </motion.div>
       )}
 
@@ -373,8 +400,9 @@ const EventCalendar: React.FC = () => {
           Want to organize an event?
         </h3>
         <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-          Help grow the OptiBlogAi community by organizing workshops, meetups, or hackathons. 
-          We&apos;ll provide support and resources to make your event successful!
+          Help grow the OptiBlogAi community by organizing workshops, meetups,
+          or hackathons. We&apos;ll provide support and resources to make your
+          event successful!
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <a

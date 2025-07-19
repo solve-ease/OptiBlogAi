@@ -2,13 +2,22 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { MessageSquare, Heart, Reply, ExternalLink, User, Clock, Tag, Sparkles } from "lucide-react";
+import {
+  MessageSquare,
+  Heart,
+  Reply,
+  ExternalLink,
+  User,
+  Clock,
+  Tag,
+  Sparkles,
+} from "lucide-react";
 import { useDiscussions } from "@/hooks/useGitHubStats";
 import { Discussion } from "@/types/github";
 
-const DiscussionCard: React.FC<{ discussion: Discussion; index: number }> = ({ 
-  discussion, 
-  index 
+const DiscussionCard: React.FC<{ discussion: Discussion; index: number }> = ({
+  discussion,
+  index,
 }) => {
   const timeAgo = (date: string) => {
     const now = new Date();
@@ -18,11 +27,11 @@ const DiscussionCard: React.FC<{ discussion: Discussion; index: number }> = ({
     const diffDays = Math.floor(diffHrs / 24);
 
     if (diffDays > 0) {
-      return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+      return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
     } else if (diffHrs > 0) {
-      return `${diffHrs} hour${diffHrs > 1 ? 's' : ''} ago`;
+      return `${diffHrs} hour${diffHrs > 1 ? "s" : ""} ago`;
     } else {
-      return 'Just now';
+      return "Just now";
     }
   };
 
@@ -69,7 +78,7 @@ const DiscussionCard: React.FC<{ discussion: Discussion; index: number }> = ({
                 @{discussion.author.login}
               </a>
               {discussion.featured && (
-                <span className="bg-gradient-to-r from-primary to-secondary text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
                   <Sparkles className="w-3 h-3" />
                   Featured
                 </span>
@@ -78,7 +87,9 @@ const DiscussionCard: React.FC<{ discussion: Discussion; index: number }> = ({
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <Clock className="w-3 h-3" />
               <span>{timeAgo(discussion.createdAt)}</span>
-              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor()}`}>
+              <span
+                className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor()}`}
+              >
                 {discussion.category.emoji} {discussion.category.name}
               </span>
             </div>
@@ -98,9 +109,7 @@ const DiscussionCard: React.FC<{ discussion: Discussion; index: number }> = ({
       </h3>
 
       {/* Body Preview */}
-      <p className="text-gray-600 mb-4 line-clamp-3">
-        {discussion.body}
-      </p>
+      <p className="text-gray-600 mb-4 line-clamp-3">{discussion.body}</p>
 
       {/* Tags */}
       {discussion.tags && discussion.tags.length > 0 && (
@@ -165,7 +174,7 @@ const DiscussionFeed: React.FC = () => {
   const { discussions, loading, error } = useDiscussions();
   const [filter, setFilter] = useState<string>("all");
 
-  const filteredDiscussions = discussions.filter(discussion => {
+  const filteredDiscussions = discussions.filter((discussion) => {
     if (filter === "all") return true;
     if (filter === "featured") return discussion.featured;
     if (filter === "answered") return discussion.answered;
@@ -175,16 +184,19 @@ const DiscussionFeed: React.FC = () => {
 
   const stats = {
     total: discussions.length,
-    answered: discussions.filter(d => d.answered).length,
-    featured: discussions.filter(d => d.featured).length,
-    totalComments: discussions.reduce((sum, d) => sum + d.comments, 0)
+    answered: discussions.filter((d) => d.answered).length,
+    featured: discussions.filter((d) => d.featured).length,
+    totalComments: discussions.reduce((sum, d) => sum + d.comments, 0),
   };
 
   if (loading) {
     return (
       <div className="space-y-6">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="bg-white rounded-xl p-6 border border-gray-200">
+          <div
+            key={i}
+            className="bg-white rounded-xl p-6 border border-gray-200"
+          >
             <div className="animate-pulse">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
@@ -228,15 +240,21 @@ const DiscussionFeed: React.FC = () => {
           <p className="text-primary text-sm">Discussions</p>
         </div>
         <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-          <h3 className="text-2xl font-bold text-green-700">{stats.answered}</h3>
+          <h3 className="text-2xl font-bold text-green-700">
+            {stats.answered}
+          </h3>
           <p className="text-green-600 text-sm">Answered</p>
         </div>
         <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-center">
-          <h3 className="text-2xl font-bold text-yellow-700">{stats.featured}</h3>
+          <h3 className="text-2xl font-bold text-yellow-700">
+            {stats.featured}
+          </h3>
           <p className="text-yellow-600 text-sm">Featured</p>
         </div>
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
-          <h3 className="text-2xl font-bold text-blue-700">{stats.totalComments}</h3>
+          <h3 className="text-2xl font-bold text-blue-700">
+            {stats.totalComments}
+          </h3>
           <p className="text-blue-600 text-sm">Comments</p>
         </div>
       </motion.div>
@@ -247,7 +265,9 @@ const DiscussionFeed: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >
-        <h3 className="text-lg font-semibold text-gray-900 mb-3">Filter Discussions</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-3">
+          Filter Discussions
+        </h3>
         <div className="flex flex-wrap gap-2">
           <CategoryButton
             active={filter === "all"}
@@ -296,15 +316,12 @@ const DiscussionFeed: React.FC = () => {
       </motion.div>
 
       {/* Discussions */}
-      <motion.div
-        layout
-        className="space-y-6"
-      >
+      <motion.div layout className="space-y-6">
         {filteredDiscussions.map((discussion, index) => (
-          <DiscussionCard 
-            key={discussion.id} 
-            discussion={discussion} 
-            index={index} 
+          <DiscussionCard
+            key={discussion.id}
+            discussion={discussion}
+            index={index}
           />
         ))}
       </motion.div>
@@ -316,7 +333,9 @@ const DiscussionFeed: React.FC = () => {
           className="text-center py-12"
         >
           <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg">No discussions match the current filter</p>
+          <p className="text-gray-500 text-lg">
+            No discussions match the current filter
+          </p>
         </motion.div>
       )}
 
@@ -331,8 +350,8 @@ const DiscussionFeed: React.FC = () => {
           Join the Conversation
         </h3>
         <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-          Have a question, idea, or want to share your success story? 
-          Start a new discussion and connect with our amazing community!
+          Have a question, idea, or want to share your success story? Start a
+          new discussion and connect with our amazing community!
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <a
