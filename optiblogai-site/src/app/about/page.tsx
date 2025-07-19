@@ -69,13 +69,14 @@ const AboutPage: React.FC = () => {
           >
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
               About{" "}
-              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent">
                 OptiBlogAi
               </span>
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Empowering content creators with ethical AI technology that transforms how we think about 
-              blog optimization, SEO, and digital storytelling.
+              Empowering content creators with ethical AI technology that
+              transforms how we think about blog optimization, SEO, and digital
+              storytelling.
             </p>
           </motion.div>
         </div>

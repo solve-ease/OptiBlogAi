@@ -16,10 +16,7 @@ const LiveEditorPreview: React.FC = () => {
 
   useEffect(() => {
     let index = 0;
-    let interval: NodeJS.Timeout | undefined;
-
-    // Set up the interval directly instead of using a nested function
-    interval = setInterval(() => {
+    const interval = setInterval(() => {
       if (index < fullText.length) {
         setDisplayText(fullText.substring(0, index + 1));
         index++;
@@ -32,9 +29,7 @@ const LiveEditorPreview: React.FC = () => {
 
     // Return cleanup function
     return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
+      clearInterval(interval);
     };
   }, []);
 

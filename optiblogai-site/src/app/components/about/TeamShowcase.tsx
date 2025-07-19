@@ -2,7 +2,15 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, MapPin, Building, ExternalLink, Users, GitCommit, Star } from "lucide-react";
+import {
+  Github,
+  MapPin,
+  Building,
+  ExternalLink,
+  Users,
+  GitCommit,
+  Star,
+} from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import Button from "../ui/button";
 import { useContributors, useRepositoryStats } from "@/hooks/useGitHubStats";
@@ -23,32 +31,44 @@ const TeamShowcase: React.FC = () => {
   const { stats } = useRepositoryStats();
 
   // Enhanced team data with roles and specialties
-  const enhanceContributorData = (contributor: ContributorStats): TeamMember => {
+  const enhanceContributorData = (
+    contributor: ContributorStats,
+  ): TeamMember => {
     const roles: { [key: string]: { role: string; specialties: string[] } } = {
       "4darsh-Dev": {
         role: "Founder & Lead Developer",
-        specialties: ["Full Stack Development", "AI Integration", "System Architecture", "Open Source Leadership"]
+        specialties: [
+          "Full Stack Development",
+          "AI Integration",
+          "System Architecture",
+          "Open Source Leadership",
+        ],
       },
       "solve-ease": {
         role: "Organization & Product Strategy",
-        specialties: ["Product Management", "Community Building", "Strategic Planning", "Open Source Advocacy"]
-      }
+        specialties: [
+          "Product Management",
+          "Community Building",
+          "Strategic Planning",
+          "Open Source Advocacy",
+        ],
+      },
     };
 
     const memberData = roles[contributor.login] || {
       role: "Contributor",
-      specialties: ["Development", "Open Source"]
+      specialties: ["Development", "Open Source"],
     };
 
     return {
       ...contributor,
-      ...memberData
+      ...memberData,
     };
   };
 
   const teamMembers = contributors.map(enhanceContributorData);
-  const selectedTeamMember = selectedMember 
-    ? teamMembers.find(member => member.login === selectedMember)
+  const selectedTeamMember = selectedMember
+    ? teamMembers.find((member) => member.login === selectedMember)
     : null;
 
   if (loading) {
@@ -116,10 +136,11 @@ const TeamShowcase: React.FC = () => {
             Meet Our Team
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Passionate developers and creators building the future of AI-powered content optimization.
-            Our team combines technical expertise with a deep understanding of content creation.
+            Passionate developers and creators building the future of AI-powered
+            content optimization. Our team combines technical expertise with a
+            deep understanding of content creation.
           </p>
-          
+
           {/* Team Stats */}
           {stats && (
             <div className="flex justify-center space-x-8 text-sm text-gray-500">
@@ -129,7 +150,10 @@ const TeamShowcase: React.FC = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <GitCommit className="w-4 h-4" />
-                <span>{contributors.reduce((sum, c) => sum + c.commits, 0)} Total Commits</span>
+                <span>
+                  {contributors.reduce((sum, c) => sum + c.commits, 0)} Total
+                  Commits
+                </span>
               </div>
               <div className="flex items-center space-x-2">
                 <Star className="w-4 h-4" />
@@ -149,7 +173,7 @@ const TeamShowcase: React.FC = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card 
+              <Card
                 className="cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group"
                 onClick={() => setSelectedMember(member.login)}
               >
@@ -168,15 +192,13 @@ const TeamShowcase: React.FC = () => {
                       <Github className="w-4 h-4" />
                     </div>
                   </motion.div>
-                  
+
                   <h3 className="text-lg font-semibold text-gray-900 mb-1">
                     {member.name || member.login}
                   </h3>
-                  
-                  <p className="text-primary font-medium mb-2">
-                    {member.role}
-                  </p>
-                  
+
+                  <p className="text-primary font-medium mb-2">{member.role}</p>
+
                   {member.bio && (
                     <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                       {member.bio}
@@ -200,11 +222,15 @@ const TeamShowcase: React.FC = () => {
 
                   <div className="flex justify-center space-x-4 text-sm">
                     <div className="text-center">
-                      <div className="font-semibold text-primary">{member.contributions}</div>
+                      <div className="font-semibold text-primary">
+                        {member.contributions}
+                      </div>
                       <div className="text-gray-500">Contributions</div>
                     </div>
                     <div className="text-center">
-                      <div className="font-semibold text-secondary">{member.commits}</div>
+                      <div className="font-semibold text-secondary">
+                        {member.commits}
+                      </div>
                       <div className="text-gray-500">Commits</div>
                     </div>
                   </div>
@@ -249,7 +275,7 @@ const TeamShowcase: React.FC = () => {
                         {selectedTeamMember.bio}
                       </p>
                     )}
-                    
+
                     <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
                       {selectedTeamMember.location && (
                         <div className="flex items-center space-x-1">
@@ -269,42 +295,57 @@ const TeamShowcase: React.FC = () => {
 
                 {selectedTeamMember.specialties && (
                   <div className="mb-6">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-3">Specialties</h4>
+                    <h4 className="text-lg font-semibold text-gray-900 mb-3">
+                      Specialties
+                    </h4>
                     <div className="flex flex-wrap gap-2">
-                      {selectedTeamMember.specialties.map((specialty, index) => (
-                        <span
-                          key={index}
-                          className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                        >
-                          {specialty}
-                        </span>
-                      ))}
+                      {selectedTeamMember.specialties.map(
+                        (specialty, index) => (
+                          <span
+                            key={index}
+                            className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
+                          >
+                            {specialty}
+                          </span>
+                        ),
+                      )}
                     </div>
                   </div>
                 )}
 
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="text-center p-4 bg-gray-50 rounded-lg">
-                    <div className="text-2xl font-bold text-primary">{selectedTeamMember.contributions}</div>
+                    <div className="text-2xl font-bold text-primary">
+                      {selectedTeamMember.contributions}
+                    </div>
                     <div className="text-gray-500 text-sm">Contributions</div>
                   </div>
                   <div className="text-center p-4 bg-gray-50 rounded-lg">
-                    <div className="text-2xl font-bold text-secondary">{selectedTeamMember.commits}</div>
+                    <div className="text-2xl font-bold text-secondary">
+                      {selectedTeamMember.commits}
+                    </div>
                     <div className="text-gray-500 text-sm">Commits</div>
                   </div>
                   <div className="text-center p-4 bg-gray-50 rounded-lg">
-                    <div className="text-2xl font-bold text-accent">{Math.round(selectedTeamMember.additions / 1000)}K+</div>
+                    <div className="text-2xl font-bold text-accent">
+                      {Math.round(selectedTeamMember.additions / 1000)}K+
+                    </div>
                     <div className="text-gray-500 text-sm">Lines Added</div>
                   </div>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <Button variant="outline" onClick={() => setSelectedMember(null)}>
+                  <Button
+                    variant="outline"
+                    onClick={() => setSelectedMember(null)}
+                  >
                     Close
                   </Button>
-                  <Button 
+                  <Button
                     variant="primary"
-                    onClick={() => window.open(selectedTeamMember.html_url, '_blank')}
+                    onClick={() =>
+                      window.open(selectedTeamMember.html_url, "_blank")
+                    }
                   >
                     <ExternalLink className="w-4 h-4 mr-2" />
                     View GitHub Profile
@@ -323,19 +364,18 @@ const TeamShowcase: React.FC = () => {
           viewport={{ once: true }}
           className="text-center"
         >
-          <Card className="max-w-4xl mx-auto bg-gradient-to-r from-primary/5 to-secondary/5 border-0">
+          <Card className="max-w-4xl mx-auto bg-gradient-to-r from-[var(--color-primary)]/5 to-[var(--color-secondary)]/5 border-0">
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
                 Want to Join Our Team?
               </h3>
               <p className="text-lg text-gray-700 mb-6">
-                We&apos;re always looking for passionate developers, designers, and content creators 
-                who share our vision of ethical AI and open-source collaboration.
+                We&apos;re always looking for passionate developers, designers,
+                and content creators who share our vision of ethical AI and
+                open-source collaboration.
               </p>
               <div className="flex justify-center space-x-4">
-                <Button variant="outline">
-                  View Open Issues
-                </Button>
+                <Button variant="outline">View Open Issues</Button>
                 <Button variant="primary">
                   <Github className="w-4 h-4 mr-2" />
                   Contribute on GitHub

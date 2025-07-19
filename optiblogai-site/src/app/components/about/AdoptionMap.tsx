@@ -17,16 +17,86 @@ interface UsageData {
 
 // Global usage data - in a real app, this would come from analytics APIs
 const globalUsageData: UsageData[] = [
-  { region: "North America", country: "United States", users: 1250, growth: 23, coordinates: { x: 25, y: 35 }, color: "primary" },
-  { region: "North America", country: "Canada", users: 380, growth: 18, coordinates: { x: 23, y: 25 }, color: "primary" },
-  { region: "Europe", country: "United Kingdom", users: 920, growth: 31, coordinates: { x: 50, y: 30 }, color: "secondary" },
-  { region: "Europe", country: "Germany", users: 850, growth: 27, coordinates: { x: 52, y: 32 }, color: "secondary" },
-  { region: "Europe", country: "France", users: 640, growth: 19, coordinates: { x: 51, y: 35 }, color: "secondary" },
-  { region: "Asia", country: "India", users: 1850, growth: 45, coordinates: { x: 72, y: 50 }, color: "accent" },
-  { region: "Asia", country: "Japan", users: 720, growth: 15, coordinates: { x: 85, y: 42 }, color: "accent" },
-  { region: "Asia", country: "Singapore", users: 290, growth: 38, coordinates: { x: 78, y: 60 }, color: "accent" },
-  { region: "Oceania", country: "Australia", users: 420, growth: 22, coordinates: { x: 82, y: 75 }, color: "primary" },
-  { region: "South America", country: "Brazil", users: 580, growth: 35, coordinates: { x: 35, y: 70 }, color: "secondary" },
+  {
+    region: "North America",
+    country: "United States",
+    users: 1250,
+    growth: 23,
+    coordinates: { x: 25, y: 35 },
+    color: "primary",
+  },
+  {
+    region: "North America",
+    country: "Canada",
+    users: 380,
+    growth: 18,
+    coordinates: { x: 23, y: 25 },
+    color: "primary",
+  },
+  {
+    region: "Europe",
+    country: "United Kingdom",
+    users: 920,
+    growth: 31,
+    coordinates: { x: 50, y: 30 },
+    color: "secondary",
+  },
+  {
+    region: "Europe",
+    country: "Germany",
+    users: 850,
+    growth: 27,
+    coordinates: { x: 52, y: 32 },
+    color: "secondary",
+  },
+  {
+    region: "Europe",
+    country: "France",
+    users: 640,
+    growth: 19,
+    coordinates: { x: 51, y: 35 },
+    color: "secondary",
+  },
+  {
+    region: "Asia",
+    country: "India",
+    users: 1850,
+    growth: 45,
+    coordinates: { x: 72, y: 50 },
+    color: "accent",
+  },
+  {
+    region: "Asia",
+    country: "Japan",
+    users: 720,
+    growth: 15,
+    coordinates: { x: 85, y: 42 },
+    color: "accent",
+  },
+  {
+    region: "Asia",
+    country: "Singapore",
+    users: 290,
+    growth: 38,
+    coordinates: { x: 78, y: 60 },
+    color: "accent",
+  },
+  {
+    region: "Oceania",
+    country: "Australia",
+    users: 420,
+    growth: 22,
+    coordinates: { x: 82, y: 75 },
+    color: "primary",
+  },
+  {
+    region: "South America",
+    country: "Brazil",
+    users: 580,
+    growth: 35,
+    coordinates: { x: 35, y: 70 },
+    color: "secondary",
+  },
 ];
 
 /**
@@ -35,7 +105,9 @@ const globalUsageData: UsageData[] = [
  */
 const AdoptionMap: React.FC = () => {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
-  const [animatedUsers, setAnimatedUsers] = useState<{ [key: string]: number }>({});
+  const [animatedUsers, setAnimatedUsers] = useState<{ [key: string]: number }>(
+    {},
+  );
   const { stats } = useRepositoryStats();
 
   // Animate user counts on mount
@@ -44,9 +116,9 @@ const AdoptionMap: React.FC = () => {
       const animated: { [key: string]: number } = {};
       globalUsageData.forEach((data, index) => {
         setTimeout(() => {
-          setAnimatedUsers(prev => ({
+          setAnimatedUsers((prev) => ({
             ...prev,
-            [data.country]: data.users
+            [data.country]: data.users,
           }));
         }, index * 100);
       });
@@ -56,7 +128,7 @@ const AdoptionMap: React.FC = () => {
   }, []);
 
   const getRegionData = (region: string) => {
-    return globalUsageData.filter(data => data.region === region);
+    return globalUsageData.filter((data) => data.region === region);
   };
 
   const getTotalUsers = () => {
@@ -64,11 +136,14 @@ const AdoptionMap: React.FC = () => {
   };
 
   const getAverageGrowth = () => {
-    const totalGrowth = globalUsageData.reduce((sum, data) => sum + data.growth, 0);
+    const totalGrowth = globalUsageData.reduce(
+      (sum, data) => sum + data.growth,
+      0,
+    );
     return Math.round(totalGrowth / globalUsageData.length);
   };
 
-  const regions = [...new Set(globalUsageData.map(data => data.region))];
+  const regions = [...new Set(globalUsageData.map((data) => data.region))];
 
   const getColorClasses = (color: string) => {
     switch (color) {
@@ -88,7 +163,7 @@ const AdoptionMap: React.FC = () => {
       {/* Background Animation */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
-          className="absolute top-1/4 right-1/4 w-48 h-48 bg-gradient-to-br from-primary/5 to-accent/5 rounded-full blur-3xl"
+          className="absolute top-1/4 right-1/4 w-48 h-48 bg-gradient-to-br from-[var(--color-primary)]/5 to-[var(--color-accent)]/5 rounded-full blur-3xl"
           animate={{
             x: [0, 50, -50, 0],
             y: [0, -30, 30, 0],
@@ -114,8 +189,9 @@ const AdoptionMap: React.FC = () => {
             Global Adoption
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            OptiBlogAi is being used by content creators around the world to revolutionize 
-            their blogging and SEO strategies. See where our community is growing.
+            OptiBlogAi is being used by content creators around the world to
+            revolutionize their blogging and SEO strategies. See where our
+            community is growing.
           </p>
         </motion.div>
 
@@ -220,11 +296,31 @@ const AdoptionMap: React.FC = () => {
                   <div className="absolute inset-0 opacity-20">
                     <svg viewBox="0 0 100 60" className="w-full h-full">
                       {/* Simplified continent shapes */}
-                      <path d="M15 20 L35 15 L40 25 L35 35 L20 40 L15 30 Z" fill="currentColor" opacity="0.3" />
-                      <path d="M45 15 L65 10 L70 20 L65 30 L50 35 L45 25 Z" fill="currentColor" opacity="0.3" />
-                      <path d="M70 25 L90 20 L95 30 L90 40 L75 45 L70 35 Z" fill="currentColor" opacity="0.3" />
-                      <path d="M25 45 L40 40 L45 50 L40 55 L30 55 L25 50 Z" fill="currentColor" opacity="0.3" />
-                      <path d="M80 50 L90 45 L95 55 L90 60 L85 60 L80 55 Z" fill="currentColor" opacity="0.3" />
+                      <path
+                        d="M15 20 L35 15 L40 25 L35 35 L20 40 L15 30 Z"
+                        fill="currentColor"
+                        opacity="0.3"
+                      />
+                      <path
+                        d="M45 15 L65 10 L70 20 L65 30 L50 35 L45 25 Z"
+                        fill="currentColor"
+                        opacity="0.3"
+                      />
+                      <path
+                        d="M70 25 L90 20 L95 30 L90 40 L75 45 L70 35 Z"
+                        fill="currentColor"
+                        opacity="0.3"
+                      />
+                      <path
+                        d="M25 45 L40 40 L45 50 L40 55 L30 55 L25 50 Z"
+                        fill="currentColor"
+                        opacity="0.3"
+                      />
+                      <path
+                        d="M80 50 L90 45 L95 55 L90 60 L85 60 L80 55 Z"
+                        fill="currentColor"
+                        opacity="0.3"
+                      />
                     </svg>
                   </div>
 
@@ -242,15 +338,21 @@ const AdoptionMap: React.FC = () => {
                         width: `${Math.max(20, Math.min(40, data.users / 50))}px`,
                         height: `${Math.max(20, Math.min(40, data.users / 50))}px`,
                       }}
-                      onClick={() => setSelectedRegion(selectedRegion === data.region ? null : data.region)}
+                      onClick={() =>
+                        setSelectedRegion(
+                          selectedRegion === data.region ? null : data.region,
+                        )
+                      }
                     >
                       {Math.round(data.users / 100)}
-                      
+
                       {/* Tooltip */}
                       <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-10">
                         <div className="font-semibold">{data.country}</div>
                         <div>{data.users.toLocaleString()} users</div>
-                        <div className="text-green-300">+{data.growth}% growth</div>
+                        <div className="text-green-300">
+                          +{data.growth}% growth
+                        </div>
                         <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
                       </div>
                     </motion.div>
@@ -296,9 +398,13 @@ const AdoptionMap: React.FC = () => {
                 <div className="space-y-4">
                   {regions.map((region, index) => {
                     const regionData = getRegionData(region);
-                    const totalUsers = regionData.reduce((sum, data) => sum + data.users, 0);
+                    const totalUsers = regionData.reduce(
+                      (sum, data) => sum + data.users,
+                      0,
+                    );
                     const avgGrowth = Math.round(
-                      regionData.reduce((sum, data) => sum + data.growth, 0) / regionData.length
+                      regionData.reduce((sum, data) => sum + data.growth, 0) /
+                        regionData.length,
                     );
                     const isSelected = selectedRegion === region;
 
@@ -309,22 +415,28 @@ const AdoptionMap: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
                         className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
-                          isSelected 
-                            ? "border-primary bg-primary/5" 
+                          isSelected
+                            ? "border-primary bg-primary/5"
                             : "border-gray-200 hover:border-gray-300"
                         }`}
-                        onClick={() => setSelectedRegion(isSelected ? null : region)}
+                        onClick={() =>
+                          setSelectedRegion(isSelected ? null : region)
+                        }
                       >
                         <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-semibold text-gray-900">{region}</h4>
+                          <h4 className="font-semibold text-gray-900">
+                            {region}
+                          </h4>
                           <div className="text-right">
                             <div className="text-lg font-bold text-primary">
                               {totalUsers.toLocaleString()}
                             </div>
-                            <div className="text-sm text-green-600">+{avgGrowth}%</div>
+                            <div className="text-sm text-green-600">
+                              +{avgGrowth}%
+                            </div>
                           </div>
                         </div>
-                        
+
                         {isSelected && (
                           <motion.div
                             initial={{ opacity: 0, height: 0 }}
@@ -333,9 +445,16 @@ const AdoptionMap: React.FC = () => {
                             className="mt-3 pt-3 border-t border-gray-200 space-y-2"
                           >
                             {regionData.map((country) => (
-                              <div key={country.country} className="flex justify-between text-sm">
-                                <span className="text-gray-700">{country.country}</span>
-                                <span className="font-medium">{country.users.toLocaleString()}</span>
+                              <div
+                                key={country.country}
+                                className="flex justify-between text-sm"
+                              >
+                                <span className="text-gray-700">
+                                  {country.country}
+                                </span>
+                                <span className="font-medium">
+                                  {country.users.toLocaleString()}
+                                </span>
                               </div>
                             ))}
                           </motion.div>

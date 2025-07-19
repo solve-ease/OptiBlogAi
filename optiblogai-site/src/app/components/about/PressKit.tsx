@@ -2,16 +2,16 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { 
-  Download, 
-  Image as ImageIcon, 
-  FileText, 
-  Palette, 
+import {
+  Download,
+  Image as ImageIcon,
+  FileText,
+  Palette,
   Monitor,
   Smartphone,
   ExternalLink,
   Copy,
-  Check
+  Check,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Button from "../ui/button";
@@ -41,7 +41,7 @@ interface BrandGuideline {
   examples: string[];
 }
 
-// Media assets - in a real app, these would be actual downloadable files
+// Media assets - in a real app, these would be actual downloadable files  by admin ( needed to changed later.)
 const mediaAssets: MediaAsset[] = [
   {
     id: "logo-primary",
@@ -51,7 +51,7 @@ const mediaAssets: MediaAsset[] = [
     format: "SVG, PNG",
     size: "512x512",
     url: "/logo.png",
-    downloadUrl: "/press-kit/logo-primary.zip"
+    downloadUrl: "/press-kit/logo-primary.zip",
   },
   {
     id: "logo-dark",
@@ -61,7 +61,7 @@ const mediaAssets: MediaAsset[] = [
     format: "SVG, PNG",
     size: "512x512",
     url: "/logo.png",
-    downloadUrl: "/press-kit/logo-dark.zip"
+    downloadUrl: "/press-kit/logo-dark.zip",
   },
   {
     id: "icon-square",
@@ -71,7 +71,7 @@ const mediaAssets: MediaAsset[] = [
     format: "PNG, ICO",
     size: "Multiple sizes",
     url: "/logo.png",
-    downloadUrl: "/press-kit/app-icon.zip"
+    downloadUrl: "/press-kit/app-icon.zip",
   },
   {
     id: "banner-hero",
@@ -81,7 +81,7 @@ const mediaAssets: MediaAsset[] = [
     format: "PNG, JPG",
     size: "1200x630",
     url: "/og-image.png",
-    downloadUrl: "/press-kit/hero-banner.zip"
+    downloadUrl: "/press-kit/hero-banner.zip",
   },
   {
     id: "screenshot-dashboard",
@@ -91,7 +91,7 @@ const mediaAssets: MediaAsset[] = [
     format: "PNG",
     size: "1920x1080",
     url: "/logo.png",
-    downloadUrl: "/press-kit/dashboard-screenshot.zip"
+    downloadUrl: "/press-kit/dashboard-screenshot.zip",
   },
   {
     id: "screenshot-editor",
@@ -101,38 +101,65 @@ const mediaAssets: MediaAsset[] = [
     format: "PNG",
     size: "1920x1080",
     url: "/logo.png",
-    downloadUrl: "/press-kit/editor-screenshot.zip"
-  }
+    downloadUrl: "/press-kit/editor-screenshot.zip",
+  },
 ];
 
 const colorPalette: ColorPalette[] = [
-  { name: "Primary", hex: "#4f46e5", rgb: "79, 70, 229", usage: "Main brand color, buttons, links" },
-  { name: "Secondary", hex: "#10b981", rgb: "16, 185, 129", usage: "Success states, growth indicators" },
-  { name: "Accent", hex: "#f59e0b", rgb: "245, 158, 11", usage: "Highlights, call-to-action elements" },
-  { name: "Dark", hex: "#1e293b", rgb: "30, 41, 59", usage: "Text, dark backgrounds" },
-  { name: "Light", hex: "#f1f5f9", rgb: "241, 245, 249", usage: "Light backgrounds, cards" }
+  {
+    name: "Primary",
+    hex: "#4f46e5",
+    rgb: "79, 70, 229",
+    usage: "Main brand color, buttons, links",
+  },
+  {
+    name: "Secondary",
+    hex: "#10b981",
+    rgb: "16, 185, 129",
+    usage: "Success states, growth indicators",
+  },
+  {
+    name: "Accent",
+    hex: "#f59e0b",
+    rgb: "245, 158, 11",
+    usage: "Highlights, call-to-action elements",
+  },
+  {
+    name: "Dark",
+    hex: "#1e293b",
+    rgb: "30, 41, 59",
+    usage: "Text, dark backgrounds",
+  },
+  {
+    name: "Light",
+    hex: "#f1f5f9",
+    rgb: "241, 245, 249",
+    usage: "Light backgrounds, cards",
+  },
 ];
 
 const brandGuidelines: BrandGuideline[] = [
   {
     title: "Logo Usage",
-    description: "Always maintain clear space around the logo equal to the height of the 'O' in OptiBlogAi.",
+    description:
+      "Always maintain clear space around the logo equal to the height of the 'O' in OptiBlogAi.",
     examples: [
       "Use the primary logo on light backgrounds",
-      "Use the dark variant on dark backgrounds", 
+      "Use the dark variant on dark backgrounds",
       "Never distort or modify the logo proportions",
-      "Minimum size: 120px width for digital, 1 inch for print"
-    ]
+      "Minimum size: 120px width for digital, 1 inch for print",
+    ],
   },
   {
     title: "Typography",
-    description: "Use Inter for all text content and JetBrains Mono for code snippets.",
+    description:
+      "Use Inter for all text content and JetBrains Mono for code snippets.",
     examples: [
       "Headlines: Inter Bold (700)",
       "Body text: Inter Regular (400)",
       "Code: JetBrains Mono Regular (400)",
-      "Never use other fonts without approval"
-    ]
+      "Never use other fonts without approval",
+    ],
   },
   {
     title: "Color Applications",
@@ -141,9 +168,9 @@ const brandGuidelines: BrandGuideline[] = [
       "Primary blue for main interactions",
       "Secondary green for positive states",
       "Accent amber for highlights only",
-      "Maintain sufficient contrast ratios"
-    ]
-  }
+      "Maintain sufficient contrast ratios",
+    ],
+  },
 ];
 
 /**
@@ -161,15 +188,19 @@ const PressKit: React.FC = () => {
       setCopiedColor(id);
       setTimeout(() => setCopiedColor(null), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
-  const filteredAssets = selectedAssetType === "all" 
-    ? mediaAssets 
-    : mediaAssets.filter(asset => asset.type === selectedAssetType);
+  const filteredAssets =
+    selectedAssetType === "all"
+      ? mediaAssets
+      : mediaAssets.filter((asset) => asset.type === selectedAssetType);
 
-  const assetTypes = ["all", ...Array.from(new Set(mediaAssets.map(asset => asset.type)))];
+  const assetTypes = [
+    "all",
+    ...Array.from(new Set(mediaAssets.map((asset) => asset.type))),
+  ];
 
   return (
     <section className="py-20 bg-white relative overflow-hidden">
@@ -216,8 +247,9 @@ const PressKit: React.FC = () => {
             Press Kit & Brand Resources
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Download our brand assets, logos, and screenshots for your articles, presentations, 
-            or partnership materials. All resources are free to use following our brand guidelines.
+            Download our brand assets, logos, and screenshots for your articles,
+            presentations, or partnership materials. All resources are free to
+            use following our brand guidelines.
           </p>
         </motion.div>
 
@@ -229,7 +261,7 @@ const PressKit: React.FC = () => {
           viewport={{ once: true }}
           className="mb-16"
         >
-          <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-0">
+          <Card className="bg-gradient-to-r from-[var(--color-primary)]/5 to-[var(--color-secondary)]/5 border-0">
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
                 OptiBlogAi at a Glance
@@ -243,7 +275,8 @@ const PressKit: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-secondary mb-2">
-                    {mediaAssets.filter(a => a.type === 'screenshot').length}K+
+                    {mediaAssets.filter((a) => a.type === "screenshot").length}
+                    K+
                   </div>
                   <div className="text-gray-600">Monthly Users</div>
                 </div>
@@ -279,7 +312,7 @@ const PressKit: React.FC = () => {
                     <ImageIcon className="w-5 h-5" />
                     <span>Media Assets</span>
                   </CardTitle>
-                  
+
                   {/* Asset Type Filter */}
                   <div className="flex flex-wrap gap-2 mt-4">
                     {assetTypes.map((type) => (
@@ -315,7 +348,7 @@ const PressKit: React.FC = () => {
                               className="w-12 h-12 object-contain"
                             />
                           </div>
-                          
+
                           <div className="flex-1 min-w-0">
                             <h4 className="font-semibold text-gray-900 mb-1">
                               {asset.name}
@@ -344,7 +377,7 @@ const PressKit: React.FC = () => {
                       </motion.div>
                     ))}
                   </div>
-                  
+
                   <div className="mt-6 text-center">
                     <Button variant="primary">
                       <Download className="w-4 h-4 mr-2" />
@@ -393,11 +426,15 @@ const PressKit: React.FC = () => {
                           )}
                         </div>
                       </div>
-                      
+
                       <div className="flex-1 min-w-0">
-                        <div className="font-semibold text-gray-900">{color.name}</div>
+                        <div className="font-semibold text-gray-900">
+                          {color.name}
+                        </div>
                         <div className="text-sm text-gray-600">{color.hex}</div>
-                        <div className="text-xs text-gray-500">RGB: {color.rgb}</div>
+                        <div className="text-xs text-gray-500">
+                          RGB: {color.rgb}
+                        </div>
                       </div>
                     </motion.div>
                   ))}
@@ -440,7 +477,10 @@ const PressKit: React.FC = () => {
                     </p>
                     <ul className="space-y-2">
                       {guideline.examples.map((example, exampleIndex) => (
-                        <li key={exampleIndex} className="text-sm text-gray-700 flex items-start">
+                        <li
+                          key={exampleIndex}
+                          className="text-sm text-gray-700 flex items-start"
+                        >
                           <span className="w-1 h-1 bg-primary rounded-full mt-2 mr-2 flex-shrink-0"></span>
                           {example}
                         </li>
@@ -461,23 +501,22 @@ const PressKit: React.FC = () => {
           viewport={{ once: true }}
           className="text-center"
         >
-          <Card className="max-w-4xl mx-auto bg-gradient-to-r from-secondary/5 to-accent/5 border-0">
+          <Card className="max-w-4xl mx-auto bg-gradient-to-r from-[var(--color-secondary)]/5 to-[var(--color-accent)]/5 border-0">
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
                 Need More Resources?
               </h3>
               <p className="text-lg text-gray-700 mb-6">
-                For additional press materials, high-resolution images, or interview requests, 
-                please contact our media team. We&apos;re happy to provide custom assets for your needs.
+                For additional press materials, high-resolution images, or
+                interview requests, please contact our media team. We&apos;re
+                happy to provide custom assets for your needs.
               </p>
               <div className="flex justify-center space-x-4">
                 <Button variant="outline">
                   <ExternalLink className="w-4 h-4 mr-2" />
                   Media Contact
                 </Button>
-                <Button variant="primary">
-                  Download Brand Guidelines PDF
-                </Button>
+                <Button variant="primary">Download Brand Guidelines PDF</Button>
               </div>
             </CardContent>
           </Card>
