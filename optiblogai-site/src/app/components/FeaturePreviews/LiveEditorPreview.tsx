@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Zap, PenTool, Brain, CheckCircle } from "lucide-react";
 
 const fullText =
-  "AI-Powered Content Generation transforms your ideas into engaging, SEO-optimized blog posts with intelligent suggestions, real-time optimization, and multiple writing styles to match your brand voice perfectly.";
+  "AI-Powered Content Generation transforms your ideas into engaging, SEO-optimized blog posts.";
 
 const typingSpeed = 25;
 
@@ -16,17 +16,26 @@ const LiveEditorPreview: React.FC = () => {
 
   useEffect(() => {
     let index = 0;
-    const interval = setInterval(() => {
-      setDisplayText((prev) => prev + fullText[index]);
-      index++;
-      if (index === fullText.length) {
+    let interval: NodeJS.Timeout | undefined;
+
+    // Set up the interval directly instead of using a nested function
+    interval = setInterval(() => {
+      if (index < fullText.length) {
+        setDisplayText(fullText.substring(0, index + 1));
+        index++;
+      } else {
         clearInterval(interval);
         setIsComplete(true);
         setTimeout(() => setShowFeatures(true), 500);
       }
     }, typingSpeed);
 
-    return () => clearInterval(interval);
+    // Return cleanup function
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, []);
 
   const features = [

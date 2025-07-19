@@ -3,7 +3,7 @@
  * Handles all GitHub API interactions with proper error handling and rate limiting
  */
 
-import { SITE_CONFIG } from './constants';
+import { SITE_CONFIG } from "./constants";
 import type {
   Repository,
   RepositoryStats,
@@ -18,12 +18,12 @@ import type {
   RateLimit,
   GitHubApiError,
   ApiResponse,
-} from '@/types/github';
+} from "@/types/github";
 
 // Configuration
-const GITHUB_API_BASE = 'https://api.github.com';
-const REPO_OWNER = 'solve-ease';
-const REPO_NAME = 'OptiBlogAi';
+const GITHUB_API_BASE = "https://api.github.com";
+const REPO_OWNER = "solve-ease";
+const REPO_NAME = "OptiBlogAi";
 const REPO_FULL_NAME = `${REPO_OWNER}/${REPO_NAME}`;
 
 // Cache configuration
@@ -37,39 +37,46 @@ const FALLBACK_REPOSITORY_STATS: RepositoryStats = {
   watchers: 84,
   openIssues: 8,
   size: 1024,
-  language: 'TypeScript',
-  license: 'MIT',
-  topics: ['ai', 'blog', 'optimization', 'seo', 'content-generation', 'typescript'],
+  language: "TypeScript",
+  license: "MIT",
+  topics: [
+    "ai",
+    "blog",
+    "optimization",
+    "seo",
+    "content-generation",
+    "typescript",
+  ],
   lastUpdated: new Date().toISOString(),
-  createdAt: '2024-01-15T10:00:00Z',
+  createdAt: "2024-01-15T10:00:00Z",
 };
 
 const FALLBACK_CONTRIBUTORS: ContributorStats[] = [
   {
-    login: '4darsh-Dev',
-    avatar_url: 'https://avatars.githubusercontent.com/u/109789509?v=4',
-    html_url: 'https://github.com/4darsh-Dev',
+    login: "4darsh-Dev",
+    avatar_url: "https://avatars.githubusercontent.com/u/109789509?v=4",
+    html_url: "https://github.com/4darsh-Dev",
     contributions: 89,
     additions: 5420,
     deletions: 1230,
     commits: 89,
-    name: 'Adarsh Maurya',
-    bio: 'Full Stack Developer | AI Enthusiast | Open Source Contributor',
-    company: 'solve-ease',
-    location: 'India',
+    name: "Adarsh Maurya",
+    bio: "Full Stack Developer | AI Enthusiast | Open Source Contributor",
+    company: "solve-ease",
+    location: "India",
   },
   {
-    login: 'solve-ease',
-    avatar_url: 'https://avatars.githubusercontent.com/u/solve-ease?v=4',
-    html_url: 'https://github.com/solve-ease',
+    login: "solve-ease",
+    avatar_url: "https://avatars.githubusercontent.com/u/solve-ease?v=4",
+    html_url: "https://github.com/solve-ease",
     contributions: 42,
     additions: 2100,
     deletions: 890,
     commits: 42,
-    name: 'Solve Ease',
-    bio: 'Building the future of content optimization',
-    company: 'Solve Ease',
-    location: 'Global',
+    name: "Solve Ease",
+    bio: "Building the future of content optimization",
+    company: "Solve Ease",
+    location: "Global",
   },
 ];
 
@@ -78,43 +85,75 @@ const FALLBACK_ISSUE_STATS: IssueStats = {
   open: 8,
   closed: 27,
   labels: [
-    { name: 'enhancement', count: 12, color: 'a2eeef' },
-    { name: 'bug', count: 8, color: 'd73a49' },
-    { name: 'documentation', count: 6, color: '0075ca' },
-    { name: 'good first issue', count: 4, color: '7057ff' },
-    { name: 'help wanted', count: 3, color: '008672' },
+    { name: "enhancement", count: 12, color: "a2eeef" },
+    { name: "bug", count: 8, color: "d73a49" },
+    { name: "documentation", count: 6, color: "0075ca" },
+    { name: "good first issue", count: 4, color: "7057ff" },
+    { name: "help wanted", count: 3, color: "008672" },
   ],
 };
 
 const FALLBACK_ACTIVITY_STATS: ActivityStats = {
   commitActivity: [
-    { week: Date.now() / 1000 - 604800 * 6, total: 12, days: [2, 1, 3, 0, 4, 1, 1] },
-    { week: Date.now() / 1000 - 604800 * 5, total: 18, days: [3, 2, 4, 1, 5, 2, 1] },
-    { week: Date.now() / 1000 - 604800 * 4, total: 15, days: [2, 3, 2, 2, 3, 2, 1] },
-    { week: Date.now() / 1000 - 604800 * 3, total: 22, days: [4, 3, 5, 2, 4, 3, 1] },
-    { week: Date.now() / 1000 - 604800 * 2, total: 19, days: [3, 2, 4, 3, 4, 2, 1] },
-    { week: Date.now() / 1000 - 604800 * 1, total: 25, days: [5, 4, 6, 2, 5, 2, 1] },
+    {
+      week: Date.now() / 1000 - 604800 * 6,
+      total: 12,
+      days: [2, 1, 3, 0, 4, 1, 1],
+    },
+    {
+      week: Date.now() / 1000 - 604800 * 5,
+      total: 18,
+      days: [3, 2, 4, 1, 5, 2, 1],
+    },
+    {
+      week: Date.now() / 1000 - 604800 * 4,
+      total: 15,
+      days: [2, 3, 2, 2, 3, 2, 1],
+    },
+    {
+      week: Date.now() / 1000 - 604800 * 3,
+      total: 22,
+      days: [4, 3, 5, 2, 4, 3, 1],
+    },
+    {
+      week: Date.now() / 1000 - 604800 * 2,
+      total: 19,
+      days: [3, 2, 4, 3, 4, 2, 1],
+    },
+    {
+      week: Date.now() / 1000 - 604800 * 1,
+      total: 25,
+      days: [5, 4, 6, 2, 5, 2, 1],
+    },
     { week: Date.now() / 1000, total: 14, days: [2, 3, 4, 1, 3, 1, 0] },
   ],
   totalCommits: 245,
   weeklyCommits: 14,
   monthlyCommits: 95,
   topContributors: [
-    { login: '4darsh-Dev', contributions: 89, avatar_url: 'https://avatars.githubusercontent.com/u/109789509?v=4' },
-    { login: 'solve-ease', contributions: 42, avatar_url: 'https://avatars.githubusercontent.com/u/solve-ease?v=4' },
+    {
+      login: "4darsh-Dev",
+      contributions: 89,
+      avatar_url: "https://avatars.githubusercontent.com/u/109789509?v=4",
+    },
+    {
+      login: "solve-ease",
+      contributions: 42,
+      avatar_url: "https://avatars.githubusercontent.com/u/solve-ease?v=4",
+    },
   ],
   languageStats: {
-    'TypeScript': 12845,
-    'JavaScript': 3421,
-    'Python': 2156,
-    'CSS': 1892,
-    'HTML': 1234,
-    'Shell': 456,
+    TypeScript: 12845,
+    JavaScript: 3421,
+    Python: 2156,
+    CSS: 1892,
+    HTML: 1234,
+    Shell: 456,
   },
   lastCommit: {
-    sha: 'abc123def456',
-    message: 'feat: implement GitHub API integration with real-time stats',
-    author: '4darsh-Dev',
+    sha: "abc123def456",
+    message: "feat: implement GitHub API integration with real-time stats",
+    author: "4darsh-Dev",
     date: new Date().toISOString(),
   },
 };
@@ -124,11 +163,11 @@ const FALLBACK_ACTIVITY_STATS: ActivityStats = {
  */
 async function githubFetch<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<ApiResponse<T>> {
   try {
     const url = `${GITHUB_API_BASE}${endpoint}`;
-    
+
     // Check cache first
     const cacheKey = `${endpoint}${JSON.stringify(options)}`;
     const cached = cache.get(cacheKey);
@@ -141,8 +180,8 @@ async function githubFetch<T>(
 
     const response = await fetch(url, {
       headers: {
-        'Accept': 'application/vnd.github.v3+json',
-        'User-Agent': 'OptiBlogAi-Website/1.0.0',
+        Accept: "application/vnd.github.v3+json",
+        "User-Agent": "OptiBlogAi-Website/1.0.0",
         ...options.headers,
       },
       ...options,
@@ -150,10 +189,12 @@ async function githubFetch<T>(
 
     // Extract rate limit info
     const rateLimit: RateLimit = {
-      limit: parseInt(response.headers.get('x-ratelimit-limit') || '60'),
-      remaining: parseInt(response.headers.get('x-ratelimit-remaining') || '60'),
-      reset: parseInt(response.headers.get('x-ratelimit-reset') || '0'),
-      used: parseInt(response.headers.get('x-ratelimit-used') || '0'),
+      limit: parseInt(response.headers.get("x-ratelimit-limit") || "60"),
+      remaining: parseInt(
+        response.headers.get("x-ratelimit-remaining") || "60",
+      ),
+      reset: parseInt(response.headers.get("x-ratelimit-reset") || "0"),
+      used: parseInt(response.headers.get("x-ratelimit-used") || "0"),
     };
 
     if (!response.ok) {
@@ -170,7 +211,7 @@ async function githubFetch<T>(
     }
 
     const data: T = await response.json();
-    
+
     // Cache the successful response
     cache.set(cacheKey, { data, timestamp: Date.now() });
 
@@ -180,11 +221,11 @@ async function githubFetch<T>(
       rateLimit,
     };
   } catch (error) {
-    console.error('GitHub API fetch error:', error);
+    console.error("GitHub API fetch error:", error);
     return {
       data: null as unknown as T,
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error occurred',
+      error: error instanceof Error ? error.message : "Unknown error occurred",
     };
   }
 }
@@ -199,11 +240,13 @@ export async function fetchRepository(): Promise<ApiResponse<Repository>> {
 /**
  * Fetch repository statistics
  */
-export async function fetchRepositoryStats(): Promise<ApiResponse<RepositoryStats>> {
+export async function fetchRepositoryStats(): Promise<
+  ApiResponse<RepositoryStats>
+> {
   const repoResponse = await fetchRepository();
-  
+
   if (!repoResponse.success || !repoResponse.data) {
-    console.warn('GitHub API failed, using fallback data:', repoResponse.error);
+    console.warn("GitHub API failed, using fallback data:", repoResponse.error);
     return {
       data: FALLBACK_REPOSITORY_STATS,
       success: true,
@@ -243,11 +286,16 @@ export async function fetchContributors(): Promise<ApiResponse<Contributor[]>> {
 /**
  * Fetch detailed contributor statistics
  */
-export async function fetchContributorStats(): Promise<ApiResponse<ContributorStats[]>> {
+export async function fetchContributorStats(): Promise<
+  ApiResponse<ContributorStats[]>
+> {
   const contributorsResponse = await fetchContributors();
-  
+
   if (!contributorsResponse.success || !contributorsResponse.data) {
-    console.warn('GitHub API failed, using fallback contributor data:', contributorsResponse.error);
+    console.warn(
+      "GitHub API failed, using fallback contributor data:",
+      contributorsResponse.error,
+    );
     return {
       data: FALLBACK_CONTRIBUTORS,
       success: true,
@@ -261,11 +309,13 @@ export async function fetchContributorStats(): Promise<ApiResponse<ContributorSt
 
   // Get detailed stats for top contributors (limit to first 10 to avoid rate limits)
   const topContributors = contributors.slice(0, 10);
-  
+
   for (const contributor of topContributors) {
     try {
-      const userResponse = await githubFetch<Contributor>(`/users/${contributor.login}`);
-      
+      const userResponse = await githubFetch<Contributor>(
+        `/users/${contributor.login}`,
+      );
+
       if (userResponse.success && userResponse.data) {
         detailedStats.push({
           login: contributor.login,
@@ -282,7 +332,10 @@ export async function fetchContributorStats(): Promise<ApiResponse<ContributorSt
         });
       }
     } catch (error) {
-      console.warn(`Failed to fetch details for contributor ${contributor.login}:`, error);
+      console.warn(
+        `Failed to fetch details for contributor ${contributor.login}:`,
+        error,
+      );
       // Add basic info if detailed fetch fails
       detailedStats.push({
         login: contributor.login,
@@ -307,7 +360,9 @@ export async function fetchContributorStats(): Promise<ApiResponse<ContributorSt
  * Fetch repository issues
  */
 export async function fetchIssues(): Promise<ApiResponse<Issue[]>> {
-  return githubFetch<Issue[]>(`/repos/${REPO_FULL_NAME}/issues?state=all&per_page=100`);
+  return githubFetch<Issue[]>(
+    `/repos/${REPO_FULL_NAME}/issues?state=all&per_page=100`,
+  );
 }
 
 /**
@@ -315,9 +370,12 @@ export async function fetchIssues(): Promise<ApiResponse<Issue[]>> {
  */
 export async function fetchIssueStats(): Promise<ApiResponse<IssueStats>> {
   const issuesResponse = await fetchIssues();
-  
+
   if (!issuesResponse.success || !issuesResponse.data) {
-    console.warn('GitHub API failed, using fallback issue data:', issuesResponse.error);
+    console.warn(
+      "GitHub API failed, using fallback issue data:",
+      issuesResponse.error,
+    );
     return {
       data: FALLBACK_ISSUE_STATS,
       success: true,
@@ -327,13 +385,13 @@ export async function fetchIssueStats(): Promise<ApiResponse<IssueStats>> {
   }
 
   const issues = issuesResponse.data;
-  const openIssues = issues.filter(issue => issue.state === 'open');
-  const closedIssues = issues.filter(issue => issue.state === 'closed');
-  
+  const openIssues = issues.filter((issue) => issue.state === "open");
+  const closedIssues = issues.filter((issue) => issue.state === "closed");
+
   // Count labels
   const labelCounts = new Map<string, { count: number; color: string }>();
-  issues.forEach(issue => {
-    issue.labels.forEach(label => {
+  issues.forEach((issue) => {
+    issue.labels.forEach((label) => {
       const existing = labelCounts.get(label.name);
       labelCounts.set(label.name, {
         count: (existing?.count || 0) + 1,
@@ -342,11 +400,13 @@ export async function fetchIssueStats(): Promise<ApiResponse<IssueStats>> {
     });
   });
 
-  const labels = Array.from(labelCounts.entries()).map(([name, data]) => ({
-    name,
-    count: data.count,
-    color: data.color,
-  })).sort((a, b) => b.count - a.count);
+  const labels = Array.from(labelCounts.entries())
+    .map(([name, data]) => ({
+      name,
+      count: data.count,
+      color: data.color,
+    }))
+    .sort((a, b) => b.count - a.count);
 
   const stats: IssueStats = {
     total: issues.length,
@@ -372,21 +432,31 @@ export async function fetchCommits(): Promise<ApiResponse<Commit[]>> {
 /**
  * Fetch commit activity
  */
-export async function fetchCommitActivity(): Promise<ApiResponse<CommitActivity[]>> {
-  return githubFetch<CommitActivity[]>(`/repos/${REPO_FULL_NAME}/stats/commit_activity`);
+export async function fetchCommitActivity(): Promise<
+  ApiResponse<CommitActivity[]>
+> {
+  return githubFetch<CommitActivity[]>(
+    `/repos/${REPO_FULL_NAME}/stats/commit_activity`,
+  );
 }
 
 /**
  * Fetch repository languages
  */
-export async function fetchLanguages(): Promise<ApiResponse<{ [key: string]: number }>> {
-  return githubFetch<{ [key: string]: number }>(`/repos/${REPO_FULL_NAME}/languages`);
+export async function fetchLanguages(): Promise<
+  ApiResponse<{ [key: string]: number }>
+> {
+  return githubFetch<{ [key: string]: number }>(
+    `/repos/${REPO_FULL_NAME}/languages`,
+  );
 }
 
 /**
  * Fetch activity statistics
  */
-export async function fetchActivityStats(): Promise<ApiResponse<ActivityStats>> {
+export async function fetchActivityStats(): Promise<
+  ApiResponse<ActivityStats>
+> {
   try {
     const [
       commitActivityResponse,
@@ -402,7 +472,7 @@ export async function fetchActivityStats(): Promise<ApiResponse<ActivityStats>> 
 
     // If any critical API calls fail, use fallback data
     if (!commitActivityResponse.success || !commitsResponse.success) {
-      console.warn('GitHub API failed, using fallback activity data');
+      console.warn("GitHub API failed, using fallback activity data");
       return {
         data: FALLBACK_ACTIVITY_STATS,
         success: true,
@@ -411,7 +481,10 @@ export async function fetchActivityStats(): Promise<ApiResponse<ActivityStats>> 
       };
     }
 
-    const commitActivity = commitActivityResponse.data || [];
+    // const commitActivity = commitActivityResponse.data || [];
+    const commitActivity = Array.isArray(commitActivityResponse.data)
+      ? commitActivityResponse.data
+      : [];
     const commits = commitsResponse.data || [];
     const contributors = contributorsResponse.data || [];
     const languages = languagesResponse.data || {};
@@ -419,25 +492,35 @@ export async function fetchActivityStats(): Promise<ApiResponse<ActivityStats>> 
     // Calculate statistics
     const totalCommits = commits.length;
     const weeklyCommits = commitActivity[commitActivity.length - 1]?.total || 0;
-    const monthlyCommits = commitActivity.slice(-4).reduce((sum, week) => sum + week.total, 0);
+    // const monthlyCommits = commitActivity
+    //   .slice(-4)
+    //   .reduce((sum, week) => sum + week.total, 0);
 
-    const topContributors = contributors.slice(0, 5).map(contributor => ({
+    // Use safe array methods with fallback
+    const monthlyCommits =
+      commitActivity.length > 0
+        ? commitActivity.slice(-4).reduce((sum, week) => sum + week.total, 0)
+        : 0;
+
+    const topContributors = contributors.slice(0, 5).map((contributor) => ({
       login: contributor.login,
       contributions: contributor.contributions,
       avatar_url: contributor.avatar_url,
     }));
 
-    const lastCommit = commits[0] ? {
-      sha: commits[0].sha,
-      message: commits[0].commit.message,
-      author: commits[0].commit.author.name,
-      date: commits[0].commit.author.date,
-    } : {
-      sha: '',
-      message: '',
-      author: '',
-      date: '',
-    };
+    const lastCommit = commits[0]
+      ? {
+          sha: commits[0].sha,
+          message: commits[0].commit.message,
+          author: commits[0].commit.author.name,
+          date: commits[0].commit.author.date,
+        }
+      : {
+          sha: "",
+          message: "",
+          author: "",
+          date: "",
+        };
 
     const stats: ActivityStats = {
       commitActivity,
@@ -455,7 +538,7 @@ export async function fetchActivityStats(): Promise<ApiResponse<ActivityStats>> 
       rateLimit: commitActivityResponse.rateLimit,
     };
   } catch (error) {
-    console.warn('GitHub API error, using fallback activity data:', error);
+    console.warn("GitHub API error, using fallback activity data:", error);
     return {
       data: FALLBACK_ACTIVITY_STATS,
       success: true,
@@ -468,7 +551,9 @@ export async function fetchActivityStats(): Promise<ApiResponse<ActivityStats>> 
  * Fetch repository releases
  */
 export async function fetchReleases(): Promise<ApiResponse<Release[]>> {
-  return githubFetch<Release[]>(`/repos/${REPO_FULL_NAME}/releases?per_page=10`);
+  return githubFetch<Release[]>(
+    `/repos/${REPO_FULL_NAME}/releases?per_page=10`,
+  );
 }
 
 /**
@@ -499,7 +584,9 @@ export function isValidGitHubRepo(url: string): boolean {
 /**
  * Extract owner and repo from GitHub URL
  */
-export function parseGitHubUrl(url: string): { owner: string; repo: string } | null {
+export function parseGitHubUrl(
+  url: string,
+): { owner: string; repo: string } | null {
   const match = url.match(/github\.com\/([\w-]+)\/([\w-]+)/);
   if (match) {
     return {
