@@ -135,6 +135,24 @@ We welcome contributions! Please follow these steps:
 
 See our [Contribution Guidelines](CONTRIBUTING.md) for detailed standards.
 
+### Community Discussions
+
+Join our community discussions to:
+- **Ask questions** about implementation, troubleshooting, integration, and performance
+- **Share ideas** for new features, technology improvements, and user experience enhancements
+
+📋 **Discussion Templates Available:**
+- [Implementation & Configuration Questions](.github/DISCUSSION_TEMPLATE/ask-implementation.md)
+- [Troubleshooting & Support](.github/DISCUSSION_TEMPLATE/ask-troubleshooting.md)  
+- [Integration & Deployment](.github/DISCUSSION_TEMPLATE/ask-integration.md)
+- [Performance & Scaling](.github/DISCUSSION_TEMPLATE/ask-performance.md)
+- [Feature Enhancement Ideas](.github/DISCUSSION_TEMPLATE/idea-feature-enhancement.md)
+- [Technology Modernization](.github/DISCUSSION_TEMPLATE/idea-technology-modernization.md)
+- [Architecture Improvements](.github/DISCUSSION_TEMPLATE/idea-architecture-improvements.md)
+- [User Experience Improvements](.github/DISCUSSION_TEMPLATE/idea-user-experience.md)
+
+📊 **Project Analysis:** See our [Code Analysis & Recommendations](docs/code-analysis-and-recommendations.md) for modernization opportunities.
+
 ## Ethical Guidelines
 
 OptiBlogAi adheres to strict ethical standards:
