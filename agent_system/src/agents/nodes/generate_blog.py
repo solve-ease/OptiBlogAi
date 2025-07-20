@@ -30,7 +30,7 @@ async def generate_blog(state: GraphState) -> Dict[str, Any]:
             gemini_client = await get_gemini_client()
             
             fallback_prompt = f"""
-            Write a comprehensive 1500-word blog post about: {keyword}
+            Write a comprehensive 500-word blog post about: {keyword}
             
             Since no source material is available, create original content that covers:
             - Introduction to the topic

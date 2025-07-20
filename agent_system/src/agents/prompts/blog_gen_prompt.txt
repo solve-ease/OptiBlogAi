@@ -6,7 +6,7 @@ REFERENCE POSTS:
 {reference_posts}
 
 INSTRUCTIONS:
-1. Create a comprehensive 1500-word blog post that covers the topic thoroughly
+1. Create a comprehensive 500-word blog post that covers the topic thoroughly
 2. Structure the content with clear headings (H1, H2, H3)
 3. Include an engaging introduction that hooks the reader
 4. Provide actionable insights and practical tips

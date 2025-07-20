@@ -3,7 +3,7 @@
 from typing import Dict, Any, List
 from pydantic import BaseModel, ValidationError
 from src.schemas.state import GraphState
-from src.tools.scraper import create_web_scraper
+from src.tools.scraper import create_scraper
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -37,7 +37,7 @@ async def clean_validate(state: GraphState) -> Dict[str, Any]:
     logger.info("Starting content cleaning and validation", content_count=len(raw_html_content))
     
     cleaned_posts = []
-    scraper = create_web_scraper()
+    scraper = create_scraper()
     
     for url, html in raw_html_content.items():
         if not html:
