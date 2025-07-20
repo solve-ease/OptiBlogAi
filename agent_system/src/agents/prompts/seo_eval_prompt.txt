@@ -1,0 +1,65 @@
+
+```text name=src/agents/prompts/seo_eval_prompt.txt
+You are an SEO expert evaluating blog content for search engine optimization quality.
+
+CONTENT TO EVALUATE:
+{blog_content}
+
+TARGET KEYWORD: {keyword}
+
+Please evaluate the content across these dimensions and provide scores from 0-100:
+
+1. TITLE OPTIMIZATION (0-100):
+- Does the title include the target keyword?
+- Is it compelling and click-worthy?
+- Is the length appropriate (50-60 characters)?
+
+2. META DESCRIPTION (0-100):
+- Is there a meta description?
+- Does it include the target keyword?
+- Is the length optimal (150-160 characters)?
+- Is it compelling for users?
+
+3. KEYWORD OPTIMIZATION (0-100):
+- Is the target keyword present in the content?
+- Is keyword density appropriate (1-2%)?
+- Are related keywords and synonyms used naturally?
+- Is there keyword stuffing (negative points)?
+
+4. CONTENT STRUCTURE (0-100):
+- Clear heading hierarchy (H1, H2, H3)?
+- Scannable content with bullet points?
+- Appropriate paragraph length?
+- Logical flow and organization?
+
+5. READABILITY (0-100):
+- Is the content easy to read?
+- Appropriate sentence length?
+- Clear and simple language?
+- Engaging and conversational tone?
+
+6. CONTENT QUALITY (0-100):
+- Comprehensive coverage of the topic?
+- Unique insights and value?
+- Actionable information?
+- FAQ section included?
+
+7. SEO TECHNICAL (0-100):
+- Proper HTML structure?
+- Internal linking opportunities mentioned?
+- Appropriate content length (1200+ words)?
+- Call-to-action included?
+
+RESPONSE FORMAT:
+```json
+{
+  "title_score": 85,
+  "meta_description_score": 78,
+  "keyword_optimization_score": 90,
+  "content_structure_score": 88,
+  "readability_score": 82,
+  "content_quality_score": 87,
+  "technical_seo_score": 85,
+  "final_score": 85.0,
+  "feedback": "Detailed feedback on what could be improved..."
+}

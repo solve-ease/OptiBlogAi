@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "optiblogai"
+version = "0.1.0"
+description = "FastAPI × LangGraph × Gemini Search × LangSmith Blog Generation Service"
+authors = [
+    {name = "4darsh-Dev"}
+]
+
+[tool.setuptools]
+packages = ["src"]
