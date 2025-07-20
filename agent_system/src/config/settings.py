@@ -10,7 +10,9 @@ def load_environment():
     possible_paths = [
         Path(__file__).parent.parent.parent.parent.parent.parent / ".env",  # Project root
         Path(__file__).parent.parent.parent.parent / ".env",  # v1_cop level
-        Path("../../.env"),  # Current directory
+        Path("../../.env"),
+        Path("../.env"),
+        Path(".env") # Current directory
     ]
     
     for env_path in possible_paths:
