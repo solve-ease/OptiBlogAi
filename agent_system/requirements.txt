@@ -6,6 +6,7 @@ anyio==4.9.0
 attrs==25.3.0
 babel==2.17.0
 beautifulsoup4==4.13.4
+black==25.1.0
 cachetools==5.5.2
 certifi==2025.7.14
 charset-normalizer==3.4.2
@@ -21,6 +22,8 @@ google-api-core==2.25.1
 google-api-python-client==2.176.0
 google-auth==2.40.3
 google-auth-httplib2==0.2.0
+google-custom-search==3.0.0
+google-genai==1.26.0
 google-generativeai==0.8.5
 googleapis-common-protos==1.70.0
 greenlet==3.2.3
@@ -55,9 +58,13 @@ multidict==6.6.3
 mypy_extensions==1.1.0
 numpy==2.3.1
 openai==1.97.0
+-e git+ssh://git@github.com/solve-ease/OptiBlogAi.git@7ebbc38c6a41be3e26e15ad46107f184100e480d#egg=optiblogai&subdirectory=agent_system
 orjson==3.11.0
 ormsgpack==1.10.0
 packaging==25.0
+pathspec==0.12.1
+platformdirs==4.3.8
+playwright==1.53.0
 propcache==0.3.2
 proto-plus==1.26.1
 protobuf==5.29.5
@@ -66,6 +73,7 @@ pyasn1_modules==0.4.2
 pydantic==2.11.7
 pydantic-settings==2.10.1
 pydantic_core==2.33.2
+pyee==13.0.0
 pyparsing==3.2.3
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.1
@@ -81,7 +89,7 @@ soupsieve==2.7
 SQLAlchemy==2.0.41
 starlette==0.47.1
 structlog==25.4.0
-tenacity==9.1.2
+tenacity==8.5.0
 tiktoken==0.9.0
 tld==0.13.1
 tqdm==4.67.1
