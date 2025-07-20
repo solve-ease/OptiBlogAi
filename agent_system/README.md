@@ -59,19 +59,20 @@ A self-optimizing blog generation agent that creates SEO-optimized content using
 
    ```bash
    git clone <repository-url>
-   cd gemini-with-search
+   cd agent_system
    ```
 
 2. **Create virtual environment**
 
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies**
 
    ```bash
+   pip install -r requirements.txt
    pip install -e .
    ```
 
@@ -93,7 +94,7 @@ Create a `.env` file with the following variables:
 
 ```env
 GOOGLE_API_KEY=your_google_api_key_here
-GEMINI_MODEL=gemini-1.5-pro-latest
+GEMINI_MODEL=gemini-2.5-flash
 LANGSMITH_API_KEY=your_langsmith_api_key_here
 LANGSMITH_PROJECT=gemini-search-blog-agent
 MAX_CONCURRENT_REQUESTS=10

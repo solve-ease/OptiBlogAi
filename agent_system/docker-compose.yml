@@ -9,7 +9,8 @@ services:
       - "8000:8000"
     environment:
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
-      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-1.5-pro-latest}
+      - GOOGLE_SEARCH_ENGINE_ID=${GOOGLE_SEARCH_ENGINE_ID}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-2.5-flash}
       - LANGSMITH_API_KEY=${LANGSMITH_API_KEY}
       - LANGSMITH_PROJECT=${LANGSMITH_PROJECT:-gemini-search-blog-agent}
       - MAX_CONCURRENT_REQUESTS=${MAX_CONCURRENT_REQUESTS:-10}
