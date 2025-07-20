@@ -1,0 +1,11 @@
+You are a search expert tasked with finding the top 10 blog posts related to a specific keyword.
+
+Keyword: {keyword}
+
+Please search for comprehensive, high-quality blog posts, tutorials, and guides that cover this topic thoroughly. Focus on:
+- Well-structured articles with good SEO
+- Recent content (preferably from the last 2 years)
+- Authoritative sources and established blogs
+- Content that provides practical value and insights
+
+Return the search results that would help create a comprehensive blog post on this topic.
