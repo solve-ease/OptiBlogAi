@@ -4,7 +4,12 @@ import asyncio
 import os
 from typing import Dict, List, Optional, Tuple
 
-from playwright.async_api import async_playwright, Browser, Page, TimeoutError as PlaywrightTimeoutError
+from playwright.async_api import (
+    async_playwright,
+    Browser,
+    Page,
+    TimeoutError as PlaywrightTimeoutError,
+)
 from urllib.parse import urlparse
 from src.utils.logger import get_logger
 
@@ -21,18 +26,21 @@ USER_AGENTS = [
     # add more as needed…
 ]
 
+
 class PlaywrightScraper:
     def __init__(
         self,
         max_concurrent: int = 5,
         navigation_timeout: int = 15_000,  # 15s
-        headless: bool = True
+        headless: bool = True,
     ):
         self.semaphore = asyncio.Semaphore(max_concurrent)
         self.navigation_timeout = navigation_timeout
         self.headless = headless
 
-    async def _fetch(self, browser: Browser, url: str, ua: str) -> Tuple[str, Optional[str]]:
+    async def _fetch(
+        self, browser: Browser, url: str, ua: str
+    ) -> Tuple[str, Optional[str]]:
         """Load a page in Playwright and return its HTML or None."""
         async with self.semaphore:
             page: Page = await browser.new_page(
@@ -40,15 +48,23 @@ class PlaywrightScraper:
                 viewport={"width": 1280, "height": 800},
             )
             # Optionally block images/fonts/css to speed up
-            await page.route("**/*", lambda route: route.continue_()
-                              if route.request.resource_type not in ("image", "font", "stylesheet")
-                              else route.abort())
+            await page.route(
+                "**/*",
+                lambda route: (
+                    route.continue_()
+                    if route.request.resource_type
+                    not in ("image", "font", "stylesheet")
+                    else route.abort()
+                ),
+            )
             # Set a Referer header
             origin = f"{urlparse(url).scheme}://{urlparse(url).netloc}"
             await page.set_extra_http_headers({"Referer": origin})
 
             try:
-                await page.goto(url, wait_until="networkidle", timeout=self.navigation_timeout)
+                await page.goto(
+                    url, wait_until="networkidle", timeout=self.navigation_timeout
+                )
                 html = await page.content()
                 logger.debug("Scraped successfully", url=url, length=len(html))
                 return url, html
@@ -83,7 +99,7 @@ class PlaywrightScraper:
             total=total,
             success=success,
             failed=total - success,
-            success_rate=f"{rate:.1f}%"
+            success_rate=f"{rate:.1f}%",
         )
 
         return scraped
@@ -96,9 +112,7 @@ def create_scraper() -> PlaywrightScraper:
     headless = os.getenv("PLAYWRIGHT_HEADLESS", "true").lower() == "true"
 
     return PlaywrightScraper(
-        max_concurrent=max_conc,
-        navigation_timeout=timeout,
-        headless=headless
+        max_concurrent=max_conc, navigation_timeout=timeout, headless=headless
     )
 
 

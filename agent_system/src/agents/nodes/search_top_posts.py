@@ -28,6 +28,7 @@ Output a JSON array of objects, each with:
 Return only valid JSON.
 """.strip()
 
+
 async def search_top_posts(state: GraphState) -> Dict[str, Any]:
     keyword = state.keyword
     logger.info("Starting search for top posts", keyword=keyword)
@@ -37,40 +38,35 @@ async def search_top_posts(state: GraphState) -> Dict[str, Any]:
         client = await get_gemini_client()
         prompt = GPT_JSON_PROMPT.format(keyword=keyword)
         logger.info("Gemini grounding with JSON prompt", prompt=prompt[:60] + "…")
-        
-        raw = await client.generate_content(
-            prompt=prompt,
-            temperature=0.3
-        )
+
+        raw = await client.generate_content(prompt=prompt, temperature=0.3)
 
         print(f"Raw Gemini response: {raw[:1000]}...")  # Debug print
-    
+
         text = raw.strip()
-        
+
         # Parse JSON safely
         try:
             top_posts = json.loads(text)
-            
 
         except json.JSONDecodeError:
             # try to extract a JSON array or object via regex
-                match = re.search(r'(\[.*\]|\{.*\})', text, re.DOTALL)
-                if match:
-                    try:
-                        top_posts = json.loads(match.group(1))
-                    except json.JSONDecodeError:
-                        top_posts = []
-                else:
+            match = re.search(r"(\[.*\]|\{.*\})", text, re.DOTALL)
+            if match:
+                try:
+                    top_posts = json.loads(match.group(1))
+                except json.JSONDecodeError:
                     top_posts = []
+            else:
+                top_posts = []
 
         if isinstance(top_posts, list) and len(top_posts) >= 5:
-           return {"top_posts": top_posts}
+            return {"top_posts": top_posts}
 
     except json.JSONDecodeError as je:
         logger.warning("Failed to parse Gemini JSON", error=str(je))
-        
-        # fixing json decoding error
 
+        # fixing json decoding error
 
     except Exception as e:
         logger.error("Gemini grounding error", error=str(e), exc_info=True)
@@ -79,7 +75,7 @@ async def search_top_posts(state: GraphState) -> Dict[str, Any]:
     try:
         search_client = create_search_client()
         logger.info("Falling back to Custom Search API", keyword=keyword)
-        
+
         posts = await search_client.search_top_posts(keyword, num_results=10)
         if posts:
             logger.info("Custom Search returned results", count=len(posts))
@@ -99,7 +95,7 @@ async def search_top_posts(state: GraphState) -> Dict[str, Any]:
         "top_posts": [],
         "search_failed": True,
         "error_message": f"No blog posts found for keyword: '{keyword}'",
-        "workflow_status": "search_failed"
+        "workflow_status": "search_failed",
     }
 
 
@@ -114,5 +110,3 @@ async def search_top_posts(state: GraphState) -> Dict[str, Any]:
 #         }
 #         for i in range(10)
 #     ]
-
-

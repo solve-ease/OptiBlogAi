@@ -18,12 +18,14 @@ GEMINI_MODEL = settings.GEMINI_MODEL
 
 # Updated Gemini client with search grounding
 
+
 @dataclass
 class GeminiConfig:
     api_key: str
     model_name: str = "gemini-2.5-flash"
     temperature: float = 0.7
     max_output_tokens: int = 8192
+
 
 class GeminiClient:
     _instance: Optional["GeminiClient"] = None
@@ -34,8 +36,7 @@ class GeminiClient:
         self.client = genai.Client(api_key=GOOGLE_API_KEY)
         self.model_name = GEMINI_MODEL
         self.base_config = types.GenerateContentConfig(
-            temperature=config.temperature,
-            max_output_tokens=config.max_output_tokens
+            temperature=config.temperature, max_output_tokens=config.max_output_tokens
         )
         # self._config_fields = {f.name for f in fields(self.base_config)}
         self._config_fields = set(self.base_config.__dict__.keys())
@@ -50,10 +51,7 @@ class GeminiClient:
         return cls._instance
 
     async def generate_content(
-        self,
-        prompt: str,
-        use_search: bool = False,
-        **overrides: Any
+        self, prompt: str, use_search: bool = False, **overrides: Any
     ) -> str:
         try:
             if use_search:
@@ -62,35 +60,40 @@ class GeminiClient:
                 gen_config = types.GenerateContentConfig(
                     temperature=self.base_config.temperature,
                     max_output_tokens=self.base_config.max_output_tokens,
-                    tools=[grounding_tool]
+                    tools=[grounding_tool],
                 )
             else:
                 # Apply any overrides
                 valid = {k: v for k, v in overrides.items() if k in self._config_fields}
-                gen_config = _dataclass_replace(self.base_config, **valid) if valid else self.base_config
+                gen_config = (
+                    _dataclass_replace(self.base_config, **valid)
+                    if valid
+                    else self.base_config
+                )
 
             response = await self.client.aio.models.generate_content(
-                model=self.model_name,
-                contents=prompt,
-                config=gen_config
+                model=self.model_name, contents=prompt, config=gen_config
             )
             text = response.text or ""
             if not text:
                 raise ValueError("Empty response from Gemini API")
-            logger.info("Generated content", prompt_len=len(prompt), response_len=len(text))
+            logger.info(
+                "Generated content", prompt_len=len(prompt), response_len=len(text)
+            )
             return text
         except Exception as e:
             logger.error("Gemini generation failed", error=str(e))
             raise
+
 
 def _dataclass_replace(dc_obj: Any, **kwargs: Any) -> Any:
     """Helper to copy and override dataclass fields."""
     data = {**dc_obj.__dict__, **kwargs}
     return type(dc_obj)(**data)
 
+
 async def get_gemini_client() -> GeminiClient:
     return await GeminiClient.get_instance()
-
 
 
 # @dataclass
@@ -138,7 +141,7 @@ async def get_gemini_client() -> GeminiClient:
 #     ) -> str:
 #         """
 #         Generate text using the Gemini model asynchronously.
-        
+
 #         Args:
 #           prompt: the text prompt
 #           use_search: flag (ignored at this level; you can implement grounding upstream)

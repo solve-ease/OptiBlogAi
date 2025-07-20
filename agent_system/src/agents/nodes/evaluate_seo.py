@@ -1,6 +1,3 @@
-
-
-
 """SEO evaluation node implementation - Fixed JSON parsing."""
 
 import json
@@ -17,25 +14,22 @@ async def evaluate_seo(state: GraphState) -> Dict[str, Any]:
     """Evaluate SEO quality of the generated blog content."""
     draft_blog = state.draft_blog
     keyword = state.keyword
-    
+
     if not draft_blog:
         logger.warning("No draft blog content to evaluate")
-        return {
-            "seo_scores": {},
-            "final_score": 0.0
-        }
-    
+        return {"seo_scores": {}, "final_score": 0.0}
+
     logger.info("Starting SEO evaluation", keyword=keyword)
-    
+
     try:
         # Use rule-based evaluation as primary method (more reliable)
         rule_based_scores = _evaluate_with_rules(draft_blog, keyword)
-        
+
         # Try AI evaluation as enhancement (if API key available)
         ai_scores = {}
         try:
             gemini_client = await get_gemini_client()
-            
+
             seo_prompt = f"""
             Evaluate this blog content for SEO quality. Return ONLY a JSON object with these exact fields:
             {{
@@ -56,52 +50,43 @@ async def evaluate_seo(state: GraphState) -> Dict[str, Any]:
             
             Respond with ONLY the JSON object, no additional text.
             """
-            
+
             evaluation_response = await gemini_client.generate_content(
-                prompt=seo_prompt,
-                temperature=0.1
+                prompt=seo_prompt, temperature=0.1
             )
-            
+
             # Parse AI evaluation
             ai_scores = _parse_seo_evaluation(evaluation_response)
-            
+
         except Exception as e:
-            logger.warning("AI SEO evaluation failed, using rule-based only", error=str(e))
-        
+            logger.warning(
+                "AI SEO evaluation failed, using rule-based only", error=str(e)
+            )
+
         # Combine scores (prefer rule-based if AI fails)
         if ai_scores:
             final_scores = _combine_scores(ai_scores, rule_based_scores)
         else:
             final_scores = rule_based_scores
-        
+
         final_score = final_scores.get("final_score", 0.0)
-        
+
         logger.info(
             "SEO evaluation completed",
             keyword=keyword,
             final_score=final_score,
-            method="combined" if ai_scores else "rule_based"
+            method="combined" if ai_scores else "rule_based",
         )
-        
-        return {
-            "seo_scores": final_scores,
-            "final_score": final_score
-        }
-        
+
+        return {"seo_scores": final_scores, "final_score": final_score}
+
     except Exception as e:
-        logger.error(
-            "SEO evaluation failed",
-            keyword=keyword,
-            error=str(e)
-        )
-        
+        logger.error("SEO evaluation failed", keyword=keyword, error=str(e))
+
         # Fallback to basic rule evaluation
         basic_score = min(50.0 + (len(draft_blog) / 100), 80.0)
-        
-        return {
-            "seo_scores": {"final_score": basic_score},
-            "final_score": basic_score
-        }
+
+        return {"seo_scores": {"final_score": basic_score}, "final_score": basic_score}
 
 
 def _parse_seo_evaluation(response: str) -> Dict[str, Any]:
@@ -109,30 +94,39 @@ def _parse_seo_evaluation(response: str) -> Dict[str, Any]:
     try:
         # Clean the response
         cleaned_response = response.strip()
-        
+
         # Look for JSON content between ```json blocks
-        json_match = re.search(r'```json\s*(\{.*?\})\s*```', cleaned_response, re.DOTALL)
+        json_match = re.search(
+            r"```json\s*(\{.*?\})\s*```", cleaned_response, re.DOTALL
+        )
         if json_match:
             json_content = json_match.group(1)
         else:
             # Look for direct JSON object
-            json_match = re.search(r'\{[^}]*"final_score"[^}]*\}', cleaned_response, re.DOTALL)
+            json_match = re.search(
+                r'\{[^}]*"final_score"[^}]*\}', cleaned_response, re.DOTALL
+            )
             if json_match:
                 json_content = json_match.group(0)
             else:
                 # Try to parse the entire response as JSON
                 json_content = cleaned_response
-        
+
         # Parse JSON
         scores = json.loads(json_content)
-        
+
         # Validate and sanitize scores
         required_fields = [
-            "title_score", "meta_description_score", "keyword_optimization_score",
-            "content_structure_score", "readability_score", "content_quality_score",
-            "technical_seo_score", "final_score"
+            "title_score",
+            "meta_description_score",
+            "keyword_optimization_score",
+            "content_structure_score",
+            "readability_score",
+            "content_quality_score",
+            "technical_seo_score",
+            "final_score",
         ]
-        
+
         for field in required_fields:
             if field not in scores:
                 scores[field] = 0.0
@@ -142,9 +136,9 @@ def _parse_seo_evaluation(response: str) -> Dict[str, Any]:
                     scores[field] = max(0.0, min(100.0, float(scores[field])))
                 except (ValueError, TypeError):
                     scores[field] = 0.0
-                    
+
         return scores
-        
+
     except json.JSONDecodeError as e:
         logger.warning("Failed to parse JSON from SEO evaluation", error=str(e))
         return {}
@@ -156,49 +150,53 @@ def _parse_seo_evaluation(response: str) -> Dict[str, Any]:
 def _evaluate_with_rules(content: str, keyword: str) -> Dict[str, Any]:
     """Evaluate content using deterministic rules."""
     scores = {}
-    
+
     # Title evaluation
-    title_match = re.search(r'<title>(.*?)</title>', content, re.IGNORECASE)
+    title_match = re.search(r"<title>(.*?)</title>", content, re.IGNORECASE)
     if title_match:
         title = title_match.group(1)
         title_score = 0
-        
+
         if keyword.lower() in title.lower():
             title_score += 40
         if 30 <= len(title) <= 60:
             title_score += 30
         if len(title) > 0:
             title_score += 30
-            
+
         scores["title_score"] = min(title_score, 100)
     else:
         scores["title_score"] = 0
-    
+
     # Meta description evaluation
-    meta_match = re.search(r'<meta name="description" content="(.*?)"', content, re.IGNORECASE)
+    meta_match = re.search(
+        r'<meta name="description" content="(.*?)"', content, re.IGNORECASE
+    )
     if meta_match:
         meta_desc = meta_match.group(1)
         meta_score = 0
-        
+
         if keyword.lower() in meta_desc.lower():
             meta_score += 40
         if 120 <= len(meta_desc) <= 160:
             meta_score += 40
         if len(meta_desc) > 0:
             meta_score += 20
-            
+
         scores["meta_description_score"] = min(meta_score, 100)
     else:
         scores["meta_description_score"] = 0
-    
+
     # Keyword density evaluation
-    content_text = re.sub(r'<[^>]+>', '', content)  # Strip HTML
+    content_text = re.sub(r"<[^>]+>", "", content)  # Strip HTML
     word_count = len(content_text.split())
-    keyword_occurrences = len(re.findall(r'\b' + re.escape(keyword.lower()) + r'\b', content_text.lower()))
-    
+    keyword_occurrences = len(
+        re.findall(r"\b" + re.escape(keyword.lower()) + r"\b", content_text.lower())
+    )
+
     if word_count > 0:
         keyword_density = (keyword_occurrences / word_count) * 100
-        
+
         if 1.0 <= keyword_density <= 2.5:
             scores["keyword_optimization_score"] = 100
         elif 0.5 <= keyword_density < 1.0 or 2.5 < keyword_density <= 3.5:
@@ -209,13 +207,13 @@ def _evaluate_with_rules(content: str, keyword: str) -> Dict[str, Any]:
             scores["keyword_optimization_score"] = 0
     else:
         scores["keyword_optimization_score"] = 0
-    
+
     # Content structure evaluation
-    h1_count = len(re.findall(r'<h1[^>]*>', content, re.IGNORECASE))
-    h2_count = len(re.findall(r'<h2[^>]*>', content, re.IGNORECASE))
-    h3_count = len(re.findall(r'<h3[^>]*>', content, re.IGNORECASE))
-    p_count = len(re.findall(r'<p[^>]*>', content, re.IGNORECASE))
-    
+    h1_count = len(re.findall(r"<h1[^>]*>", content, re.IGNORECASE))
+    h2_count = len(re.findall(r"<h2[^>]*>", content, re.IGNORECASE))
+    h3_count = len(re.findall(r"<h3[^>]*>", content, re.IGNORECASE))
+    p_count = len(re.findall(r"<p[^>]*>", content, re.IGNORECASE))
+
     structure_score = 0
     if h1_count == 1:
         structure_score += 25
@@ -225,9 +223,9 @@ def _evaluate_with_rules(content: str, keyword: str) -> Dict[str, Any]:
         structure_score += 25
     if p_count >= 5:
         structure_score += 25
-        
+
     scores["content_structure_score"] = structure_score
-    
+
     # Content length evaluation
     if word_count >= 500:
         length_score = 100
@@ -237,13 +235,13 @@ def _evaluate_with_rules(content: str, keyword: str) -> Dict[str, Any]:
         length_score = 60
     else:
         length_score = 40
-        
+
     scores["content_quality_score"] = length_score
-    
+
     # Readability (simplified - based on average sentence length)
-    sentences = re.split(r'[.!?]+', content_text)
+    sentences = re.split(r"[.!?]+", content_text)
     sentences = [s.strip() for s in sentences if s.strip()]
-    
+
     if len(sentences) > 1:
         avg_sentence_length = word_count / len(sentences)
         if 15 <= avg_sentence_length <= 20:
@@ -254,24 +252,24 @@ def _evaluate_with_rules(content: str, keyword: str) -> Dict[str, Any]:
             readability_score = 60
     else:
         readability_score = 60
-        
+
     scores["readability_score"] = readability_score
-    
+
     # Technical SEO (basic checks)
     tech_score = 0
-    if '<title>' in content and '</title>' in content:
+    if "<title>" in content and "</title>" in content:
         tech_score += 20
     if 'meta name="description"' in content:
         tech_score += 20
-    if '<h1' in content:
+    if "<h1" in content:
         tech_score += 20
-    if '<h2' in content:
+    if "<h2" in content:
         tech_score += 20
     if word_count >= 1000:
         tech_score += 20
-        
+
     scores["technical_seo_score"] = tech_score
-    
+
     # Calculate weighted final score
     weights = {
         "title_score": 0.15,
@@ -280,32 +278,38 @@ def _evaluate_with_rules(content: str, keyword: str) -> Dict[str, Any]:
         "content_structure_score": 0.15,
         "readability_score": 0.15,
         "content_quality_score": 0.15,
-        "technical_seo_score": 0.10
+        "technical_seo_score": 0.10,
     }
-    
+
     final_score = sum(scores.get(key, 0) * weights[key] for key in weights.keys())
     scores["final_score"] = round(final_score, 1)
-    
+
     return scores
 
 
-def _combine_scores(ai_scores: Dict[str, Any], rule_scores: Dict[str, Any]) -> Dict[str, Any]:
+def _combine_scores(
+    ai_scores: Dict[str, Any], rule_scores: Dict[str, Any]
+) -> Dict[str, Any]:
     """Combine AI and rule-based scores with weighted average."""
     combined = {}
     ai_weight = 0.3
     rule_weight = 0.7
-    
+
     score_keys = [
-        "title_score", "meta_description_score", "keyword_optimization_score",
-        "content_structure_score", "readability_score", "content_quality_score",
-        "technical_seo_score"
+        "title_score",
+        "meta_description_score",
+        "keyword_optimization_score",
+        "content_structure_score",
+        "readability_score",
+        "content_quality_score",
+        "technical_seo_score",
     ]
-    
+
     for key in score_keys:
         ai_score = ai_scores.get(key, 0)
         rule_score = rule_scores.get(key, 0)
         combined[key] = round(ai_score * ai_weight + rule_score * rule_weight, 1)
-    
+
     # Calculate final score
     weights = {
         "title_score": 0.15,
@@ -314,10 +318,10 @@ def _combine_scores(ai_scores: Dict[str, Any], rule_scores: Dict[str, Any]) -> D
         "content_structure_score": 0.15,
         "readability_score": 0.15,
         "content_quality_score": 0.15,
-        "technical_seo_score": 0.10
+        "technical_seo_score": 0.10,
     }
-    
+
     final_score = sum(combined[key] * weights[key] for key in weights.keys())
     combined["final_score"] = round(final_score, 1)
-    
+
     return combined

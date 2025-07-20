@@ -4,24 +4,27 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+
 def load_environment():
     """Load environment variables from .env file."""
     # Try multiple locations for .env file
     possible_paths = [
-        Path(__file__).parent.parent.parent.parent.parent.parent / ".env",  # Project root
+        Path(__file__).parent.parent.parent.parent.parent.parent
+        / ".env",  # Project root
         Path(__file__).parent.parent.parent.parent / ".env",  # v1_cop level
         Path("../../.env"),
         Path("../.env"),
-        Path(".env") # Current directory
+        Path(".env"),  # Current directory
     ]
-    
+
     for env_path in possible_paths:
         if env_path.exists():
             load_dotenv(env_path)
             print(f"Environment loaded from: {env_path}")
             return
-    
+
     print("No .env file found, using system environment variables")
+
 
 # Load environment variables when module is imported
 load_environment()
