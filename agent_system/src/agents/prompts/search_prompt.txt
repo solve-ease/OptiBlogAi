@@ -4,7 +4,7 @@ Keyword: {keyword}
 
 Please search for comprehensive, high-quality blog posts, tutorials, and guides that cover this topic thoroughly. Focus on:
 - Well-structured articles with good SEO
-- Recent content (preferably from the last 2 years)
+- Recent content (preferably from the last 1 years)
 - Authoritative sources and established blogs
 - Content that provides practical value and insights
 

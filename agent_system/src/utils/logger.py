@@ -8,14 +8,14 @@ from datetime import datetime, timezone
 
 def configure_logging() -> None:
     """Configure structured logging for the application."""
-    
+
     # Configure standard library logging
     logging.basicConfig(
         format="%(message)s",
         stream=None,
         level=logging.INFO,
     )
-    
+
     # Configure structlog
     structlog.configure(
         processors=[
@@ -24,7 +24,7 @@ def configure_logging() -> None:
             structlog.stdlib.add_log_level,
             structlog.stdlib.PositionalArgumentsFormatter(),
             add_timestamp,
-            structlog.processors.JSONRenderer()
+            structlog.processors.JSONRenderer(),
         ],
         context_class=dict,
         logger_factory=structlog.stdlib.LoggerFactory(),
@@ -33,7 +33,9 @@ def configure_logging() -> None:
     )
 
 
-def add_timestamp(logger: Any, method_name: str, event_dict: Dict[str, Any]) -> Dict[str, Any]:
+def add_timestamp(
+    logger: Any, method_name: str, event_dict: Dict[str, Any]
+) -> Dict[str, Any]:
     """Add timestamp to log events."""
     # Fix: Use timezone-aware datetime instead of deprecated utcnow()
     event_dict["timestamp"] = datetime.now(timezone.utc).isoformat()

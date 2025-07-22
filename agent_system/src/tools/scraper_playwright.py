@@ -1,6 +1,8 @@
+# scraper.py
+
 import asyncio
 import os
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Optional, Tuple
 
 from playwright.async_api import (
     async_playwright,
@@ -10,8 +12,6 @@ from playwright.async_api import (
 )
 from urllib.parse import urlparse
 from src.utils.logger import get_logger
-from bs4 import BeautifulSoup
-import trafilatura
 
 logger = get_logger(__name__)
 
@@ -76,91 +76,6 @@ class PlaywrightScraper:
                 await page.close()
 
             return url, None
-
-    def clean_html_content(self, html: str, url: str) -> Optional[Dict[str, Any]]:
-        """Clean and extract content from HTML.
-
-        Args:
-            html: Raw HTML content
-            url: Source URL
-
-        Returns:
-            Cleaned content dictionary or None if extraction fails
-        """
-        try:
-            # Try BeautifulSoup first
-            soup = BeautifulSoup(html, "html.parser")
-
-            # Remove unwanted elements
-            for element in soup(
-                ["script", "style", "nav", "footer", "aside", "header"]
-            ):
-                element.decompose()
-
-            # Extract title
-            title = ""
-            title_tag = soup.find("title")
-            if title_tag:
-                title = title_tag.get_text().strip()
-
-            # Extract meta description
-            meta_desc = ""
-            meta_tag = soup.find("meta", attrs={"name": "description"})
-            if meta_tag and meta_tag.get("content"):
-                meta_desc = meta_tag.get("content").strip()
-
-            # Extract headings
-            headings = []
-            for heading in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6"]):
-                text = heading.get_text().strip()
-                if text:
-                    headings.append(text)
-
-            # Extract paragraphs
-            paragraphs = []
-            for p in soup.find_all("p"):
-                text = p.get_text().strip()
-                if text and len(text) > 20:  # Filter out short paragraphs
-                    paragraphs.append(text)
-
-            # If BeautifulSoup didn't get enough content, try trafilatura
-            if len(paragraphs) < 3:
-                extracted_text = trafilatura.extract(html)
-                if extracted_text:
-                    paragraphs = [
-                        p.strip() for p in extracted_text.split("\n\n") if p.strip()
-                    ]
-
-            # Calculate word count
-            all_text = " ".join(paragraphs)
-            word_count = len(all_text.split())
-
-            if word_count < 100:  # Skip articles that are too short
-                logger.warning("Article too short", url=url, word_count=word_count)
-                return None
-
-            cleaned_content = {
-                "url": url,
-                "title": title,
-                "meta_description": meta_desc,
-                "headings": headings,
-                "paragraphs": paragraphs,
-                "word_count": word_count,
-            }
-
-            logger.debug(
-                "Content cleaned successfully",
-                url=url,
-                word_count=word_count,
-                paragraphs=len(paragraphs),
-                headings=len(headings),
-            )
-
-            return cleaned_content
-
-        except Exception as e:
-            logger.error("Failed to clean HTML content", url=url, error=str(e))
-            return None
 
     async def scrape_multiple(self, urls: List[str]) -> Dict[str, Optional[str]]:
         """Scrape a list of URLs using a single browser instance."""
