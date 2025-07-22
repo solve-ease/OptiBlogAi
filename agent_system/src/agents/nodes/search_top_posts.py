@@ -33,6 +33,12 @@ async def search_top_posts(state: GraphState) -> Dict[str, Any]:
     keyword = state.keyword
     logger.info("Starting search for top posts", keyword=keyword)
 
+    # url sanitization helper
+    def _sanitize_url(url: str) -> str:
+        """Strips <url …> wrapper if present."""
+        match = re.search(r'https?://[^\s<>"\']+', url)
+        return match.group(0) if match else url
+
     # 1️⃣ Try grounding through Gemini
     try:
         client = await get_gemini_client()
@@ -61,6 +67,9 @@ async def search_top_posts(state: GraphState) -> Dict[str, Any]:
                 top_posts = []
 
         if isinstance(top_posts, list) and len(top_posts) >= 5:
+            for p in top_posts:
+                p["url"] = _sanitize_url(p["url"])
+
             return {"top_posts": top_posts}
 
     except json.JSONDecodeError as je:
