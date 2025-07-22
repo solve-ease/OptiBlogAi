@@ -1,18 +1,22 @@
-"""FastAPI application factory and configuration - Fixed version."""
+"""Enhanced FastAPI application with security and middleware."""
 
 import os
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.security import HTTPBearer
 import uvloop
 import asyncio
 from dotenv import load_dotenv
 
 from src.api.routes.blog import router as blog_router
+from src.api.middleware import RateLimitMiddleware, RequestLoggingMiddleware
+from src.api.auth import verify_api_key
 from src.utils.logger import configure_logging, get_logger
+from src.schemas.models import ErrorDetail
 from langsmith import Client as LangSmithClient
 import structlog
 
@@ -23,17 +27,17 @@ load_dotenv()
 configure_logging()
 logger = get_logger(__name__)
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan manager for startup and shutdown events."""
     # Startup
-    logger.info("Starting Gemini Blog Agent service")
+    logger.info("Starting Enhanced Gemini Blog Agent service")
 
     # Set uvloop as the event loop policy for better performance
     if os.name != "nt":  # Not Windows
         try:
             asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+            logger.info("uvloop event loop policy set")
         except ImportError:
             logger.warning("uvloop not available, using default event loop")
 
@@ -52,183 +56,160 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # Pre-compile the blog generation graph
     try:
         from src.agents.graph import get_blog_generation_graph
-
         await get_blog_generation_graph()
         logger.info("Blog generation graph pre-compiled successfully")
     except Exception as e:
         logger.error("Failed to pre-compile blog generation graph", error=str(e))
 
-    logger.info("Service startup completed")
+    # Initialize usage tracking
+    app.state.usage_stats = {
+        "total_requests": 0,
+        "successful_requests": 0,
+        "failed_requests": 0,
+        "rate_limit_hits": 0
+    }
 
+    logger.info("Enhanced service startup completed")
     yield
 
     # Shutdown
-    logger.info("Shutting down Gemini Blog Agent service")
-
-    # Cleanup resources if needed
-    if hasattr(app.state, "langsmith_client"):
-        # Close LangSmith client if it has cleanup methods
-        pass
-
-    logger.info("Service shutdown completed")
-
+    logger.info("Shutting down Enhanced Gemini Blog Agent service")
+    
+    # Log final statistics
+    if hasattr(app.state, 'usage_stats'):
+        logger.info("Final usage statistics", **app.state.usage_stats)
+    
+    logger.info("Enhanced service shutdown completed")
 
 def create_app() -> FastAPI:
-    """Create and configure FastAPI application."""
+    """Create and configure enhanced FastAPI application."""
+    
     # Create FastAPI app with custom configuration
     app = FastAPI(
-        title="Gemini Blog Agent",
-        description="FastAPI × LangGraph × Gemini Search × LangSmith Blog Generation Service",
-        version="0.1.0",
+        title="Enhanced Gemini Blog Agent",
+        description="Secure FastAPI × LangGraph × Gemini Search × LangSmith Blog Generation Service with API Key Authentication",
+        version="1.0.0",
         docs_url="/docs",
         redoc_url="/redoc",
         openapi_url="/openapi.json",
         lifespan=lifespan,
     )
 
-    # Add CORS middleware
+    # Add custom exception handler for detailed error responses
+    @app.exception_handler(HTTPException)
+    async def http_exception_handler(request: Request, exc: HTTPException):
+        """Handle HTTP exceptions with detailed error information."""
+        error_detail = ErrorDetail(
+            error_code=f"HTTP_{exc.status_code}",
+            error_message=exc.detail,
+            details={
+                "path": str(request.url.path),
+                "method": request.method,
+                "status_code": exc.status_code
+            }
+        )
+        
+        logger.error(
+            "HTTP exception occurred",
+            status_code=exc.status_code,
+            detail=exc.detail,
+            path=request.url.path,
+            method=request.method
+        )
+        
+        return JSONResponse(
+            status_code=exc.status_code,
+            content=error_detail.dict()
+        )
+
+    @app.exception_handler(Exception)
+    async def general_exception_handler(request: Request, exc: Exception):
+        """Handle general exceptions."""
+        error_detail = ErrorDetail(
+            error_code="INTERNAL_SERVER_ERROR",
+            error_message="An unexpected error occurred",
+            details={
+                "path": str(request.url.path),
+                "method": request.method,
+                "error_type": type(exc).__name__
+            }
+        )
+        
+        logger.error(
+            "Unexpected exception occurred",
+            error=str(exc),
+            error_type=type(exc).__name__,
+            path=request.url.path,
+            method=request.method
+        )
+        
+        return JSONResponse(
+            status_code=500,
+            content=error_detail.dict()
+        )
+
+    # Add middleware in correct order (last added = first executed)
+    
+    # CORS middleware (should be last)
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],  # Configure appropriately for production
+        allow_origins=os.getenv("ALLOWED_ORIGINS", "*").split(","),
         allow_credentials=True,
-        allow_methods=["*"],
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allow_headers=["*"],
     )
-
-    # Add trusted host middleware for security - Fix: Allow test hosts
+    
+    # Trusted host middleware for production
     environment = os.getenv("ENVIRONMENT", "development")
     if environment == "production":
         trusted_hosts = os.getenv("TRUSTED_HOSTS", "localhost,127.0.0.1").split(",")
         app.add_middleware(TrustedHostMiddleware, allowed_hosts=trusted_hosts)
-    else:
-        # In development/test, allow all hosts
-        app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
+    
+    # Rate limiting middleware
+    rate_limit_calls = int(os.getenv("RATE_LIMIT_CALLS", "100"))
+    rate_limit_period = int(os.getenv("RATE_LIMIT_PERIOD", "3600"))  # 1 hour
+    app.add_middleware(
+        RateLimitMiddleware,
+        calls=rate_limit_calls,
+        period=rate_limit_period
+    )
+    
+    # Request logging middleware (should be first)
+    app.add_middleware(RequestLoggingMiddleware)
 
-    # Add request logging middleware
-    @app.middleware("http")
-    async def log_requests(request: Request, call_next):
-        """Log all HTTP requests."""
-        start_time = asyncio.get_event_loop().time()
-
-        # Log request start
-        logger.info(
-            "HTTP request started",
-            method=request.method,
-            url=str(request.url),
-            client_ip=request.client.host if request.client else "unknown",
-            user_agent=request.headers.get("user-agent", ""),
-            user="4darsh-Dev",
-        )
-
-        try:
-            response = await call_next(request)
-
-            # Calculate request duration
-            duration = asyncio.get_event_loop().time() - start_time
-
-            # Log request completion
-            logger.info(
-                "HTTP request completed",
-                method=request.method,
-                url=str(request.url),
-                status_code=response.status_code,
-                duration_ms=round(duration * 1000, 2),
-                user="4darsh-Dev",
-            )
-
-            return response
-
-        except Exception as e:
-            # Calculate request duration for failed requests
-            duration = asyncio.get_event_loop().time() - start_time
-
-            # Log request failure
-            logger.error(
-                "HTTP request failed",
-                method=request.method,
-                url=str(request.url),
-                duration_ms=round(duration * 1000, 2),
-                error=str(e),
-                user="4darsh-Dev",
-            )
-
-            raise
-
-    # Global exception handler
-    @app.exception_handler(Exception)
-    async def global_exception_handler(
-        request: Request, exc: Exception
-    ) -> JSONResponse:
-        """Global exception handler for unhandled errors."""
-        logger.error(
-            "Unhandled exception occurred",
-            method=request.method,
-            url=str(request.url),
-            error=str(exc),
-            error_type=type(exc).__name__,
-            user="4darsh-Dev",
-        )
-
-        # Don't expose internal error details in production
-        if os.getenv("ENVIRONMENT", "development") == "production":
-            detail = "Internal server error"
-        else:
-            detail = str(exc)
-
-        return JSONResponse(
-            status_code=500,
-            content={
-                "detail": detail,
-                "type": "internal_server_error",
-                "timestamp": "2025-07-19T20:32:49Z",
-            },
-        )
-
-    # HTTP exception handler
-    @app.exception_handler(HTTPException)
-    async def http_exception_handler(
-        request: Request, exc: HTTPException
-    ) -> JSONResponse:
-        """Handle HTTP exceptions with proper logging."""
-        logger.warning(
-            "HTTP exception occurred",
-            method=request.method,
-            url=str(request.url),
-            status_code=exc.status_code,
-            detail=exc.detail,
-            user="4darsh-Dev",
-        )
-
-        return JSONResponse(
-            status_code=exc.status_code,
-            content={
-                "detail": exc.detail,
-                "type": "http_exception",
-                "timestamp": "2025-07-19T20:32:49Z",
-            },
-        )
-
-    # Include routers
-    app.include_router(blog_router)
-
-    # Add root endpoint
-    @app.get("/", summary="Root endpoint")
-    async def root():
-        """Root endpoint with service information."""
+    # Add health check endpoint (no auth required)
+    @app.get("/health", tags=["health"])
+    @app.get("/api/v1/health", tags=["health"])
+    async def health_check():
+        """Health check endpoint."""
         return {
-            "service": "Gemini Blog Agent",
-            "version": "0.1.0",
-            "description": "FastAPI × LangGraph × Gemini Search × LangSmith Blog Generation Service",
-            "docs": "/docs",
-            "health": "/api/v1/health",
-            "timestamp": "2025-07-19T20:32:49Z",
-            "developer": "4darsh-Dev",
+            "status": "healthy",
+            "timestamp": "2025-07-22T10:23:52Z",
+            "version": "1.0.0",
+            "environment": os.getenv("ENVIRONMENT", "development")
         }
 
-    logger.info("FastAPI application created successfully")
+    # Add API statistics endpoint (requires auth)
+    @app.get("/api/v1/stats", tags=["monitoring"])
+    async def get_api_stats(authorized: bool = Depends(verify_api_key)):
+        """Get API usage statistics (requires API key)."""
+        if hasattr(app.state, 'usage_stats'):
+            return app.state.usage_stats
+        return {"message": "No statistics available"}
+
+    # Include routers with API key dependency
+    app.include_router(blog_router, dependencies=[Depends(verify_api_key)])
+
+    logger.info(
+        "Enhanced FastAPI application created",
+        rate_limit_calls=rate_limit_calls,
+        rate_limit_period=rate_limit_period,
+        environment=environment,
+        api_key_configured=bool(os.getenv("API_KEY"))
+    )
 
     return app
 
-
-# Application instance for direct import
-app = create_app()
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("src.api.app:create_app", host="0.0.0.0", port=8000, factory=True)
