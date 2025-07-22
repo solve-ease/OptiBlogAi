@@ -18,8 +18,7 @@ from src.api.auth import verify_api_key
 from src.utils.logger import configure_logging, get_logger
 from src.schemas.models import ErrorDetail
 from langsmith import Client as LangSmithClient
-import structlog
-
+from fastapi.encoders import jsonable_encoder
 # Load environment variables
 load_dotenv()
 
@@ -119,7 +118,7 @@ def create_app() -> FastAPI:
         
         return JSONResponse(
             status_code=exc.status_code,
-            content=error_detail.dict()
+            content=jsonable_encoder(error_detail)
         )
 
     @app.exception_handler(Exception)
@@ -145,7 +144,7 @@ def create_app() -> FastAPI:
         
         return JSONResponse(
             status_code=500,
-            content=error_detail.dict()
+            content=jsonable_encoder(error_detail)
         )
 
     # Add middleware in correct order (last added = first executed)

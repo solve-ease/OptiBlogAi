@@ -157,7 +157,8 @@ class ContentMetadata(BaseModel):
     processing_time_seconds: float = Field(..., description="Total processing time")
     model_used: str = Field(..., description="AI model used for generation")
     content_language: str = Field(default="en", description="Content language")
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    # generated_at=datetime.utcnow().isoformat()
+    generated_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat(), description="ISO timestamp of generation")
     
 class EnhancedBlogGenerationResponse(BaseModel):
     """Enhanced response schema with detailed information."""

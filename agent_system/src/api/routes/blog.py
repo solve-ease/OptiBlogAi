@@ -123,7 +123,7 @@ async def generate_enhanced_blog(
             processing_time_seconds=round(processing_time, 2),
             model_used=result.get("model_used", "gemini-2.0-flash"),
             content_language="en",
-            generated_at=datetime.utcnow()
+            # generated_at=datetime.utcnow()
         )
 
         # Create enhanced response
