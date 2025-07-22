@@ -35,8 +35,8 @@ MAX_SCRAPE_TIMEOUT = int(os.getenv("MAX_SCRAPE_TIMEOUT", "10"))
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 LANGSMITH_API_KEY = os.getenv("LANGSMITH_API_KEY")
 GOOGLE_SEARCH_ENGINE_ID = os.getenv("GOOGLE_SEARCH_ENGINE_ID")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
-
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+API_KEY=os.getenv("API_KEY")
 
 # Debug print
 print(f"Config loaded - google api key set: {bool(GOOGLE_API_KEY)}, ")
