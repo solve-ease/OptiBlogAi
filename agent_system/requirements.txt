@@ -58,7 +58,7 @@ multidict==6.6.3
 mypy_extensions==1.1.0
 numpy==2.3.1
 openai==1.97.0
--e git+ssh://git@github.com/solve-ease/OptiBlogAi.git@7ebbc38c6a41be3e26e15ad46107f184100e480d#egg=optiblogai&subdirectory=agent_system
+-e git+ssh://git@github.com/solve-ease/OptiBlogAi.git@98832b544e26ab25cf2140ab04fcd78e8fdbd151#egg=optiblogai&subdirectory=agent_system
 orjson==3.11.0
 ormsgpack==1.10.0
 packaging==25.0

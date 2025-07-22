@@ -92,34 +92,56 @@
 
 #     return _memory_saver
 
-"""LangGraph ≥ 0.5.x check-point adapter – drop-in replacement."""
+# """LangGraph ≥ 0.5.x check-point adapter – drop-in replacement."""
 
+# import asyncio
+# from typing import Optional
+# from langgraph.checkpoint.memory import MemorySaver
+# from langgraph.checkpoint.base import RunnableConfig, Checkpoint, CheckpointMetadata
+# from src.utils.logger import get_logger
+
+# logger = get_logger(__name__)
+
+# class EnhancedMemorySaver(MemorySaver):
+#     """Thread-safe, logging check-pointer."""
+
+#     def __init__(self) -> None:
+#         super().__init__()
+#         self._lock = asyncio.Lock()
+#         logger.info("EnhancedMemorySaver initialized")
+
+#     async def aput(
+#         self,
+#         config: RunnableConfig,
+#         checkpoint: Checkpoint,
+#         metadata: CheckpointMetadata,
+#     ) -> None:
+#         async with self._lock:
+#             tid = config.get("configurable", {}).get("thread_id", "unknown")
+#             logger.debug("Saving checkpoint", thread_id=tid)
+#             await super().aput(config, checkpoint, metadata)
+
+# from langgraph.checkpoint.base import RunnableConfig, Checkpoint, CheckpointMetadata
 import asyncio
-from typing import Optional
+from typing import Optional, Dict, Any
 from langgraph.checkpoint.memory import MemorySaver
-from langgraph.checkpoint.base import RunnableConfig, Checkpoint, CheckpointMetadata
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
+from langgraph.checkpoint.base import RunnableConfig, Checkpoint, CheckpointMetadata
+
 
 class EnhancedMemorySaver(MemorySaver):
-    """Thread-safe, logging check-pointer."""
-
-    def __init__(self) -> None:
-        super().__init__()
-        self._lock = asyncio.Lock()
-        logger.info("EnhancedMemorySaver initialized")
-
     async def aput(
         self,
         config: RunnableConfig,
         checkpoint: Checkpoint,
         metadata: CheckpointMetadata,
     ) -> None:
-        async with self._lock:
-            tid = config.get("configurable", {}).get("thread_id", "unknown")
-            logger.debug("Saving checkpoint", thread_id=tid)
-            await super().aput(config, checkpoint, metadata)
+        """Persist checkpoint – 100 % LangGraph 0.5.x compatible."""
+        tid = config.get("configurable", {}).get("thread_id", "unknown")
+        logger.debug("Saving checkpoint", thread_id=tid)
+        await super().aput(config, checkpoint, metadata)  # ← keyword-only call
 
     async def aget(self, config: RunnableConfig) -> Optional[Checkpoint]:
         tid = config.get("configurable", {}).get("thread_id", "unknown")
@@ -127,9 +149,11 @@ class EnhancedMemorySaver(MemorySaver):
         logger.debug("Checkpoint retrieved", thread_id=tid, found=bool(chk))
         return chk
 
+
 # Singleton
 _memory_saver: Optional[EnhancedMemorySaver] = None
 _lock = asyncio.Lock()
+
 
 async def get_memory_saver() -> EnhancedMemorySaver:
     global _memory_saver
