@@ -58,20 +58,66 @@ export function ExportPanel({ content }: ExportPanelProps) {
   const getContentByFormat = (format: ExportFormat): string => {
     switch (format) {
       case 'markdown':
-        // Convert HTML to Markdown (basic conversion)
+        // Convert HTML to Markdown (safe conversion)
+        if (typeof window !== 'undefined') {
+          // Use DOM parsing for safer HTML processing in browser environment
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = content.final_blog;
+          
+          // Process each element safely
+          const markdown = tempDiv.innerHTML
+            .replace(/<h([1-6])[^>]*>(.*?)<\/h\1>/gi, (_, level, content) => '#'.repeat(parseInt(level)) + ' ' + content + '\n\n')
+            .replace(/<p[^>]*>(.*?)<\/p>/gi, '$1\n\n')
+            .replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**')
+            .replace(/<b[^>]*>(.*?)<\/b>/gi, '**$1**')
+            .replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*')
+            .replace(/<i[^>]*>(.*?)<\/i>/gi, '*$1*')
+            .replace(/<a[^>]*href=["']([^"']*)["'][^>]*>(.*?)<\/a>/gi, '[$2]($1)')
+            .replace(/<br\s*\/?>/gi, '\n')
+            .replace(/<[^>]+>/g, '') // Remove any remaining tags
+            .replace(/&[a-zA-Z0-9#]+;/g, (match) => {
+              const entityMap: { [key: string]: string } = {
+                '&nbsp;': ' ',
+                '&amp;': '&',
+                '&lt;': '<',
+                '&gt;': '>',
+                '&quot;': '"',
+                '&#039;': "'",
+                '&apos;': "'"
+              };
+              return entityMap[match] || match;
+            })
+            .replace(/\n{3,}/g, '\n\n') // Normalize multiple newlines
+            .trim();
+            
+          return markdown;
+        }
+        // Server-side fallback with safer regex patterns
         return content.final_blog
-          .replace(/<h1[^>]*>(.*?)<\/h1>/g, '# $1\n\n')
-          .replace(/<h2[^>]*>(.*?)<\/h2>/g, '## $1\n\n')
-          .replace(/<h3[^>]*>(.*?)<\/h3>/g, '### $1\n\n')
-          .replace(/<h4[^>]*>(.*?)<\/h4>/g, '#### $1\n\n')
-          .replace(/<h5[^>]*>(.*?)<\/h5>/g, '##### $1\n\n')
-          .replace(/<h6[^>]*>(.*?)<\/h6>/g, '###### $1\n\n')
-          .replace(/<p[^>]*>(.*?)<\/p>/g, '$1\n\n')
-          .replace(/<strong[^>]*>(.*?)<\/strong>/g, '**$1**')
-          .replace(/<em[^>]*>(.*?)<\/em>/g, '*$1*')
-          .replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/g, '[$2]($1)')
-          .replace(/<br\s*\/?>/g, '\n')
-          .replace(/&nbsp;/g, ' ')
+          .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove scripts
+          .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '') // Remove styles
+          .replace(/<h([1-6])[^>]*>(.*?)<\/h\1>/gi, (_, level, content) => '#'.repeat(parseInt(level)) + ' ' + content + '\n\n')
+          .replace(/<p[^>]*>(.*?)<\/p>/gi, '$1\n\n')
+          .replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**')
+          .replace(/<b[^>]*>(.*?)<\/b>/gi, '**$1**')
+          .replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*')
+          .replace(/<i[^>]*>(.*?)<\/i>/gi, '*$1*')
+          .replace(/<a[^>]*href=["']([^"']*)["'][^>]*>(.*?)<\/a>/gi, '[$2]($1)')
+          .replace(/<br\s*\/?>/gi, '\n')
+          .replace(/<[^>]+>/g, '') // Remove remaining tags
+          .replace(/&[a-zA-Z0-9#]+;/g, (match) => {
+            const entityMap: { [key: string]: string } = {
+              '&nbsp;': ' ',
+              '&amp;': '&',
+              '&lt;': '<',
+              '&gt;': '>',
+              '&quot;': '"',
+              '&#039;': "'",
+              '&apos;': "'"
+            };
+            return entityMap[match] || match;
+          })
+          .replace(/\n{3,}/g, '\n\n')
           .trim();
       
       case 'html':
@@ -81,7 +127,32 @@ export function ExportPanel({ content }: ExportPanelProps) {
         return JSON.stringify(content, null, 2);
       
       case 'text':
-        return content.final_blog.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim();
+        // Use DOM parsing for safe HTML tag removal in browser environment
+        if (typeof window !== 'undefined') {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = content.final_blog;
+          return tempDiv.textContent || tempDiv.innerText || '';
+        }
+        // Fallback for server-side rendering - more comprehensive regex cleanup
+        return content.final_blog
+          .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove script tags entirely
+          .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '') // Remove style tags entirely  
+          .replace(/<[^>]+>/g, '') // Remove remaining HTML tags
+          .replace(/&[a-zA-Z0-9#]+;/g, (match) => {
+            // Decode common HTML entities
+            const entityMap: { [key: string]: string } = {
+              '&nbsp;': ' ',
+              '&amp;': '&',
+              '&lt;': '<',
+              '&gt;': '>',
+              '&quot;': '"',
+              '&#039;': "'",
+              '&apos;': "'"
+            };
+            return entityMap[match] || match;
+          })
+          .replace(/\s+/g, ' ') // Normalize whitespace
+          .trim();
       
       default:
         return content.final_blog;
