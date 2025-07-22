@@ -6,7 +6,8 @@ import { SITE_CONFIG } from "./lib/constants";
 import Script from "next/script";
 
 // Using system fonts as fallback to avoid network issues
-const fontVariables = "--font-inter: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; --font-jetbrains-mono: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;";
+const fontVariables =
+  "--font-inter: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; --font-jetbrains-mono: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;";
 
 // Viewport configuration
 export const viewport: Viewport = {
@@ -176,10 +177,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-    >
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://api.github.com" />
@@ -189,9 +187,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <link rel="dns-prefetch" href="//raw.githubusercontent.com" />
 
         {/* Font styles */}
-        <style dangerouslySetInnerHTML={{
-          __html: `:root { ${fontVariables} } body { font-family: var(--font-inter); } code, pre { font-family: var(--font-jetbrains-mono); }`
-        }} />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `:root { ${fontVariables} } body { font-family: var(--font-inter); } code, pre { font-family: var(--font-jetbrains-mono); }`,
+          }}
+        />
 
         {/* Structured Data for SEO */}
         <script
@@ -287,7 +287,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
         />
       </head>
       <body
-        className="font-sans antialiased bg-white text-gray-900 min-h-screen flex flex-col"
+        style={{ maxWidth: "100%" }}
+        className="font-sans max-width-[100%] antialiased bg-white text-gray-900 min-h-screen flex flex-col"
         suppressHydrationWarning
       >
         {/* Global site tag (gtag.js) - Google Analytics */}
