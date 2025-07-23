@@ -1,7 +1,18 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ChevronRight, Menu, X, Search, BookOpen, Code, Zap, Server, Settings, Users } from "lucide-react";
+import {
+  ChevronRight,
+  Menu,
+  X,
+  Search,
+  BookOpen,
+  Code,
+  Zap,
+  Server,
+  Settings,
+  Users,
+} from "lucide-react";
 import DocNavigation from "./DocNavigation";
 import OverviewSection from "./sections/OverviewSection";
 import ArchitectureSection from "./sections/ArchitectureSection";
@@ -19,13 +30,48 @@ interface Section {
 }
 
 const sections: Section[] = [
-  { id: "overview", title: "Overview", icon: BookOpen, component: OverviewSection },
-  { id: "architecture", title: "Architecture", icon: Zap, component: ArchitectureSection },
-  { id: "frontend", title: "Frontend Guide", icon: Code, component: FrontendSection },
-  { id: "backend", title: "Backend Guide", icon: Settings, component: BackendSection },
-  { id: "agent-system", title: "Agent System", icon: Zap, component: AgentSystemSection },
-  { id: "api", title: "API Reference", icon: Server, component: APIReferenceSection },
-  { id: "deployment", title: "Deployment", icon: Settings, component: DeploymentSection },
+  {
+    id: "overview",
+    title: "Overview",
+    icon: BookOpen,
+    component: OverviewSection,
+  },
+  {
+    id: "architecture",
+    title: "Architecture",
+    icon: Zap,
+    component: ArchitectureSection,
+  },
+  {
+    id: "frontend",
+    title: "Frontend Guide",
+    icon: Code,
+    component: FrontendSection,
+  },
+  {
+    id: "backend",
+    title: "Backend Guide",
+    icon: Settings,
+    component: BackendSection,
+  },
+  {
+    id: "agent-system",
+    title: "Agent System",
+    icon: Zap,
+    component: AgentSystemSection,
+  },
+  {
+    id: "api",
+    title: "API Reference",
+    icon: Server,
+    component: APIReferenceSection,
+  },
+  {
+    id: "deployment",
+    title: "Deployment",
+    icon: Settings,
+    component: DeploymentSection,
+  },
 ];
 
 const DocumentationLayout: React.FC = () => {
@@ -34,7 +80,8 @@ const DocumentationLayout: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Get the active section component
-  const ActiveComponent = sections.find(s => s.id === activeSection)?.component || OverviewSection;
+  const ActiveComponent =
+    sections.find((s) => s.id === activeSection)?.component || OverviewSection;
 
   const handleSectionChange = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -42,7 +89,7 @@ const DocumentationLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div style={{ marginTop: "4rem" }} className="min-h-screen  bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,7 +111,9 @@ const DocumentationLayout: React.FC = () => {
               {/* Title */}
               <div className="flex items-center space-x-2">
                 <BookOpen className="h-6 w-6 text-indigo-600" />
-                <h1 className="text-xl font-semibold text-gray-900">OptiBlogAi Docs</h1>
+                <h1 className="text-xl font-semibold text-gray-900">
+                  OptiBlogAi Docs
+                </h1>
               </div>
 
               {/* Breadcrumbs */}
@@ -72,7 +121,7 @@ const DocumentationLayout: React.FC = () => {
                 <span>Documentation</span>
                 <ChevronRight className="h-4 w-4" />
                 <span className="text-gray-900 font-medium">
-                  {sections.find(s => s.id === activeSection)?.title}
+                  {sections.find((s) => s.id === activeSection)?.title}
                 </span>
               </nav>
             </div>
