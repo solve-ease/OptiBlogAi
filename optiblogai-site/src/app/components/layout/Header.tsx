@@ -6,6 +6,7 @@ import Button from "../ui/button";
 import { NAVIGATION_ITEMS, SITE_CONFIG } from "@/app/lib/constants";
 import { cn } from "@/app/lib/utils";
 import Image from "next/image";
+import Link from 'next/link';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,10 +50,12 @@ const Header: React.FC = () => {
             >
               <Github className="w-5 h-5" />
             </a>
+            <Link href='/demo' passHref>
             <Button variant="outline" size="sm">
               <ExternalLink className="w-4 h-4 mr-2" />
               Try Demo
             </Button>
+            </Link>
             <Button variant="primary" size="sm">
               Get Started
             </Button>
