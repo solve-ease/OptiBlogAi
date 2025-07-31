@@ -3,6 +3,7 @@
 import React from "react";
 import { Card, CardContent } from "@/app/components/ui/card";
 import { Zap, Search, Users, Shield, Code, TrendingUp } from "lucide-react";
+import Link from "next/link";
 
 interface ValueProp {
   icon: React.ReactNode;
@@ -137,12 +138,16 @@ const ValuePropositionGrid: React.FC = () => {
               optimization needs
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button className="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200">
-                Start Free Trial
-              </button>
-              <button className="border border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-200">
-                View Documentation
-              </button>
+              <Link href="/demo" passHref>
+                <button className="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200">
+                  Start Free Trial
+                </button>
+              </Link>
+              <Link href="/docs" passHref>
+                <button className="border border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-200">
+                  View Documentation
+                </button>
+              </Link>
             </div>
           </div>
         </div>
