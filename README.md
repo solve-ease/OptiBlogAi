@@ -147,7 +147,7 @@ Review our complete [Ethical Framework](docs/ethical-guidelines.md)
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See [MIT License](LICENSE) for more information.
 
 ## Contact
 
