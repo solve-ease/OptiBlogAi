@@ -64,7 +64,7 @@ ormsgpack==1.10.0
 packaging==25.0
 pathspec==0.12.1
 platformdirs==4.3.8
-playwright==1.53.0
+playwright==1.54.0
 propcache==0.3.2
 proto-plus==1.26.1
 protobuf==5.29.5
