@@ -1,10 +1,10 @@
-FROM python:3.12-slim as builder
+FROM python:3.13-slim as builder
 
 WORKDIR /app
 COPY pyproject.toml .
 RUN pip install -e .
 
-FROM python:3.12-slim as runtime
+FROM python:3.13-slim as runtime
 
 WORKDIR /app
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
