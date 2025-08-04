@@ -120,17 +120,17 @@ const AgentSystemSection: React.FC = () => {
           high-quality, SEO-optimized content autonomously.
         </p>
         <div className="grid md:grid-cols-3 gap-4 text-sm">
-          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+          <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-900">
             <h3 className="font-semibold mb-2">Multi-Agent Architecture</h3>
-            <p className="text-indigo-100">Specialized agents for search, scraping, generation, and evaluation</p>
+            <p className="text-gray-700 text-sm mb-2">Specialized agents for search, scraping, generation, and evaluation</p>
           </div>
-          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+          <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-900">
             <h3 className="font-semibold mb-2">State Management</h3>
-            <p className="text-indigo-100">Persistent state across agent nodes with full observability</p>
+            <p className="text-gray-700 text-sm mb-2">Persistent state across agent nodes with full observability</p>
           </div>
-          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+          <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-900">
             <h3 className="font-semibold mb-2">Quality Assurance</h3>
-            <p className="text-indigo-100">Iterative refinement until content meets quality standards</p>
+            <p className="text-gray-700 text-sm mb-2">Iterative refinement until content meets quality standards</p>
           </div>
         </div>
       </div>

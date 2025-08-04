@@ -59,8 +59,8 @@ const APIReferenceSection: React.FC = () => {
           into your applications, tools, and workflows.
         </p>
         <div className="bg-white bg-opacity-20 rounded-lg p-4">
-          <div className="text-sm text-blue-100">
-            <strong>Base URL:</strong> <code className="text-white">https://api.optiblogai.com/v1</code>
+          <div className="text-sm text-gray-900">
+            <strong>Base URL:</strong> <code className="text-gray-900">https://api.optiblogai.com/v1</code>
           </div>
         </div>
       </div>
