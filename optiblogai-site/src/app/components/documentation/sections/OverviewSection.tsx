@@ -213,7 +213,7 @@ const OverviewSection: React.FC = () => {
               href="https://github.com/solve-ease/OptiBlogAi/issues"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-colors"
+              className="px-4 py-2 bg-white bg-opacity-20 rounded-lg transition-colors hover:bg-white hover:bg-opacity-40 hover:text-purple-700 "
             >
               Report Issues
             </a>
@@ -221,13 +221,13 @@ const OverviewSection: React.FC = () => {
               href="https://github.com/solve-ease/OptiBlogAi/discussions"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-colors"
+              className="px-4 py-2 bg-white bg-opacity-20 rounded-lg transition-colors hover:bg-white hover:bg-opacity-40 hover:text-purple-700"
             >
               Join Discussions
             </a>
             <a
               href="/community"
-              className="px-4 py-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-colors"
+              className="px-4 py-2 bg-white bg-opacity-20 rounded-lg transition-colors hover:bg-white hover:bg-opacity-40 hover:text-purple-700"
             >
               Community Page
             </a>
