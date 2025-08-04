@@ -208,7 +208,7 @@ const OverviewSection: React.FC = () => {
             OptiBlogAi is built by developers, for developers. Join our growing community 
             of contributors and help shape the future of AI-powered content creation.
           </p>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 text-gray-700 font-semibold">
             <a
               href="https://github.com/solve-ease/OptiBlogAi/issues"
               target="_blank"
