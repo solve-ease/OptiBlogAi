@@ -12,7 +12,7 @@
     "@types/mermaid": "^9.1.0",
     "@types/react-syntax-highlighter": "^15.5.13",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.23.6",
+    "framer-motion": "^12.23.12",
     "lucide-react": "^0.525.0",
     "mermaid": "^11.9.0",
     "next": "15.4.1",
