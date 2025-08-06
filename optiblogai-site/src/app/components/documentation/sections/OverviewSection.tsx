@@ -208,12 +208,12 @@ const OverviewSection: React.FC = () => {
             OptiBlogAi is built by developers, for developers. Join our growing community 
             of contributors and help shape the future of AI-powered content creation.
           </p>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 text-gray-700 font-semibold">
             <a
               href="https://github.com/solve-ease/OptiBlogAi/issues"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-colors"
+              className="px-4 py-2 bg-white bg-opacity-20 rounded-lg transition-colors hover:bg-white hover:bg-opacity-40 hover:text-purple-700 "
             >
               Report Issues
             </a>
@@ -221,13 +221,13 @@ const OverviewSection: React.FC = () => {
               href="https://github.com/solve-ease/OptiBlogAi/discussions"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-colors"
+              className="px-4 py-2 bg-white bg-opacity-20 rounded-lg transition-colors hover:bg-white hover:bg-opacity-40 hover:text-purple-700"
             >
               Join Discussions
             </a>
             <a
               href="/community"
-              className="px-4 py-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-colors"
+              className="px-4 py-2 bg-white bg-opacity-20 rounded-lg transition-colors hover:bg-white hover:bg-opacity-40 hover:text-purple-700"
             >
               Community Page
             </a>

@@ -34,7 +34,7 @@ const HeroSection: React.FC = () => {
 
           {/* Main Heading */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
-            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent">
               AI-Powered
             </span>
             <br />

@@ -30,21 +30,21 @@ const DeploymentSection: React.FC = () => {
           security best practices, and monitoring.
         </p>
         <div className="grid md:grid-cols-3 gap-4 text-sm">
-          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+          <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-900">
             <h3 className="font-semibold mb-2">Docker Ready</h3>
-            <p className="text-green-100">
+            <p className="text-gray-700 text-sm mb-2">
               Containerized deployment with multi-stage builds
             </p>
           </div>
-          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+          <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-900">
             <h3 className="font-semibold mb-2">Cloud Native</h3>
-            <p className="text-green-100">
+            <p className="text-gray-700 text-sm mb-2">
               Optimized for AWS, GCP, Azure, and Vercel
             </p>
           </div>
-          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+          <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-900">
             <h3 className="font-semibold mb-2">Production Ready</h3>
-            <p className="text-green-100">
+            <p className="text-gray-700 text-sm mb-2">
               Security, monitoring, and scalability built-in
             </p>
           </div>
