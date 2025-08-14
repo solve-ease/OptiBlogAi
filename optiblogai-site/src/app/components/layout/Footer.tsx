@@ -45,36 +45,27 @@ const Footer: React.FC = () => {
       title: "Community",
       links: [
         { name: "GitHub", href: SITE_CONFIG.links.github },
-        {
-          name: "Discussions",
-          href: `${SITE_CONFIG.links.github}/discussions`,
-        },
-        {
-          name: "Contributing",
-          href: `${SITE_CONFIG.links.github}/blob/main/CONTRIBUTING.md`,
-        },
-        {
-          name: "Code of Conduct",
-          href: `${SITE_CONFIG.links.github}/blob/main/CODE_OF_CONDUCT.md`,
-        },
+        { name: "Discussions", href: `${SITE_CONFIG.links.github}/discussions` },
+        { name: "Contributing", href: `${SITE_CONFIG.links.github}/blob/main/CONTRIBUTING.md` },
+        { name: "Code of Conduct", href: `${SITE_CONFIG.links.github}/blob/main/CODE_OF_CONDUCT.md` },
       ],
     },
     {
       title: "Resources",
       links: [
-        { name: "Blog", href: "/blog" },
-        { name: "Changelog", href: "/changelog" },
-        { name: "Roadmap", href: "/roadmap" },
-        { name: "API Reference", href: "/api" },
+        { name: "Blog", href: "#", comingSoon: true },
+        { name: "Changelog", href: "#", comingSoon: true },
+        { name: "Roadmap", href: "#", comingSoon: true },
+        { name: "API Reference", href: "#", comingSoon: true },
       ],
     },
     {
       title: "Support",
       links: [
-        { name: "Help Center", href: "/help" },
-        { name: "Contact", href: "/contact" },
-        { name: "Status", href: "/status" },
-        { name: "Security", href: "/security" },
+        { name: "Help Center", href: "#", comingSoon: true },
+        { name: "Contact", href: "#", comingSoon: true },
+        { name: "Status", href: "#", comingSoon: true },
+        { name: "Security", href: "#", comingSoon: true },
       ],
     },
   ];
@@ -89,12 +80,7 @@ const Footer: React.FC = () => {
             <div className="col-span-1 md:col-span-2 lg:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <a href="/" className="flex items-center ">
-                  <Image
-                    alt="logo"
-                    width={40}
-                    height={40}
-                    src="/logo.png"
-                  ></Image>
+                  <Image alt="logo" width={40} height={40} src="/logo.png" />
                   <span className="text-xl font-bold text-gray-900">
                     {SITE_CONFIG.name}
                   </span>
@@ -128,13 +114,18 @@ const Footer: React.FC = () => {
                 </h3>
                 <ul className="space-y-3">
                   {section.links.map((link) => (
-                    <li key={link.name}>
+                    <li key={link.name} className="relative group">
                       <a
                         href={link.href}
                         className="text-gray-600 hover:text-primary transition-colors duration-200"
                       >
                         {link.name}
                       </a>
+                      {link.comingSoon && (
+                        <span className="absolute left-1/2 -translate-x-1/2 mt-1 top-full opacity-0 group-hover:opacity-100 bg-black text-white text-xs px-2 py-1 rounded whitespace-nowrap transition-opacity duration-200">
+                          Coming Soon
+                        </span>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -164,20 +155,20 @@ const Footer: React.FC = () => {
             </div>
             <div className="flex items-center space-x-6 text-sm text-gray-600">
               <a
-                href="/privacy"
-                className="hover:text-primary transition-colors duration-200"
-              >
+               href="/privacy" 
+               className="hover:text-primary transition-colors duration-200"
+               >
                 Privacy Policy
               </a>
-              <a
+              <a 
                 href="/terms"
                 className="hover:text-primary transition-colors duration-200"
               >
                 Terms of Service
               </a>
               <a
-                href="/license"
-                className="hover:text-primary transition-colors duration-200"
+               href="/license"
+               className="hover:text-primary transition-colors duration-200"
               >
                 MIT License
               </a>
