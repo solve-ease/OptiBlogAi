@@ -228,7 +228,8 @@ export default function Contact() {
                             <p className="text-sm text-muted-foreground mb-2">
                               {method.description}
                             </p>
-                            <Button variant="link" className="p-0 h-auto">
+                            {/* <Button variant="link" className="p-0 h-auto"> */}
+                            <Button variant="ghost" className="p-0 h-auto text-primary hover:underline">
                               <a href={method.href} target="_blank" rel="noopener noreferrer">
                                 {method.action}
                               </a>
