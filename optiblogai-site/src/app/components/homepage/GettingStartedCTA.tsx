@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/app/components/ui/card";
 import { ArrowRight, Download, Code, Rocket, CheckCircle } from "lucide-react";
 import Button from "../ui/button";
 import { SITE_CONFIG } from "@/app/lib/constants";
+import Link from "next/link";
 
 interface Step {
   icon: React.ReactNode;
@@ -177,13 +178,15 @@ const GettingStartedCTA: React.FC = () => {
                 <Download className="w-5 h-5 mr-2" />
                 Get Started Now
               </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-white text-white hover:bg-white/10"
-              >
-                View Documentation
-              </Button>
+              <Link href="/docs" passHref>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-white text-white hover:bg-white/10"
+                >
+                  View Documentation
+                </Button>
+              </Link>
             </div>
             <div className="mt-6 text-sm opacity-75">
               No signup required • Works offline • MIT Licensed
